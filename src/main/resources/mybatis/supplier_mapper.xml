@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.supplier_mapper.SupplierMapper">
+    <select id="selectSupplier" resultType="com.zhkj.inventory_control_dao.entity.SupplierEntity">
+        select * from inventory_control.supplier
+    </select>
+    <select id="selectSupplierToSupplierName" resultType="com.zhkj.inventory_control_dao.entity.SupplierEntity">
+        select * from inventory_control.supplier where supplierName=#{name}
+    </select>
+
+    <insert id="insertSupplier" >
+       insert into inventory_control.supplier(supplierName, supplierPhone) values (#{supplierEntity.supplierName},#{supplierEntity.supplierPhone});
+    </insert>
+
+    <update id="updateSupplier" >
+       update inventory_control.supplier set supplierPhone=#{supplierEntity.supplierPhone} where supplierName=#{supplierEntity.supplierName}
+    </update>
+</mapper>

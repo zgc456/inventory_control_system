@@ -1,17 +1,18 @@
-package com.zhkj.inventory_control_dao.entity;
-
-import java.util.Objects;
+package com.zhkj.inventory_control_api.vo;
 
 /**
+ * 供应商Vo
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
+ * @Data 2018/5/17 15:17
  */
-public class SupplierEntity {
+public class SupplierVo {
+    //id
     private int id;
+    //供应商名字
     private String supplierName;
+    //供应商联系方式
     private String supplierPhone;
-    private String supplierRemark;
 
     public int getId() {
         return id;
@@ -36,14 +37,5 @@ public class SupplierEntity {
     public void setSupplierPhone(String supplierPhone) {
         this.supplierPhone = supplierPhone;
     }
-
-    public String getSupplierRemark() {
-        return supplierRemark;
-    }
-
-    public void setSupplierRemark(String supplierRemark) {
-        this.supplierRemark = supplierRemark;
-    }
-
 
 }

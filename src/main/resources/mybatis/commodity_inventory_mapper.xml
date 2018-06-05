@@ -1,0 +1,33 @@
+<!-- 库存sql -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.CommodityInventoryMapper">
+    <!--&lt;!&ndash; 查看库存 &ndash;&gt;-->
+    <!--<select id="getCommodityInventory" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">-->
+    <!--select * from inventory_control.commodityinventory-->
+    <!--</select>-->
+    <!--&lt;!&ndash; 添加库存 &ndash;&gt;-->
+    <!--<insert id="insertCommodityInventory">-->
+    <!--insert into inventory_control.commodityinventory (commodityNumber, commoditySecurityLine, commodityPrice, commoditySmallPictureUrl, commoditySku, commodityId) values (#{CommodityinventoryEntity.commodityNumber},#{CommodityinventoryEntity.commoditySecurityLine},#{CommodityinventoryEntity.commodityPrice},#{CommodityinventoryEntity.commoditySmallPictureUrl},#{CommodityinventoryEntity.commoditySku},#{CommodityinventoryEntity.commodityId});-->
+    <!--</insert>-->
+    <!--&lt;!&ndash; 修改库存 &ndash;&gt;-->
+    <!--<update id="updateCommodityInventory">-->
+    <!--update inventory_control.commodityinventory set commodityNumber = #{CommodityinventoryEntity.commodityNumber},commoditySecurityLine=#{CommodityinventoryEntity.commoditySecurityLine},commodityPrice=#{CommodityinventoryEntity.commodityPrice}  where id=#{CommodityinventoryEntity.id};-->
+    <!--</update>-->
+    <!--&lt;!&ndash; 删除库存 &ndash;&gt;-->
+    <!--<delete id="delCommodityInventory">-->
+    <!--delete from inventory_control.commodityinventory where id=#{id}-->
+    <!--</delete>-->
+
+    <!-- 根据商品id 查询库存集合 -->
+    <select id="selectCommodityinventoryToCommmodityId" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+      select * from inventory_control.commodityinventory where commodityId=#{commodityId};
+    </select>
+    <!-- 根据库存id 查询库存集合 -->
+    <select id="selectCommodityinventoryToId" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+    select * from inventory_control.commodityinventory where id=#{id};
+    </select>
+
+
+</mapper>

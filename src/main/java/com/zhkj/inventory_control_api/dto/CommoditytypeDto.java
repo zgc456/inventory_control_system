@@ -1,9 +1,8 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-public class CommoditytypeEntity implements Serializable {
+public class CommoditytypeDto {
     private int id;
     private String commodityTypeName;
 

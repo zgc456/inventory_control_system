@@ -1,0 +1,22 @@
+<!-- 商品规格关系表 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.SpecificationRelationMapper">
+    <!--&lt;!&ndash; 增加商品规格关系 &ndash;&gt;-->
+    <!--<insert id="">-->
+    <!--insert into inventory_control.specificationrelation (specificationSku, commodityId) values (#{},#{});-->
+    <!--</insert>-->
+    <!--&lt;!&ndash; 删除商品规格关系 &ndash;&gt;-->
+    <!--<delete id="">-->
+    <!--delete from inventory_control.specificationrelation where id=#{id}-->
+    <!--</delete>-->
+    <!--&lt;!&ndash; 修改商品规格关系 &ndash;&gt;-->
+    <!--<update id="">-->
+    <!--update inventory_control.specificationrelation set specificationSku = #{} where id=#{};-->
+    <!--</update>-->
+    <!--&lt;!&ndash; 查询商品规格关系 &ndash;&gt;-->
+    <!--<select id="" resultType="com.zhkj.inventory_control_dao.entity.SpecificationrelationEntity">-->
+    <!--select * from inventory_control.specificationrelation;-->
+    <!--</select>-->
+</mapper>

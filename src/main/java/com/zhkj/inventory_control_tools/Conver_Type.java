@@ -1,4 +1,4 @@
-package com.zhkj.inventory_control_tools.inventory_control_type_conversion;
+package com.zhkj.inventory_control_tools;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -25,7 +25,6 @@ public class Conver_Type {
     }
 
     /**
-     *
      * @param entity1 有值集合
      * @param entity2 没值集合
      * @param name  entity1的类型全称如：com.zhkj.name

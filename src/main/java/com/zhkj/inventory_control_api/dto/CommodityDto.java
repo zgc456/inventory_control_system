@@ -1,22 +1,18 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
-import java.util.Objects;
-
+import java.io.Serializable;
 /**
+ * 商品表dto
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
- * 商品表
+ * @Data 2018/5/17
  */
-public class CommodityEntity {
+public class CommodityDto {
     private int id;
-    //商品名称
     private String commodityName;
-    //商品介绍
     private String commodityIntroduce;
-    //商品图片路径
     private String commodityBigPictureUrl;
-
+    private Integer commodityRelationId;
 
     public int getId() {
         return id;
@@ -49,5 +45,14 @@ public class CommodityEntity {
     public void setCommodityBigPictureUrl(String commodityBigPictureUrl) {
         this.commodityBigPictureUrl = commodityBigPictureUrl;
     }
+
+    public Integer getCommodityRelationId() {
+        return commodityRelationId;
+    }
+
+    public void setCommodityRelationId(Integer commodityRelationId) {
+        this.commodityRelationId = commodityRelationId;
+    }
+
 
 }

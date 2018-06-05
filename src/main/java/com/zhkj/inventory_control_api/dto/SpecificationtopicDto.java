@@ -1,16 +1,14 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
-import java.util.Objects;
-
+import java.io.Serializable;
 /**
+ * 商品规格标题dto
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
- * 商品规格标题表
+ * @Data 2018/5/17
  */
-public class SpecificationtopicEntity {
+public class SpecificationtopicDto{
     private int id;
-    //规格标题
     private String topicName;
 
     public int getId() {

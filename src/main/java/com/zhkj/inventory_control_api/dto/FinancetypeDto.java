@@ -1,13 +1,13 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
-import java.util.Objects;
-
+import java.io.Serializable;
 /**
+ * 财务类型表dto
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
+ * @Data 2018/5/17
  */
-public class FinancetypeEntity {
+public class FinancetypeDto {
     private int id;
     private String financeTypeName;
 

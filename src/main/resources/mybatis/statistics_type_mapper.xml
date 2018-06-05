@@ -1,0 +1,11 @@
+<!-- 统计类型表xml -->
+<!-- 统计表 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.StatisticsTypeMapper">
+<!-- 根据Id 查询统计类型 -->
+    <select id="selectStatisticsTypeToId" resultType="com.zhkj.inventory_control_dao.entity.StatisticstypeEntity">
+      select * from inventory_control.statisticstype where id=#{id};
+    </select>
+</mapper>

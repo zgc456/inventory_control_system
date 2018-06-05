@@ -51,7 +51,14 @@ dependencies {
     compile "log4j:log4j:1.2.17"
     //转换Lists
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.5'
 }

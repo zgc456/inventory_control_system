@@ -1,0 +1,10 @@
+<!-- 用户表mapper -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.UserMapper">
+    <!-- 根据账号密码查询 -->
+    <select id="selectUserToLogin" resultType="com.zhkj.inventory_control_dao.entity.UserEntity" >
+    select * from inventory_control.user where inventory_control.user.userAccount=#{UserEntity.userAccount} and inventory_control.user.userPassword=#{UserEntity.userPassword}
+    </select>
+</mapper>

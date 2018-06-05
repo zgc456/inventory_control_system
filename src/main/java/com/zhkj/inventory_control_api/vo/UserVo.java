@@ -1,13 +1,11 @@
-package com.zhkj.inventory_control_dao.entity;
-
-import java.util.Objects;
+package com.zhkj.inventory_control_api.vo;
 
 /**
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
+ * @Data 2018/5/21 10:00
  */
-public class UserEntity {
+public class UserVo {
     private int id;
     private String userName;
     private String userAccount;
@@ -44,5 +42,4 @@ public class UserEntity {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-
 }

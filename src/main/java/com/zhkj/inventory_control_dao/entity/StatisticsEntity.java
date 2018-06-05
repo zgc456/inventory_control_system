@@ -1,15 +1,27 @@
 package com.zhkj.inventory_control_dao.entity;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class StatisticsEntity implements Serializable {
+/**
+ * @author
+ * @Version 1.0
+ * @Data 2018/5/22 17:23
+ */
+public class StatisticsEntity {
     private int id;
     private Timestamp statisticsCreateTime;
     private Integer statisticsTypeId;
-    private Integer commodityId;
+    private Integer commodityInventoryId;
     private Integer statisticsNumber;
+
+    public Integer getStatisticsNumber() {
+        return statisticsNumber;
+    }
+
+    public void setStatisticsNumber(Integer statisticsNumber) {
+        this.statisticsNumber = statisticsNumber;
+    }
 
     public int getId() {
         return id;
@@ -35,21 +47,11 @@ public class StatisticsEntity implements Serializable {
         this.statisticsTypeId = statisticsTypeId;
     }
 
-    public Integer getCommodityId() {
-        return commodityId;
+    public Integer getCommodityInventoryId() {
+        return commodityInventoryId;
     }
 
-    public void setCommodityId(Integer commodityId) {
-        this.commodityId = commodityId;
+    public void setCommodityInventoryId(Integer commodityInventoryId) {
+        this.commodityInventoryId = commodityInventoryId;
     }
-
-    public Integer getStatisticsNumber() {
-        return statisticsNumber;
-    }
-
-    public void setStatisticsNumber(Integer statisticsNumber) {
-        this.statisticsNumber = statisticsNumber;
-    }
-
-
 }

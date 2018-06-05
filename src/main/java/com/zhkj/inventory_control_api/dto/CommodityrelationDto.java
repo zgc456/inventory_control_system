@@ -1,9 +1,13 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
 import java.io.Serializable;
-import java.util.Objects;
-
-public class CommodityrelationEntity implements Serializable {
+/**
+ * 商品分类对应关系表dto
+ * @author
+ * @Version 1.0
+ * @Data 2018/5/17
+ */
+public class CommodityrelationDto {
     private int id;
     private Integer commodityPrimaryTypeId;
     private Integer commodityMinorTypeId;

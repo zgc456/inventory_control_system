@@ -1,13 +1,13 @@
-package com.zhkj.inventory_control_dao.entity;
+package com.zhkj.inventory_control_api.dto;
 
-import java.util.Objects;
-
+import java.io.Serializable;
 /**
+ * 用户表dto
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
+ * @Data 2018/5/17
  */
-public class UserEntity {
+public class UserDto {
     private int id;
     private String userName;
     private String userAccount;
@@ -44,5 +44,4 @@ public class UserEntity {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-
 }

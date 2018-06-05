@@ -1,17 +1,20 @@
 package com.zhkj.inventory_control_dao.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
-public class SpecificationrelationEntity implements Serializable {
+/**
+ * @author
+ * @Version 1.0
+ * @Data 2018/5/22 17:23
+ * 商品规格关系
+ */
+public class SpecificationrelationEntity {
     private int id;
-    private Integer commodityNumber;
-    private BigDecimal commodityPrice;
-    private String commoditySmallPictureUrl;
+    //topicId 1 容量 detailedId 200ML 400ML
+    //json 如{"topicId":1,"detailedId":[1,2]},{"topicId":1,"detailedId":[1,2]}
+    private String specificationSku;
+    //商品id
     private Integer commodityId;
-    private Integer specificationTopicId;
-    private Integer specificationDetailedId;
 
     public int getId() {
         return id;
@@ -21,28 +24,12 @@ public class SpecificationrelationEntity implements Serializable {
         this.id = id;
     }
 
-    public Integer getCommodityNumber() {
-        return commodityNumber;
+    public String getSpecificationSku() {
+        return specificationSku;
     }
 
-    public void setCommodityNumber(Integer commodityNumber) {
-        this.commodityNumber = commodityNumber;
-    }
-
-    public BigDecimal getCommodityPrice() {
-        return commodityPrice;
-    }
-
-    public void setCommodityPrice(BigDecimal commodityPrice) {
-        this.commodityPrice = commodityPrice;
-    }
-
-    public String getCommoditySmallPictureUrl() {
-        return commoditySmallPictureUrl;
-    }
-
-    public void setCommoditySmallPictureUrl(String commoditySmallPictureUrl) {
-        this.commoditySmallPictureUrl = commoditySmallPictureUrl;
+    public void setSpecificationSku(String specificationSku) {
+        this.specificationSku = specificationSku;
     }
 
     public Integer getCommodityId() {
@@ -51,22 +38,6 @@ public class SpecificationrelationEntity implements Serializable {
 
     public void setCommodityId(Integer commodityId) {
         this.commodityId = commodityId;
-    }
-
-    public Integer getSpecificationTopicId() {
-        return specificationTopicId;
-    }
-
-    public void setSpecificationTopicId(Integer specificationTopicId) {
-        this.specificationTopicId = specificationTopicId;
-    }
-
-    public Integer getSpecificationDetailedId() {
-        return specificationDetailedId;
-    }
-
-    public void setSpecificationDetailedId(Integer specificationDetailedId) {
-        this.specificationDetailedId = specificationDetailedId;
     }
 
 

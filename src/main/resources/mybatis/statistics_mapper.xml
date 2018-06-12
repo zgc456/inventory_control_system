@@ -9,7 +9,6 @@
          <if test="statisticsTypeId>0">
              and statisticsTypeId=#{statisticsTypeId}
          </if>
-
     </select>
     <!-- 添加统计表 -->
     <insert id="insertStatistics">

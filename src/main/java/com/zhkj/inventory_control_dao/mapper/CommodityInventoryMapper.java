@@ -14,29 +14,29 @@ import java.util.List;
  */
 @Repository
 public interface CommodityInventoryMapper {
-//    /**
-//     * 增加一条新的库存
-//     * @param commodityinventoryEntity 库存实体类
-//     */
-//    void insertCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
-//
-//    /**
-//     * 删除一条商品库存
-//     * @param id  商品库存id
-//     */
-//    void delCommodityInventory(@Param("id") int id);
-//
-//    /**
-//     * 修改商品信息
-//     * @param commodityinventoryEntity 商品库存实体类
-//     */
-//    void updateCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
-//
-//    /**
-//     * 查询商品所有商品库存
-//     * @return 商品库存集合
-//     */
-//    List<CommodityinventoryEntity> getCommodityInventory();
+    /**
+     * 增加一条新的库存
+     * @param commodityinventoryEntity 库存实体类
+     */
+    void insertCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
+
+    /**
+     * 删除一条商品库存
+     * @param id  商品库存id
+     */
+    void delCommodityInventory(@Param("id") int id);
+
+    /**
+     * 修改商品信息
+     * @param commodityinventoryEntity 商品库存实体类
+     */
+    void updateCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
+
+    /**
+     * 查询商品所有商品库存
+     * @return 商品库存集合
+     */
+    List<CommodityinventoryEntity> getCommodityInventory();
 
     /**
      * 根据库存中的商品id 查询库存集合

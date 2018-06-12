@@ -14,29 +14,29 @@ import java.util.List;
  */
 @Repository
 public interface SpecificationDetailedMapper {
-//    /**
-//     * 增加规格详细
-//     * @param specificationdetailedEntity 规格详细实体类
-//     */
-//    void insertSpecificationDetailed(@Param("SpecificationdetailedEntity") SpecificationdetailedEntity specificationdetailedEntity);
-//
-//    /**
-//     * 删除一条规格
-//     * @param id 规格表id
-//     */
-//    void delSpecificationDetailed(@Param("id") int id);
-//
-//    /**
-//     * 修改规格
-//     * @param specificationdetailedEntity 规格实体类
-//     */
-//    void updateSpecificationDetailed(@Param("SpecificationdetailedEntity") SpecificationdetailedEntity specificationdetailedEntity);
-//
-//    /**
-//     * 查询所有规格
-//     * @return
-//     */
-//    List<SpecificationdetailedEntity> getSpecificationDetailed();
+    /**
+     * 增加规格详细
+     * @param specificationdetailedEntity 规格详细实体类
+     */
+    void insertSpecificationDetailed(@Param("SpecificationdetailedEntity") SpecificationdetailedEntity specificationdetailedEntity);
+
+    /**
+     * 删除一条规格
+     * @param id 规格表id
+     */
+    void delSpecificationDetailed(@Param("id") int id);
+
+    /**
+     * 修改规格
+     * @param specificationdetailedEntity 规格实体类
+     */
+    void updateSpecificationDetailed(@Param("SpecificationdetailedEntity") SpecificationdetailedEntity specificationdetailedEntity);
+
+    /**
+     * 查询所有规格
+     * @return
+     */
+    List<SpecificationdetailedEntity> getSpecificationDetailed();
 
     /**
      * 根据商品规格id 查询商品规格名称

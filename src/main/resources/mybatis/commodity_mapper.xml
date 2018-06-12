@@ -3,22 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.CommodityMapper">
-    <!--&lt;!&ndash; 增加商品 &ndash;&gt;-->
-    <!--<insert id="insertCommodity">-->
-      <!--insert into inventory_control.commodity (commodityName, commodityIntroduce, commodityBigPictureUrl) values (#{CommodityEntity.commodityName},#{CommodityEntity.commodityIntroduce},#{CommodityEntity.commodityBigPictureUrl})-->
-    <!--</insert>-->
-    <!--&lt;!&ndash; 删除商品 &ndash;&gt;-->
-    <!--<delete id="delCommodity">-->
-    <!--delete from inventory_control.commodity where id=#{id}-->
-    <!--</delete>-->
-    <!--&lt;!&ndash; 修改商品 &ndash;&gt;-->
-    <!--<update id="updateCommodity">-->
-    <!--update inventory_control.commodity set commodityName=#{CommodityEntity.commodityName},commodityIntroduce=#{CommodityEntity.commodityIntroduce},commodityBigPictureUrl=#{CommodityEntity.commodityBigPictureUrl} where id=#{CommodityEntity.id}-->
-    <!--</update>-->
-    <!--&lt;!&ndash; 查询商品 &ndash;&gt;-->
-    <!--<select id="getCommodity" resultType="com.zhkj.inventory_control_dao.entity.CommodityEntity">-->
-    <!--select * from inventory_control.commodity-->
-    <!--</select>-->
+    <!-- 增加商品 -->
+    <insert id="insertCommodity">
+      insert into inventory_control.commodity (commodityName, commodityIntroduce, commodityBigPictureUrl) values (#{CommodityEntity.commodityName},#{CommodityEntity.commodityIntroduce},#{CommodityEntity.commodityBigPictureUrl})
+    </insert>
+    <!-- 删除商品 -->
+    <delete id="delCommodity">
+    delete from inventory_control.commodity where id=#{id}
+    </delete>
+    <!-- 修改商品 -->
+    <update id="updateCommodity">
+    update inventory_control.commodity set commodityName=#{CommodityEntity.commodityName},commodityIntroduce=#{CommodityEntity.commodityIntroduce},commodityBigPictureUrl=#{CommodityEntity.commodityBigPictureUrl} where id=#{CommodityEntity.id}
+    </update>
+    <!-- 查询商品 -->
+    <select id="getCommodity" resultType="com.zhkj.inventory_control_dao.entity.CommodityEntity">
+    select * from inventory_control.commodity
+    </select>
 
     <!-- 根据商品名称查询商品id -->
     <select id="selectCommodityToName" resultType="java.lang.Integer">

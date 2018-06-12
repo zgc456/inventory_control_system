@@ -14,29 +14,29 @@ import java.util.List;
  */
 @Repository
 public interface CommodityMapper {
-//    /**
-//     * 增加商品
-//     * @param commodityEntity 商品实体类
-//     */
-//    void insertCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
-//
-//    /**
-//     * 删除商品
-//     * @param id 删除的商品id
-//     */
-//    void delCommodity(@Param("id") int id);
-//
-//    /**
-//     * 修改商品
-//     * @param commodityEntity 商品实体类
-//     */
-//    void updateCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
-//
-//    /**
-//     *  查找商品
-//     * @return 商品集合
-//     */
-//    List<CommodityEntity> getCommodity();
+    /**
+     * 增加商品
+     * @param commodityEntity 商品实体类
+     */
+    void insertCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
+
+    /**
+     * 删除商品
+     * @param id 删除的商品id
+     */
+    void delCommodity(@Param("id") int id);
+
+    /**
+     * 修改商品
+     * @param commodityEntity 商品实体类
+     */
+    void updateCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
+
+    /**
+     *  查找商品
+     * @return 商品集合
+     */
+    List<CommodityEntity> getCommodity();
 
     /**
      * 根据商品名称查询id

@@ -1,0 +1,12 @@
+<!-- 财务往来类型 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.FinanceTypeMapper">
+    <!-- 根据id查询财务往来类型 -->
+    <select id="selectFinanceTypeToId" resultType="com.zhkj.inventory_control_dao.entity.FinancetypeEntity">
+    select * from inventory_control.financetype where id=#{id};
+    </select>
+
+
+</mapper>

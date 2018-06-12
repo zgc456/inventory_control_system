@@ -1,5 +1,6 @@
 package com.zhkj.inventory_control_dao.entity;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -14,6 +15,24 @@ public class StatisticsEntity {
     private Integer statisticsTypeId;
     private Integer commodityInventoryId;
     private Integer statisticsNumber;
+    private Integer financeTypeId;
+    private BigDecimal financePrice;
+
+    public Integer getFinanceTypeId() {
+        return financeTypeId;
+    }
+
+    public void setFinanceTypeId(Integer financeTypeId) {
+        this.financeTypeId = financeTypeId;
+    }
+
+    public BigDecimal getFinancePrice() {
+        return financePrice;
+    }
+
+    public void setFinancePrice(BigDecimal financePrice) {
+        this.financePrice = financePrice;
+    }
 
     public Integer getStatisticsNumber() {
         return statisticsNumber;

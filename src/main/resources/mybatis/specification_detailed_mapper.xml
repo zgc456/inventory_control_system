@@ -3,23 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.SpecificationDetailedMapper">
-    <!--&lt;!&ndash; 增加商品详细规格 &ndash;&gt;-->
-    <!--<insert id="insertSpecificationDetailed">-->
-      <!--insert into inventory_control.specificationdetailed (detailedName) values (#{SpecificationdetailedEntity.detailedName});-->
-    <!--</insert>-->
-    <!--&lt;!&ndash; 删除商品详细规格 &ndash;&gt;-->
-    <!--<delete id="delSpecificationDetailed">-->
-      <!--delete from inventory_control.specificationdetailed where id=#{id}-->
-    <!--</delete>-->
-    <!--&lt;!&ndash; 修改商品详细规格 &ndash;&gt;-->
-    <!--<update id="updateSpecificationDetailed">-->
-      <!--update inventory_control.specificationdetailed set detailedName = #{SpecificationdetailedEntity.detailedName}  where id=#{SpecificationdetailedEntity.id};-->
-    <!--</update>-->
+    <!-- 增加商品详细规格 -->
+    <insert id="insertSpecificationDetailed">
+      insert into inventory_control.specificationdetailed (detailedName) values (#{SpecificationdetailedEntity.detailedName});
+    </insert>
 
-    <!--&lt;!&ndash; 查询商品详细规格 &ndash;&gt;-->
-    <!--<select id="getSpecificationDetailed" resultType="com.zhkj.inventory_control_dao.entity.SpecificationdetailedEntity">-->
-      <!--select * from inventory_control.specificationdetailed;-->
-    <!--</select>-->
+    <!-- 删除商品详细规格 -->
+    <delete id="delSpecificationDetailed">
+      delete from inventory_control.specificationdetailed where id=#{id}
+    </delete>
+
+    <!-- 修改商品详细规格 -->
+    <update id="updateSpecificationDetailed">
+      update inventory_control.specificationdetailed set detailedName = #{SpecificationdetailedEntity.detailedName}  where id=#{SpecificationdetailedEntity.id};
+    </update>
+
+    <!-- 查询商品详细规格 -->
+    <select id="getSpecificationDetailed" resultType="com.zhkj.inventory_control_dao.entity.SpecificationdetailedEntity">
+      select * from inventory_control.specificationdetailed;
+    </select>
 
     <!-- 根据商品规格id查询商品规格名称 -->
     <select id="selectSpecificationDetailedId" resultType="java.lang.String">

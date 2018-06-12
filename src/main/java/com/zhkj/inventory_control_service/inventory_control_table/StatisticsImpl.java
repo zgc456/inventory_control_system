@@ -36,6 +36,8 @@ public class StatisticsImpl implements StatisticsService {
     private SpecificationDetailedMapper specificationDetailedMapper;
     @Autowired
     private StatisticsTypeMapper statisticsTypeMapper;
+    @Autowired
+    private FinanceTypeMapper financeTypeMapper;
     private  List<StatisticsEntity> list=null;
     private List<StatisticsDto> statisticsDtos=null;
     @Override
@@ -104,11 +106,19 @@ public class StatisticsImpl implements StatisticsService {
         for (int i=0;i<statisticsEntities.size();i++){
             StatisticsEntity statisticsEntity=statisticsEntities.get(i);
             StatisticsDto statisticsDto=new StatisticsDto();
+            statisticsDto.setId(statisticsEntity.getId());
             //创建时间
             statisticsDto.setStatisticsCreateTime(statisticsEntity.getStatisticsCreateTime());
+            //进货金额
+            statisticsDto.setFinancePrice(statisticsEntity.getFinancePrice());
             //库存数量
             statisticsDto.setStatisticsNumber(statisticsEntity.getStatisticsNumber());
             StatisticstypeEntity statisticstypeEntity= statisticsTypeMapper.selectStatisticsTypeToId(statisticsEntity.getStatisticsTypeId());
+            //拿到财务往来id
+            Integer financeTypeId= statisticsEntity.getFinanceTypeId();
+            //根据id查找财务往来类型
+            String financeTypeName=financeTypeMapper.selectFinanceTypeToId(financeTypeId).getFinanceTypeName();
+            statisticsDto.setFinanceType(financeTypeName);
             //统计表类型
             statisticsDto.setStatisticsType(statisticstypeEntity.getStatisticsTypeName());
 
@@ -118,6 +128,7 @@ public class StatisticsImpl implements StatisticsService {
             CommodityinventoryDTO commodityinventoryDTO=new CommodityinventoryDTO();
             commodityinventoryDTO.setCommodityNumber(commodityinventoryEntity.getCommodityNumber());
             commodityinventoryDTO.setCommodityPrice(commodityinventoryEntity.getCommodityPrice());
+            commodityinventoryDTO.setId(commodityinventoryEntity.getId());
             //获取商品id
             Integer commodityId= commodityinventoryEntity.getCommodityId();
             //根据商品id 查询商品名字

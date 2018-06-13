@@ -10,6 +10,7 @@ public class UserVo {
     private String userName;
     private String userAccount;
     private String userPassword;
+    private boolean rememberMe;
 
     public int getId() {
         return id;
@@ -41,5 +42,13 @@ public class UserVo {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }

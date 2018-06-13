@@ -17,7 +17,7 @@ public class SupplierServiceImpl implements com.zhkj.inventory_control_api.api.S
     public List<SupplierDto> selectSupplier() {
         try {
             List<SupplierDto> supplierEntityList =new ArrayList<SupplierDto>();
-            supplierEntityList=  Conver_Type.convertToList(supplierEntityList,supplierMapper.selectSupplier(),"com.zhkj.inventory_control_api.dto.SupplierDto");
+            supplierEntityList=  Conver_Type.convertToList(supplierEntityList,supplierMapper.selectSupplier(),SupplierDto.class);
             return supplierEntityList;
         }catch (Exception e){
              return null;

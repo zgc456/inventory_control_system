@@ -50,9 +50,9 @@
         String userPassword = "";
         if(null != cookies){
             for(int i = 0;i < cookies.length;i++){
-                if("userAccount".equals(cookies[i].getValue())){
+                if("userAccount".equals(cookies[i].getName())){
                     userAccount = cookies[i].getValue();
-                }else if("userPassword".equals(cookies[i].getValue())){
+                }else if("userPassword".equals(cookies[i].getName())){
                     userPassword = cookies[i].getValue();
                 }
             }
@@ -83,7 +83,18 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                 <!-- col-lg-12 start here -->
                                 <label class="checkbox">
-                                    <input type="checkbox" id="rememberMe">记住我
+                                    <%
+                                        if(null != userAccount && !userAccount.equals("")){
+
+                                    %>
+                                        <input type="checkbox" id="rememberMe" checked="checked" >记住我
+                                        <%
+                                        }else {
+                                        %>
+                                        <input type="checkbox" id="rememberMe">记住我
+                                    <%
+                                        }
+                                    %>
                                 </label>
                             </div>
                             <!-- col-lg-12 end here -->
@@ -102,36 +113,33 @@
             function formLogin() {
                 var $userAccount = document.getElementById("userAccount").value;
                 var $userPassword = document.getElementById("password").value;
-                var $rememberMe = document.getElementById("rememberMe").value;
-                if($rememberMe == "on"){
-                    $rememberMe = false;
-                }else {
-                    $rememberMe = true;
-                }
+                var userVo = {};
+                userVo.userAccount = $userAccount;
+                userVo.userPassword = $userPassword;
+                userVo.rememberMe = $("#rememberMe").is(":checked");
+                var $json = JSON.stringify(userVo);
                if(null != $userAccount && $userAccount != "" ){
                  if(null != $userPassword && $userPassword != "" ){
                      $.ajax({
                          url : "<%=request.getContextPath()%>/login",
                          type : "post",
                          data:{
-                             userAccount:$userAccount,
-                             userPassword:$userPassword,
-                             rememberMe:$rememberMe
+                             json:$json
                          },
                          dataType : "json",
                          success : function ($data) {
                              if($data.success){
-                                 layer.msg("登录成功",{icon:6,time:1500});
+                                 location.href = "<%=request.getContextPath()%>/index.jsp"
                              }else {
-                                 layer.msg($data.message,{icon:6,time:1500});
+                                 layer.msg($data.message,{icon:5,time:1500});
                              }
                          }
                      })
                  }else {
-                   layer.msg("请输入密码",{icon:6,time:1500});
+                   layer.msg("请输入密码",{icon:5,time:1500});
                  }
                }else {
-                   layer.msg("请输入用户名",{icon:6,time:1500});
+                   layer.msg("请输入用户名",{icon:5,time:1500});
                }
             }
         </script>

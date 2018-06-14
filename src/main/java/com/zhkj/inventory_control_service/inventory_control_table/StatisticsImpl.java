@@ -1,20 +1,14 @@
 package com.zhkj.inventory_control_service.inventory_control_table;
-
 import com.zhkj.inventory_control_api.api.StatisticsService;
 import com.zhkj.inventory_control_api.dto.CommodityinventoryDTO;
 import com.zhkj.inventory_control_api.dto.StatisticsDTO;
-import com.zhkj.inventory_control_api.vo.StatisticsVO;
 import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticstypeEntity;
 import com.zhkj.inventory_control_dao.mapper.*;
-import com.zhkj.inventory_control_tools.ServiceConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,7 +37,7 @@ public class StatisticsImpl implements StatisticsService {
     public List<StatisticsDTO> selectStatiscsEntityAll() {
         //查询所有的统计表
        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsAll();
-        return null;
+        return ConverToDTO(statisticsEntities);
     }
 
     @Override
@@ -61,7 +55,8 @@ public class StatisticsImpl implements StatisticsService {
     public List<StatisticsDTO> selectStatiscsCondition(StatisticsEntity statisticsEntity) {
         //根据条件查询统计表
         List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity);
-        return null;
+        return ConverToDTO(statisticsEntities);
+
     }
 
     @Override

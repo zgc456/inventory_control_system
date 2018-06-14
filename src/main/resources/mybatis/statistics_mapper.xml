@@ -5,7 +5,7 @@
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.StatisticsMapper">
     <!-- 添加统计表 -->
     <insert id="insertStatistics">
-        insert into inventory_control.statistics (statisticsCreateTime, statisticsTypeId, commodityInventoryId, financePrice, financeTypeId, statisticsNumber)  values (#{StatisticsEntity.statisticsCreateTime},#{StatisticsEntity.statisticsTypeId},#{StatisticsEntity.commodityId},#{StatisticsEntity.financePrice,#{StatisticsEntity.financeTypeId},#{StatisticsEntity.statisticsNumber});
+        insert into inventory_control.statistics (statisticsCreateTime, statisticsTypeId, commodityInventoryId, financePrice, financeTypeId, statisticsNumber)  values (#{StatisticsEntity.statisticsCreateTime},#{StatisticsEntity.statisticsTypeId},#{StatisticsEntity.commodityInventoryId},#{StatisticsEntity.financePrice},#{StatisticsEntity.financeTypeId},#{StatisticsEntity.statisticsNumber});
     </insert>
     <!-- 查询所有统计表 -->
     <select id="findStatisticsAll" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
@@ -17,10 +17,10 @@
         <if test="statisticsCreateTime!=null">
             and statisticsCreateTime like %#{StatisticsEntity.statisticsCreateTime}%
         </if>
-        <if test="statisticsCreateTime>0">
+        <if test="statisticsTypeId>0">
             and statisticsTypeId = #{StatisticsEntity.statisticsTypeId}
         </if>
-        <if test="statisticsCreateTime>0">
+        <if test="financeTypeId>0">
             and  financeTypeId = #{StatisticsEntity.financeTypeId}
         </if>
     </select>

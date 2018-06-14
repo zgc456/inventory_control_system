@@ -27,4 +27,18 @@ public class StatisticstypeEntity {
         this.statisticsTypeName = statisticsTypeName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StatisticstypeEntity that = (StatisticstypeEntity) o;
+        return id == that.id &&
+                Objects.equals(statisticsTypeName, that.statisticsTypeName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, statisticsTypeName);
+    }
 }

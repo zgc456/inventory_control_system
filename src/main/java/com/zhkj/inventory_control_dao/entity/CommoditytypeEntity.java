@@ -5,13 +5,11 @@ import java.util.Objects;
 /**
  * @author
  * @Version 1.0
- * @Data 2018/5/22 17:23
- * 商品规格标题表
+ * @Data 2018/6/14 9:11
  */
-public class SpecificationtopicEntity {
+public class CommoditytypeEntity {
     private int id;
-    //规格标题
-    private String topicName;
+    private String commodityTypeName;
 
     public int getId() {
         return id;
@@ -21,27 +19,26 @@ public class SpecificationtopicEntity {
         this.id = id;
     }
 
-    public String getTopicName() {
-        return topicName;
+    public String getCommodityTypeName() {
+        return commodityTypeName;
     }
 
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
+    public void setCommodityTypeName(String commodityTypeName) {
+        this.commodityTypeName = commodityTypeName;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SpecificationtopicEntity that = (SpecificationtopicEntity) o;
+        CommoditytypeEntity that = (CommoditytypeEntity) o;
         return id == that.id &&
-                Objects.equals(topicName, that.topicName);
+                Objects.equals(commodityTypeName, that.commodityTypeName);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, topicName);
+        return Objects.hash(id, commodityTypeName);
     }
 }

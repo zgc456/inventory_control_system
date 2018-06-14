@@ -13,10 +13,15 @@ public class StatisticsEntity {
     private int id;
     private Timestamp statisticsCreateTime;
     private Integer statisticsTypeId;
-    private Integer commodityInventoryId;
     private Integer statisticsNumber;
     private Integer financeTypeId;
-    private BigDecimal financePrice;
+    private double financePrice;
+    private Integer CommodityInventoryId;
+
+
+    public void setFinancePrice(double financePrice) {
+        this.financePrice = financePrice;
+    }
 
     public Integer getFinanceTypeId() {
         return financeTypeId;
@@ -26,14 +31,9 @@ public class StatisticsEntity {
         this.financeTypeId = financeTypeId;
     }
 
-    public BigDecimal getFinancePrice() {
+    public double getFinancePrice() {
         return financePrice;
     }
-
-    public void setFinancePrice(BigDecimal financePrice) {
-        this.financePrice = financePrice;
-    }
-
     public Integer getStatisticsNumber() {
         return statisticsNumber;
     }
@@ -66,11 +66,15 @@ public class StatisticsEntity {
         this.statisticsTypeId = statisticsTypeId;
     }
 
+
+
     public Integer getCommodityInventoryId() {
-        return commodityInventoryId;
+        return CommodityInventoryId;
     }
 
-    public void setCommodityInventoryId(Integer commodityInventoryId) {
-        this.commodityInventoryId = commodityInventoryId;
+    public void setCommodityInventoryId(Integer commodityId) {
+        this.CommodityInventoryId = commodityId;
     }
+
+
 }

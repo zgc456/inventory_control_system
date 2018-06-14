@@ -29,4 +29,18 @@ public class SpecificationdetailedEntity {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecificationdetailedEntity that = (SpecificationdetailedEntity) o;
+        return id == that.id &&
+                Objects.equals(detailedName, that.detailedName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, detailedName);
+    }
 }

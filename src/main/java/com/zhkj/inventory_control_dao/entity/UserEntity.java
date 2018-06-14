@@ -45,4 +45,20 @@ public class UserEntity {
         this.userPassword = userPassword;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return id == that.id &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(userAccount, that.userAccount) &&
+                Objects.equals(userPassword, that.userPassword);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, userName, userAccount, userPassword);
+    }
 }

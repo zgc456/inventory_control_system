@@ -1,7 +1,6 @@
 package com.zhkj.inventory_control_api.api;
 
-import com.zhkj.inventory_control_api.dto.StatisticsDto;
-import com.zhkj.inventory_control_api.vo.StatisticsVO;
+import com.zhkj.inventory_control_api.dto.StatisticsDTO;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 
 import java.util.List;
@@ -11,48 +10,30 @@ import java.util.List;
  */
 public interface StatisticsService {
     /**
-     * 查询进货统计
+     * 查询所有统计表
      *
-     * @return 统计集合dto
+     * @return
      */
-    List<StatisticsDto> selectStatisticsStock();
+    List<StatisticsDTO> selectStatiscsEntityAll();
 
     /**
-     * 查询退货统计
-     *
-     * @return 统计集合dto
+     * 删除所有统计表数据
      */
-    List<StatisticsDto> selectStatisticsSaleReturn();
+    Boolean delStatiscsEntity();
 
     /**
-     * 查询卖出统计
-     *
-     * @return 统计集合dto
+     * 根据条件查询统计表类型
+     * @param statisticsEntity
+     * @return
      */
-    List<StatisticsDto> selectStatisticsSale();
+    List<StatisticsDTO> selectStatiscsCondition(StatisticsEntity statisticsEntity);
 
     /**
-     * 查询所有统计
-     *
-     * @return 统计集合dto
+     * 添加一条统计类型
+     * @param statisticsEntity
+     * @return
      */
-    List<StatisticsDto> selectStatisticsAll();
+    Boolean insertStatiscs(StatisticsEntity statisticsEntity);
 
-    /**
-     * 添加记录
-     */
-    void insertStatistics(StatisticsEntity statisticsEntity);
 
-    /**
-     * 添加一条记录
-     */
-    boolean insertStatisticsALL(List<StatisticsVO> Statistics);
-
-    /**
-     * 用做查询给前台返回数据 类型转换
-     *
-     * @param statisticsEntities 统计表集合
-     * @return 统计表DTO集合
-     */
-    List<StatisticsDto> ConverToDTO(List<StatisticsEntity> statisticsEntities);
 }

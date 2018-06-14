@@ -15,22 +15,31 @@ import java.util.List;
  */
 @Repository
 public interface StatisticsMapper {
-    /**
-     * 根据 进货 退货 卖出 状态查询对应标题的统计
-     * @param statisticsTypeId 统计类型
-     * @return 统计表集合
-     */
-    List<StatisticsEntity> selectStatistics(@Param("statisticsTypeId") int statisticsTypeId);
+
     /**
      * 根据 进货 退货 卖出 状态查询对应标题的统计
      * @param
      */
-    void insertStatistics(@Param("StatisticsEntity") StatisticsEntity statisticsEntity);
+    int insertStatistics(@Param("StatisticsEntity") StatisticsEntity statisticsEntity);
 
     /**
      * 删除数据库中所有的数据
      */
-    void delStatistics();
+    int delStatistics();
+
+    /**
+     * 根据条件查询统计表
+     *
+     * @param statisticsEntity 统计表实体类
+     * @return
+     */
+    List<StatisticsEntity> findStatisticsCondition(@Param("StatisticsEntity") StatisticsEntity statisticsEntity);
+
+    /**
+     * 查询所有统计表数据
+     * @return
+     */
+    List<StatisticsEntity> findStatisticsAll();
 
 
 

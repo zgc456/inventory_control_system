@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Version 1.0
  * @Data 2018/5/17
  */
-public class StatisticstypeDto{
+public class StatisticstypeDTO {
     private int id;
     private String statisticsTypeName;
 

@@ -2,7 +2,7 @@ package com.zhkj.inventory_control_service.inventory_control_table;
 
 import com.zhkj.inventory_control_api.api.StatisticsService;
 import com.zhkj.inventory_control_api.dto.CommodityinventoryDTO;
-import com.zhkj.inventory_control_api.dto.StatisticsDto;
+import com.zhkj.inventory_control_api.dto.StatisticsDTO;
 import com.zhkj.inventory_control_api.vo.StatisticsVO;
 import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 public class StatisticsImpl implements StatisticsService {
     @Autowired
-   private StatisticsMapper statisticsMapper;
+    private StatisticsMapper statisticsMapper;
     @Autowired
     private CommodityMapper commodityMapper;
     @Autowired
@@ -38,74 +38,53 @@ public class StatisticsImpl implements StatisticsService {
     private StatisticsTypeMapper statisticsTypeMapper;
     @Autowired
     private FinanceTypeMapper financeTypeMapper;
-    private  List<StatisticsEntity> list=null;
-    private List<StatisticsDto> statisticsDtos=null;
+
     @Override
-    public List<StatisticsDto> selectStatisticsStock() {
-        list= statisticsMapper.selectStatistics(ServiceConstant.STOCK);
-        statisticsDtos=ConverToDTO(list);
-        return statisticsDtos;
+    public List<StatisticsDTO> selectStatiscsEntityAll() {
+        //查询所有的统计表
+       List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsAll();
+        return null;
     }
 
     @Override
-    public List<StatisticsDto> selectStatisticsSaleReturn() {
-        list= statisticsMapper.selectStatistics(ServiceConstant.SALES_RETURN);
-        statisticsDtos=ConverToDTO(list);
-        return statisticsDtos;
+    public Boolean delStatiscsEntity() {
+        //删除统计表 所有数据
+       int state= statisticsMapper.delStatistics();
+       if (state==1){
+           return true;
+       }else {
+           return false;
+       }
     }
 
     @Override
-    public List<StatisticsDto> selectStatisticsSale() {
-        list= statisticsMapper.selectStatistics(ServiceConstant.SALE);
-        statisticsDtos=ConverToDTO(list);
-        return statisticsDtos;
+    public List<StatisticsDTO> selectStatiscsCondition(StatisticsEntity statisticsEntity) {
+        //根据条件查询统计表
+        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity);
+        return null;
     }
 
     @Override
-    public List<StatisticsDto> selectStatisticsAll() {
-        list= statisticsMapper.selectStatistics(ServiceConstant.STOCK_AND_EXPEND_AND_INCOME_AND_EXPEND);
-        statisticsDtos=ConverToDTO(list);
-        return statisticsDtos;
-    }
-
-    @Override
-    public void insertStatistics(StatisticsEntity statisticsEntity) {
-        statisticsMapper.insertStatistics(statisticsEntity);
-    }
-
-    @Override
-    public boolean insertStatisticsALL(List<StatisticsVO> Statistics) {
-
-        for (int i=0;i<Statistics.size();i++){
-            StatisticsVO statisticsVO=Statistics.get(i);
-            String topic=""+statisticsVO.getSpeciflcationDetailed()+","+statisticsVO.getSpecificationDetailed2();
-            //根据商品名称 查询到商品id
-            Integer commodityId= commodityMapper.selectCommodityToName(statisticsVO.getCommodityName());
-            //根据商品id 查询库存id
-            List<CommodityinventoryEntity> commodityinventoryEntities= commodityInventoryMapper.selectCommodityinventoryToCommmodityId(commodityId);
-            //拿到库存id集合 遍历库存id （根据前台传来的类型id数组集合，查询库存id 添加数据库）
-            for (int j=0;j<commodityinventoryEntities.size();j++){
-               CommodityinventoryEntity commodityinventoryEntities1=commodityinventoryEntities.get(i);
-                if (commodityinventoryEntities1.getCommoditySku().equals(topic)){
-                    StatisticsEntity statisticsEntity=new StatisticsEntity();
-                    Date date=new Date();
-                    Timestamp timestamp=new Timestamp(date.getTime());
-                    statisticsEntity.setCommodityInventoryId(commodityinventoryEntities1.getId());
-                    statisticsEntity.setStatisticsCreateTime(timestamp);
-                    statisticsEntity.setStatisticsTypeId(statisticsVO.getTypeId());
-                    insertStatistics(statisticsEntity);
-                    return true;
-                }
-            }
+    public Boolean insertStatiscs(StatisticsEntity statisticsEntity) {
+        //添加一条统计表数据
+       int state= statisticsMapper.insertStatistics(statisticsEntity);
+        if (state==1){
+            return true;
+        }else {
+            return false;
         }
-        return false;
     }
-    @Override
-    public List<StatisticsDto> ConverToDTO(List<StatisticsEntity> statisticsEntities) {
-        List<StatisticsDto> statisticsDtos=new ArrayList<>();
+
+    /**
+     * 类型转换 方法
+     * @param statisticsEntities
+     * @return
+     */
+    private List<StatisticsDTO> ConverToDTO(List<StatisticsEntity> statisticsEntities) {
+        List<StatisticsDTO> statisticsDtos=new ArrayList<>();
         for (int i=0;i<statisticsEntities.size();i++){
             StatisticsEntity statisticsEntity=statisticsEntities.get(i);
-            StatisticsDto statisticsDto=new StatisticsDto();
+            StatisticsDTO statisticsDto=new StatisticsDTO();
             statisticsDto.setId(statisticsEntity.getId());
             //创建时间
             statisticsDto.setStatisticsCreateTime(statisticsEntity.getStatisticsCreateTime());
@@ -122,9 +101,9 @@ public class StatisticsImpl implements StatisticsService {
             //统计表类型
             statisticsDto.setStatisticsType(statisticstypeEntity.getStatisticsTypeName());
 
-           Integer commodityInventoryId= statisticsEntity.getCommodityInventoryId();
+            Integer commodityInventoryId= statisticsEntity.getCommodityInventoryId();
             //根据商品库存id，查询商品库存
-           CommodityinventoryEntity commodityinventoryEntity= commodityInventoryMapper.selectCommodityinventoryToId(commodityInventoryId);
+            CommodityinventoryEntity commodityinventoryEntity= commodityInventoryMapper.selectCommodityinventoryToId(commodityInventoryId);
             CommodityinventoryDTO commodityinventoryDTO=new CommodityinventoryDTO();
             commodityinventoryDTO.setCommodityNumber(commodityinventoryEntity.getCommodityNumber());
             commodityinventoryDTO.setCommodityPrice(commodityinventoryEntity.getCommodityPrice());
@@ -140,8 +119,8 @@ public class StatisticsImpl implements StatisticsService {
             String specificationdetailedId= specificationSku.split(",")[0];
             String specificationdetailedId1= specificationSku.split(",")[1];
             //根据类型id 查询规格名字
-           String detaiedName=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId));
-           String detaiedName1=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId1));
+            String detaiedName=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId));
+            String detaiedName1=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId1));
             commodityinventoryDTO.setCommoditySku(detaiedName+","+detaiedName1);
             statisticsDto.setCommodityInventory(commodityinventoryDTO);
             statisticsDtos.add(statisticsDto);
@@ -149,3 +128,4 @@ public class StatisticsImpl implements StatisticsService {
         return statisticsDtos;
     }
 }
+

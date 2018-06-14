@@ -81,4 +81,23 @@ public class CommodityinventoryEntity {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommodityinventoryEntity that = (CommodityinventoryEntity) o;
+        return id == that.id &&
+                Objects.equals(commodityNumber, that.commodityNumber) &&
+                Objects.equals(commoditySecurityLine, that.commoditySecurityLine) &&
+                Objects.equals(commodityPrice, that.commodityPrice) &&
+                Objects.equals(commoditySmallPictureUrl, that.commoditySmallPictureUrl) &&
+                Objects.equals(commoditySku, that.commoditySku) &&
+                Objects.equals(commodityId, that.commodityId);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, commodityNumber, commoditySecurityLine, commodityPrice, commoditySmallPictureUrl, commoditySku, commodityId);
+    }
 }

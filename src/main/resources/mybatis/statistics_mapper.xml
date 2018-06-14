@@ -3,19 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.StatisticsMapper">
-    <!-- 根据状态di查询统计表集合 -->
-    <select id="selectStatistics" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
-        select * from inventory_control.statistics where 1=1
-         <if test="statisticsTypeId>0">
-             and statisticsTypeId=#{statisticsTypeId}
-         </if>
-    </select>
     <!-- 添加统计表 -->
     <insert id="insertStatistics">
-        insert into inventory_control.statistics (statisticsCreateTime, statisticsTypeId, statisticsNumber, commodityInventoryId)  values (#{StatisticsEntity.statisticsCreateTime},#{StatisticsEntity.statisticsTypeId},#{StatisticsEntity.statisticsNumber},#{StatisticsEntity.commodityId});
+        insert into inventory_control.statistics (statisticsCreateTime, statisticsTypeId, commodityInventoryId, financePrice, financeTypeId, statisticsNumber)  values (#{StatisticsEntity.statisticsCreateTime},#{StatisticsEntity.statisticsTypeId},#{StatisticsEntity.commodityId},#{StatisticsEntity.financePrice,#{StatisticsEntity.financeTypeId},#{StatisticsEntity.statisticsNumber});
     </insert>
+    <!-- 查询所有统计表 -->
+    <select id="findStatisticsAll" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+        select * from inventory_control.statistics ;
+    </select>
+    <!-- 根据条件查询统计表 根据时间查找 根据进出退货查找 根据财务收支查找-->
+    <select id="findStatisticsCondition" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+        select * from inventory_control.statistics where 1=1
+        <if test="statisticsCreateTime!=null">
+            and statisticsCreateTime like %#{StatisticsEntity.statisticsCreateTime}%
+        </if>
+        <if test="statisticsCreateTime>0">
+            and statisticsTypeId = #{StatisticsEntity.statisticsTypeId}
+        </if>
+        <if test="statisticsCreateTime>0">
+            and  financeTypeId = #{StatisticsEntity.financeTypeId}
+        </if>
+    </select>
     <!-- 删除统计表中所有的数据 -->
     <delete id="delStatistics">
-
+    delete from inventory_control.statistics
     </delete>
 </mapper>

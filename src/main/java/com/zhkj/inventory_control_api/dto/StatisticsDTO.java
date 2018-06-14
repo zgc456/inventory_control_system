@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * @Version 1.0
  * @Data 2018/5/17
  */
-public class StatisticsDto{
+public class StatisticsDTO {
     //id
     private int id;
     //添加进货表时间
@@ -25,7 +25,7 @@ public class StatisticsDto{
     //财务类型
     private String financeType;
     //交易金额
-    private BigDecimal financePrice;
+    private double financePrice;
 
     public String getFinanceType() {
         return financeType;
@@ -35,11 +35,11 @@ public class StatisticsDto{
         this.financeType = financeType;
     }
 
-    public BigDecimal getFinancePrice() {
+    public double getFinancePrice() {
         return financePrice;
     }
 
-    public void setFinancePrice(BigDecimal financePrice) {
+    public void setFinancePrice(double financePrice) {
         this.financePrice = financePrice;
     }
 

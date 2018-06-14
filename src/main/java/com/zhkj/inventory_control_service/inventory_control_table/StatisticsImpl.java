@@ -8,6 +8,7 @@ import com.zhkj.inventory_control_dao.entity.StatisticstypeEntity;
 import com.zhkj.inventory_control_dao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class StatisticsImpl implements StatisticsService {
         //根据条件查询统计表
         List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity);
         return ConverToDTO(statisticsEntities);
-
     }
 
     @Override
@@ -111,12 +111,23 @@ public class StatisticsImpl implements StatisticsService {
             //根据商品规格id 查询商品详细规格
             String specificationSku=commodityinventoryEntity.getCommoditySku();
             //根据逗号分割
-            String specificationdetailedId= specificationSku.split(",")[0];
-            String specificationdetailedId1= specificationSku.split(",")[1];
-            //根据类型id 查询规格名字
-            String detaiedName=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId));
-            String detaiedName1=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailedId1));
-            commodityinventoryDTO.setCommoditySku(detaiedName+","+detaiedName1);
+            int length= specificationSku.split(",").length;
+            List<String> specificationdetailed =new ArrayList<>();
+            for (int j=0;j<length;j++){
+                String specificationdetailedId= specificationSku.split(",")[j];
+                specificationdetailed.add(specificationdetailedId);
+            }
+            String detaiedName="";
+            for (int k=0;k<specificationdetailed.size();k++){
+                String detaiedName1=specificationDetailedMapper.selectSpecificationDetailedId(Integer.parseInt(specificationdetailed.get(k)));
+                if ((specificationdetailed.size()-k)==1){
+                    detaiedName+=detaiedName1;
+                }else{
+                    detaiedName+=detaiedName1+",";
+                }
+            }
+
+            commodityinventoryDTO.setCommoditySku(detaiedName);
             statisticsDto.setCommodityInventory(commodityinventoryDTO);
             statisticsDtos.add(statisticsDto);
         }

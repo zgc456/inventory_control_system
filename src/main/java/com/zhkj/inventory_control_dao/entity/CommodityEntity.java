@@ -16,7 +16,7 @@ public class CommodityEntity {
     private String commodityIntroduce;
     //商品图片路径
     private String commodityBigPictureUrl;
-    private Integer commodityRelationId;
+
 
     public int getId() {
         return id;
@@ -50,29 +50,4 @@ public class CommodityEntity {
         this.commodityBigPictureUrl = commodityBigPictureUrl;
     }
 
-    public Integer getCommodityRelationId() {
-        return commodityRelationId;
-    }
-
-    public void setCommodityRelationId(Integer commodityRelationId) {
-        this.commodityRelationId = commodityRelationId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommodityEntity that = (CommodityEntity) o;
-        return id == that.id &&
-                Objects.equals(commodityName, that.commodityName) &&
-                Objects.equals(commodityIntroduce, that.commodityIntroduce) &&
-                Objects.equals(commodityBigPictureUrl, that.commodityBigPictureUrl) &&
-                Objects.equals(commodityRelationId, that.commodityRelationId);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, commodityName, commodityIntroduce, commodityBigPictureUrl, commodityRelationId);
-    }
 }

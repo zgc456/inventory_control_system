@@ -52,4 +52,11 @@ public interface CommodityMapper {
      * @return 商品名称
      */
     String selectCommodityToId(@Param("id") Integer id);
+
+    /**
+     * 根据条件查询商品信息
+     * @param conditionSql 查询条件列表
+     * @return 商品列表
+     */
+    List<CommodityEntity> listCommodityByCondition(@Param("conditionSql") String conditionSql);
 }

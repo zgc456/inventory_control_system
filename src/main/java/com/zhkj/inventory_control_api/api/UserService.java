@@ -20,4 +20,20 @@ public interface UserService {
      * @return
      */
     Result isLogin(UserVo userVo, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 判断密码是否与原密码相同
+     * @param request
+     * @param password 输入的密码
+     * @return
+     */
+    Result verifyPassword(HttpServletRequest request,String password);
+
+    /**
+     * 根据用户 id 修改用户密码
+     * @param request
+     * @param password 用户新密码
+     * @return
+     */
+    Result updatePassword(HttpServletRequest request,String password);
 }

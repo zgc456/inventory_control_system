@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%
+    String userAccount = (String) request.getSession().getAttribute("userAccount");
+    if(null == userAccount || userAccount.equals("")){
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+    }
+%>
 <div id="header">
     <div class="container-fluid">
         <div class="navbar">
@@ -28,10 +34,8 @@
                         <a href="#" data-toggle="dropdown">
                             <img class="user-avatar" src="<%=request.getContextPath()%>/static/assets/img/avatars/48.jpg" alt="SuggeElson">管理员</a>
                         <ul class="dropdown-menu right" role="menu">
-                            <li><a href="#"><i class="st-settings"></i> 修改密码 </a>
-                            </li>
-                            <li><a href="login.jsp"><i class="im-exit"></i> 退出 </a>
-                            </li>
+                            <li onclick="updatePasswrod()"><a><i class="st-settings"></i> 修改密码</a></li>
+                            <li onclick="loginOut()"><a><i class="im-exit"></i> 退出</a></li>
                         </ul>
                     </li>
                     <%--<li id="toggle-right-sidebar-li"><a href="#" id="toggle-right-sidebar"><i class="ec-users"></i> <span class="notification">3</span></a>--%>
@@ -98,3 +102,34 @@
     </div>
     <!-- Start .header-inner -->
 </div>
+<script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>
+<script src="<%=request.getContextPath()%>/static/assets/layer/layer.js"></script>
+<script>
+    function loginOut() {
+        layer.confirm("要退出吗?",function () {
+            $.ajax(
+                {
+                    url:"<%=request.getContextPath()%>/loginOut",
+                    type:"get",
+                    success:function ($data) {
+                        if($data.success){
+                            location.href = "<%=request.getContextPath()%>/login.jsp"
+                        }
+                    }
+                }
+            )
+        })
+    }
+    function updatePasswrod() {
+        layer.open(
+            {
+                type: 2,
+                closeBtn: 1,
+                title: "修改密码",
+                area: ['720px', '500px'],
+                content: "<%=request.getContextPath()%>/updatePwd.jsp",
+                shadeClose: true
+            }
+            )
+    }
+</script>

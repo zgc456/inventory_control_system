@@ -46,19 +46,4 @@ public class SupplierEntity {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SupplierEntity that = (SupplierEntity) o;
-        return id == that.id &&
-                Objects.equals(supplierName, that.supplierName) &&
-                Objects.equals(supplierPhone, that.supplierPhone);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, supplierName, supplierPhone);
-    }
 }

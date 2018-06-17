@@ -53,4 +53,27 @@ public interface CommodityInventoryMapper {
      * @return 库存实体类
      */
      CommodityinventoryEntity selectCommodityinventoryToId(@Param("id") Integer id);
+    /**
+     * 根据条件查询商品并且分页
+     * @param condition 查询条件
+     * @param startNumber 起始条数
+     * @param pageNumberLength 每页显示条数
+     * @return 商品列表
+     */
+    List<CommodityinventoryEntity> listCommodityByConditionLimit(@Param("condition") String condition,@Param("startNumber") Integer startNumber
+            ,@Param("pageNumberLength") Integer pageNumberLength);
+
+    /**
+     * 根据条件查询商品
+     * @param condition 查询条件
+     * @return 商品列表
+     */
+    List<CommodityinventoryEntity> listCommodityByCondition(@Param("condition") String condition);
+
+    /**
+     * 根据商品库存 id 查询数据
+     * @param commodityInventoryId 商品库存 id
+     * @return 商品信息
+     */
+    CommodityinventoryEntity selectCommodityById(@Param("commodityInventoryId")Integer commodityInventoryId);
 }

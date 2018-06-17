@@ -1,8 +1,6 @@
 package com.zhkj.inventory_control_api.dto;
 
-import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 /**
@@ -11,7 +9,7 @@ import java.sql.Timestamp;
  * @Version 1.0
  * @Data 2018/5/17
  */
-public class StatisticsDTO {
+public class StatisticsDTO{
     //id
     private int id;
     //添加进货表时间
@@ -25,7 +23,7 @@ public class StatisticsDTO {
     //财务类型
     private String financeType;
     //交易金额
-    private double financePrice;
+    private BigDecimal financePrice;
 
     public String getFinanceType() {
         return financeType;
@@ -35,11 +33,11 @@ public class StatisticsDTO {
         this.financeType = financeType;
     }
 
-    public double getFinancePrice() {
+    public BigDecimal getFinancePrice() {
         return financePrice;
     }
 
-    public void setFinancePrice(double financePrice) {
+    public void setFinancePrice(BigDecimal financePrice) {
         this.financePrice = financePrice;
     }
 

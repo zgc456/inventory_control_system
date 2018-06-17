@@ -16,7 +16,7 @@ public class CommodityinventoryEntity {
     //库存报警值
     private Integer commoditySecurityLine;
     //商品价格
-    private BigDecimal commodityPrice;
+    private double commodityPrice;
     //商品图片
     private String commoditySmallPictureUrl;
     //库存规格关系json 引用topic 自己查询所属规格
@@ -48,11 +48,11 @@ public class CommodityinventoryEntity {
         this.commoditySecurityLine = commoditySecurityLine;
     }
 
-    public BigDecimal getCommodityPrice() {
+    public double getCommodityPrice() {
         return commodityPrice;
     }
 
-    public void setCommodityPrice(BigDecimal commodityPrice) {
+    public void setCommodityPrice(double commodityPrice) {
         this.commodityPrice = commodityPrice;
     }
 
@@ -81,23 +81,4 @@ public class CommodityinventoryEntity {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommodityinventoryEntity that = (CommodityinventoryEntity) o;
-        return id == that.id &&
-                Objects.equals(commodityNumber, that.commodityNumber) &&
-                Objects.equals(commoditySecurityLine, that.commoditySecurityLine) &&
-                Objects.equals(commodityPrice, that.commodityPrice) &&
-                Objects.equals(commoditySmallPictureUrl, that.commoditySmallPictureUrl) &&
-                Objects.equals(commoditySku, that.commoditySku) &&
-                Objects.equals(commodityId, that.commodityId);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, commodityNumber, commoditySecurityLine, commodityPrice, commoditySmallPictureUrl, commoditySku, commodityId);
-    }
 }

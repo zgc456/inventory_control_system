@@ -5,6 +5,18 @@
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.UserMapper">
     <!-- 根据账号密码查询 -->
     <select id="selectUserToLogin" resultType="com.zhkj.inventory_control_dao.entity.UserEntity" >
-    select * from inventory_control.user where inventory_control.user.userAccount=#{UserEntity.userAccount} and inventory_control.user.userPassword=#{UserEntity.userPassword}
+      select * from inventory_control.user
+      where inventory_control.user.userAccount=#{UserEntity.userAccount} and inventory_control.user.userPassword=#{UserEntity.userPassword}
     </select>
+    <!-- 根据用户 id 查找用户信息 -->
+    <select id="selectUserByUserId" resultType="com.zhkj.inventory_control_dao.entity.UserEntity">
+        SELECT * FROM inventory_control.user
+        WHERE user.id = #{userId}
+    </select>
+    <!-- 修改登录账号密码 -->
+    <update id="updatePasswordByUserId">
+        UPDATE inventory_control.user
+        SET user.userPassword = #{newPassword}
+        WHERE user.id = #{userId}
+    </update>
 </mapper>

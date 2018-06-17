@@ -5,6 +5,7 @@ import com.zhkj.inventory_control_api.vo.UserVo;
 import com.zhkj.inventory_control_dao.entity.UserEntity;
 import com.zhkj.inventory_control_dao.mapper.UserMapper;
 import com.zhkj.inventory_control_tools.Conver_Type;
+import com.zhkj.inventory_control_tools.GetSessionTools;
 import com.zhkj.inventory_control_tools.MessageConstant;
 import com.zhkj.inventory_control_tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,8 @@ public class UserServiceImpl implements UserService {
     public Result isLogin(UserVo userVo, HttpServletRequest request, HttpServletResponse response) {
         Result result = new Result();
         UserEntity userEntity=new UserEntity();
-        userEntity=Conver_Type.convert(userEntity,userVo);
+        userEntity.setUserAccount(userVo.getUserAccount());
+        userEntity.setUserPassword(userVo.getUserPassword());
         UserEntity resultUserEntity = userMapper.selectUserToLogin(userEntity);
         if(null != resultUserEntity){
             // Session 中存储用户信息
@@ -72,6 +74,32 @@ public class UserServiceImpl implements UserService {
         }else {
             result.setSuccess(false);
             result.setMessage(MessageConstant.PASSWORD_ACCOUNT_ERROR);
+        }
+        return result;
+    }
+
+    @Override
+    public Result verifyPassword(HttpServletRequest request,String password) {
+        Result result = new Result();
+        String oldPassword = GetSessionTools.getUserPasswordBySession(request);
+        if(oldPassword.equals(password)){
+            result.setSuccess(true);
+        }else {
+            result.setSuccess(false);
+            result.setMessage(MessageConstant.PASSWORD_DISCREPANCY);
+        }
+        return result;
+    }
+
+    @Override
+    public Result updatePassword(HttpServletRequest request,String password) {
+        Result result = new Result();
+        if(null != password && !password.equals("")){
+            int userId = GetSessionTools.getUserIdBySession(request);
+            if(userMapper.updatePasswordByUserId(password,userId) > 0){
+                result.setSuccess(true);
+                result.setMessage(MessageConstant.PASSWOR_UPDATE_SUCCEED);
+            }
         }
         return result;
     }

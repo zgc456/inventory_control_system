@@ -1,5 +1,7 @@
 package com.zhkj.inventory_control_tools;
 
+import com.zhkj.inventory_control_dao.entity.Page;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class GetSessionTools {
@@ -41,5 +43,21 @@ public class GetSessionTools {
     public static String getUserPasswordBySession(HttpServletRequest request){
         String userPassword = (String) request.getSession().getAttribute("userPassword");
         return userPassword;
+    }
+
+    /**
+     * 获取商品分页信息
+     * @param request
+     * @return
+     */
+    public static Page getCommodityPage(HttpServletRequest request){
+        Page page = null;
+        if(null != request.getSession().getAttribute("commodityPage")){
+            page = (Page) request.getSession().getAttribute("commodityPage");
+        }else {
+            page = new Page();
+            request.getSession().setAttribute("commodityPage",page);
+        }
+        return page;
     }
 }

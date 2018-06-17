@@ -16,4 +16,19 @@ public interface UserMapper {
      * @return
      */
     UserEntity selectUserToLogin(@Param("UserEntity") UserEntity userEntity);
+
+    /**
+     * 根据用户 id 修改用户密码
+     * @param newPassword 新密码
+     * @param userId 用户 id
+     * @return 是否成功
+     */
+    int updatePasswordByUserId(@Param("newPassword")String newPassword,@Param("userId") Integer userId);
+
+    /**
+     * 根据用户 id 查找用户信息
+     * @param userId 用户 id
+     * @return 用户信息
+     */
+    UserEntity selectUserByUserId(@Param("userId") Integer userId);
 }

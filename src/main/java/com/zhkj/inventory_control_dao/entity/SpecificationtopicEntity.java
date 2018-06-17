@@ -30,18 +30,4 @@ public class SpecificationtopicEntity {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SpecificationtopicEntity that = (SpecificationtopicEntity) o;
-        return id == that.id &&
-                Objects.equals(topicName, that.topicName);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, topicName);
-    }
 }

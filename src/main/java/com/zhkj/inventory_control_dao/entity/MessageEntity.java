@@ -3,11 +3,13 @@ package com.zhkj.inventory_control_dao.entity;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+
 /**
  * @author
  * @Version 1.0
  * @Data 2018/6/14 9:11
  */
+
 public class MessageEntity {
     private int id;
     private String messageTitle;
@@ -64,6 +66,7 @@ public class MessageEntity {
         this.messageCreateTime = messageCreateTime;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,4 +85,5 @@ public class MessageEntity {
 
         return Objects.hash(id, messageTitle, messageContent, messageStatus, messageTypeId, messageCreateTime);
     }
+
 }

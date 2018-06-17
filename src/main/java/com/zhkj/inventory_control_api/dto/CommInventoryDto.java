@@ -1,25 +1,15 @@
 package com.zhkj.inventory_control_api.dto;
 
+import com.zhkj.inventory_control_dao.entity.CommodityEntity;
 
-/**
- * @author
- * @Version 1.0
- * @Data 2018/6/5 9:41
- */
-public class CommodityinventoryDTO {
+public class CommInventoryDto {
     private int id;
-    //商品数量
     private Integer commodityNumber;
-    //库存报警值
     private Integer commoditySecurityLine;
-    //商品价格
     private double commodityPrice;
-    //商品图片
     private String commoditySmallPictureUrl;
-    //库存规格关系json 引用topic 自己查询所属规格
-    private String commoditySku;
-    //商品名称
-    private String commodityName;
+    private String[] commoditySku;
+    private CommodityEntity commodity;
 
     public int getId() {
         return id;
@@ -61,19 +51,19 @@ public class CommodityinventoryDTO {
         this.commoditySmallPictureUrl = commoditySmallPictureUrl;
     }
 
-    public String getCommoditySku() {
+    public String[] getCommoditySku() {
         return commoditySku;
     }
 
-    public void setCommoditySku(String commoditySku) {
+    public void setCommoditySku(String[] commoditySku) {
         this.commoditySku = commoditySku;
     }
 
-    public String getCommodityName() {
-        return commodityName;
+    public CommodityEntity getCommodity() {
+        return commodity;
     }
 
-    public void setCommodityName(String commodityName) {
-        this.commodityName = commodityName;
+    public void setCommodity(CommodityEntity commodity) {
+        this.commodity = commodity;
     }
 }

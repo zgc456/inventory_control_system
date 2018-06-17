@@ -167,6 +167,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/validation/additional-methods.min.js"></script>
         <!-- Init plugins olny for this page -->
         <script src="<%=request.getContextPath()%>/static/assets/js/pages/login.js"></script>
-        <script src="<%=request.getContextPath()%>/static/assets/layer_js/layer-v3.1.1/layer/layer.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/layer/layer.js"></script>
     </body>
 </html>

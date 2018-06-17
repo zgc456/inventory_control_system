@@ -24,7 +24,7 @@ import java.util.List;
 public class StatisticsController {
     @Autowired
     private StatisticsService statisticsService;
-    @RequestMapping(value = "/selectStatiscsEntityAll",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectStatiscsEntityAll")
     public List<StatisticsDTO> statisticsDTOS(){
         //查询全部统计表记录
        return statisticsService.selectStatiscsEntityAll();

@@ -2,10 +2,6 @@ package com.zhkj.inventory_control_api.api;
 
 import com.zhkj.inventory_control_api.dto.SupplierDto;
 import com.zhkj.inventory_control_api.vo.SupplierVo;
-import com.zhkj.inventory_control_dao.entity.SupplierEntity;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

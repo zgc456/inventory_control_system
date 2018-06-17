@@ -28,6 +28,28 @@
     <select id="selectCommodityinventoryToId" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
     select * from inventory_control.commodityinventory where id=#{id};
     </select>
-
-
+    <!-- 根据条件查询并且分页 -->
+    <select id="listCommodityByConditionLimit" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+        SELECT * FROM inventory_control.commodityinventory
+        <where>
+            <if test="_parameter.containsKey('condition')">
+                ${condition}
+            </if>
+        </where>
+        LIMIT #{startNumber},#{pageNumberLength}
+    </select>
+    <!-- 根据条件查询 -->
+    <select id="listCommodityByCondition" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+        SELECT * FROM inventory_control.commodityinventory
+        <where>
+            <if test="_parameter.containsKey('condition')">
+                ${condition}
+            </if>
+        </where>
+    </select>
+    <!-- 根据库存 id 查询 -->
+    <select id="" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+        SELECT * FROM inventory_control.commodityinventory
+        WHERE id =
+    </select>
 </mapper>

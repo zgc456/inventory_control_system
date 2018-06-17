@@ -41,19 +41,4 @@ public class SpecificationrelationEntity {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SpecificationrelationEntity that = (SpecificationrelationEntity) o;
-        return id == that.id &&
-                Objects.equals(specificationSku, that.specificationSku) &&
-                Objects.equals(commodityId, that.commodityId);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, specificationSku, commodityId);
-    }
 }

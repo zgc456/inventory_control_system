@@ -40,7 +40,8 @@
         <meta name="msapplication-TileColor" content="#3399cc" />
     </head>
     <body>
-        <%@ include file="top.jsp"%>
+
+        <%@include file="top.jsp"%>
         <%@include file="lift.jsp"%>
         <!-- Start #right-sidebar -->
         <div id="right-sidebar" class="hide-sidebar">
@@ -400,9 +401,6 @@
             <!-- End .content-wrapper -->
             <div class="clearfix"></div>
         </div>
-        <!-- End #content -->
-        <!-- Javascripts -->
-        <!-- Load pace first -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
         <!-- Important javascript libs(put in all pages) -->
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>

@@ -5,6 +5,7 @@ public class MessageConstant {
      *  错误信息
      */
     public static final String PASSWORD_ACCOUNT_ERROR = "用户名或密码错误";
+
     public static final String PASSWORD_DISCREPANCY = "输入密码与原密码不相符";
     public static final String USER_PASSWORD_EXCEPTION = "用户密码与原密码不相符";
     /**
@@ -20,4 +21,8 @@ public class MessageConstant {
     public static final Integer BACKGROUND_MESSAGE = Integer.valueOf(1);
     public static final Integer INVENTORY_EARLY_WARNING = Integer.valueOf(2);
     public static final Integer SYSTEM_MESSAGE = Integer.valueOf(3);
+
+    public static final String DELETE_STATUSTICS_ERROR="删除统计表失败";
+    public static final String DINSERT_STATUSTICS_ERROR="添加一条记录到统计表失败";
+
 }

@@ -2,13 +2,20 @@ package com.zhkj.inventory_control_service.inventory_control_table;
 import com.zhkj.inventory_control_api.api.StatisticsService;
 import com.zhkj.inventory_control_api.dto.CommodityinventoryDTO;
 import com.zhkj.inventory_control_api.dto.StatisticsDTO;
+import com.zhkj.inventory_control_api.vo.StatisticsVO;
 import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticstypeEntity;
 import com.zhkj.inventory_control_dao.mapper.*;
+import com.zhkj.inventory_control_tools.MessageConstant;
+import com.zhkj.inventory_control_tools.OutPutExcel;
+import com.zhkj.inventory_control_tools.Result;
+import com.zhkj.inventory_control_tools.ServiceConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,41 +40,54 @@ public class StatisticsImpl implements StatisticsService {
     private StatisticsTypeMapper statisticsTypeMapper;
     @Autowired
     private FinanceTypeMapper financeTypeMapper;
+    private Result result=new Result();
 
     @Override
-    public List<StatisticsDTO> selectStatiscsEntityAll() {
+    public Result selectStatiscsEntityAll() {
         //查询所有的统计表
        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsAll();
-        return ConverToDTO(statisticsEntities);
+        result.setSuccess(ServiceConstant.SUCCERSS);
+        result.setData(ConverToDTO(statisticsEntities));
+        return result;
     }
 
     @Override
-    public Boolean delStatiscsEntity() {
+    public Result delStatiscsEntity() {
         //删除统计表 所有数据
        int state= statisticsMapper.delStatistics();
        if (state==1){
-           return true;
+           result.setSuccess(ServiceConstant.SUCCERSS);
+
        }else {
-           return false;
+           result.setSuccess(ServiceConstant.DEFEATED);
+           result.setMessage(MessageConstant.DELETE_STATUSTICS_ERROR);
        }
+       return result;
     }
 
     @Override
-    public List<StatisticsDTO> selectStatiscsCondition(StatisticsEntity statisticsEntity) {
+    public Result selectStatiscsCondition(StatisticsVO statisticsVO) {
+        StatisticsEntity statisticsEntity=new StatisticsEntity();
+        statisticsEntity.setFinanceTypeId(statisticsVO.getFinanceTypeId());
+        statisticsEntity.setStatisticsTypeId(statisticsVO.getStatisticsTypeId());
         //根据条件查询统计表
-        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity);
-        return ConverToDTO(statisticsEntities);
+        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity,statisticsVO.getEndTime(),statisticsVO.getStatisticsCreateTime());
+        result.setSuccess(ServiceConstant.SUCCERSS);
+        result.setData(ConverToDTO(statisticsEntities));
+        return result;
     }
 
     @Override
-    public Boolean insertStatiscs(StatisticsEntity statisticsEntity) {
+    public Result insertStatiscs(StatisticsEntity statisticsEntity) {
         //添加一条统计表数据
        int state= statisticsMapper.insertStatistics(statisticsEntity);
         if (state==1){
-            return true;
+            result.setSuccess(ServiceConstant.SUCCERSS);
         }else {
-            return false;
+            result.setSuccess(ServiceConstant.DEFEATED);
+            result.setMessage(MessageConstant.DINSERT_STATUSTICS_ERROR);
         }
+        return result;
     }
 
     /**
@@ -132,6 +152,33 @@ public class StatisticsImpl implements StatisticsService {
             statisticsDtos.add(statisticsDto);
         }
         return statisticsDtos;
+    }
+
+    /**
+     * 查询当前统计表 并导出Excel
+     *
+     * @param request
+     * @param response
+     */
+    @Override
+    public void outPutExcelByStatistics(HttpServletRequest request, HttpServletResponse response){
+        //查询所有的统计表数据
+        Result result= selectStatiscsEntityAll();
+        //查询所有的数据
+        List<StatisticsDTO> statisticsEntities = (List<StatisticsDTO>) result.getData();
+        List<String[]> statisticsMessage=new ArrayList<>();
+        for (int i=0;i<statisticsEntities.size();i++){
+            StatisticsDTO statisticsDTO=statisticsEntities.get(i);
+            //遍历数据集合 拿到Excel列
+            String[] statisticsMessages= {""+statisticsDTO.getStatisticsCreateTime(),statisticsDTO.getFinanceType(),statisticsDTO.getCommodityInventory().getCommodityName()+"-"+statisticsDTO.getCommodityInventory().getCommoditySku(),statisticsDTO.getFinanceType(),""+statisticsDTO.getFinancePrice(),""+statisticsDTO.getStatisticsNumber()};
+            statisticsMessage.add(statisticsMessages);
+        }
+        try {
+            //生成Excel
+            OutPutExcel.exportData(request,response,ServiceConstant.STATISTICS_FILE_NAME,ServiceConstant.statisticsTiele,statisticsMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

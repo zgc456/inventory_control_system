@@ -22,7 +22,8 @@ dependencies {
     //AspectJ（切点表达式）
     compile "org.aspectj:aspectjrt:1.7.4"
     compile "org.aspectj:aspectjweaver:1.7.4"
-
+// https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
+    compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.10'
 //springmvc + Spring Configuration
     compile "org.springframework:spring-web:$spring_version"
     compile "org.springframework:spring-webmvc:$spring_version"
@@ -54,7 +55,6 @@ dependencies {
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
-
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'

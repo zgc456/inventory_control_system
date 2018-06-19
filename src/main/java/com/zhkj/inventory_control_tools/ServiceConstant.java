@@ -8,21 +8,14 @@ package com.zhkj.inventory_control_tools;
  * @Data 2018/6/4 15:53
  */
 public class ServiceConstant {
-//财务类型
-    //收入
-    public static final int INCOME=1;
-    //支出
-    public static final int EXPEND=2;
-    //收支情况
-    public static final int INCOME_AND_EXPEND=0;
-//统计表类型
-    //进货
-    public static final int STOCK=1;
-    //退货
-    public static final int SALES_RETURN=2;
-    //卖出
-    public static final int SALE=3;
-    //所有类型
-    public static final int STOCK_AND_EXPEND_AND_INCOME_AND_EXPEND=0;
-
+//返回值是否成功
+    //成功
+    public static final Boolean SUCCERSS=true;
+    //失败
+    public static final Boolean DEFEATED=false;
+    //统计表导出Excel表名
+    public static final String STATISTICS_FILE_NAME="统计报表";
+    //统计表Excel表头
+    public static String[] statisticsTiele=new String[]
+            {"记录时间","统计类型","商品名称-类型","财务金额","财务类型","数量"};
 }

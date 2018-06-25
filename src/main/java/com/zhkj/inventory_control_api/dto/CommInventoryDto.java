@@ -10,6 +10,7 @@ public class CommInventoryDto {
     private String commoditySmallPictureUrl;
     private String[] commoditySku;
     private CommodityEntity commodity;
+    private String commodityCreateTime;
 
     public int getId() {
         return id;
@@ -65,5 +66,13 @@ public class CommInventoryDto {
 
     public void setCommodity(CommodityEntity commodity) {
         this.commodity = commodity;
+    }
+
+    public String getCommodityCreateTime() {
+        return commodityCreateTime;
+    }
+
+    public void setCommodityCreateTime(String commodityCreateTime) {
+        this.commodityCreateTime = commodityCreateTime;
     }
 }

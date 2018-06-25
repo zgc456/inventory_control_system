@@ -2,6 +2,7 @@ package com.zhkj.inventory_control_dao.mapper;
 
 import com.zhkj.inventory_control_dao.entity.SpecificationtopicEntity;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @Data 2018/5/22 18:30
  * 商品规格标题表
  */
+@Repository
 public interface SpecificationTopicMapper {
     /**
      * 新增一条标题

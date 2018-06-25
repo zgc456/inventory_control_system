@@ -1,6 +1,7 @@
 package com.zhkj.inventory_control_dao.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -23,6 +24,7 @@ public class CommodityinventoryEntity {
     private String commoditySku;
     //商品外键id
     private Integer commodityId;
+    private Timestamp commodityCreateTime;
 
     public int getId() {
         return id;
@@ -80,5 +82,11 @@ public class CommodityinventoryEntity {
         this.commodityId = commodityId;
     }
 
+    public Timestamp getCommodityCreateTime() {
+        return commodityCreateTime;
+    }
 
+    public void setCommodityCreateTime(Timestamp commodityCreateTime) {
+        this.commodityCreateTime = commodityCreateTime;
+    }
 }

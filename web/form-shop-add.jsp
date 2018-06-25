@@ -320,11 +320,11 @@
                                 </div>
                                 <div class="panel-body">
                                     <!-- 表单提交 -->
-                                    <form class="form-horizontal group-border hover-stripped" role="form">
+                                    <form class="form-horizontal group-border hover-stripped" role="form" id="sumbitFrom">
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">商品名称</label>
                                             <div class="col-lg-10">
-                                                <input type="text" class="form-control required">
+                                                <input type="text" class="form-control required" name="commodityName">
                                             </div>
                                         </div>
                                         <div class="form-group"></div>
@@ -332,7 +332,7 @@
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">商品介绍图片</label>
                                             <div class="col-lg-10">
-                                                <input type="file" name="file" id="bigFile">
+                                                <input type="file" name="commodityBigFile" id="bigFile">
                                             </div>
                                         </div>
                                         <div class="form-group"></div>
@@ -348,34 +348,14 @@
                                                     <tr>
                                                         <th class="per5">规格详细</th>
                                                         <th class="per5">进货数量</th>
+                                                        <th class="per5">警戒数量</th>
                                                         <th class="per5">商品单价</th>
                                                         <th class="per5">商品展示图片</th>
+                                                        <th class="per5">操作</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody id="shop_table">
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-10 col-md-10" style="width: 250px;">
-                                                                        <input style="width: 250px;" type="text" disabled class="form-control tags"  placeholder="请选择规格详细">
-                                                                            <select style="width: 250px;" class="form-control"></select>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="col-lg-3 col-md-6">
-                                                                    <input style="width: 100px;" type="number" class="form-control" role="spinbutton" value="1" />
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="col-lg-3 col-md-6">
-                                                                    <input style="width: 100px;" class="form-control" type="number" id="spinner-currency" name="spinner-currency" value="1.00" >
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input type="file" id="smallFile" />
-                                                            </td>
-                                                        </tr>
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -383,7 +363,7 @@
                                         <!-- End .form-group  -->
                                         <div class="form-group">
                                             <div class="col-lg-offset-2">
-                                                <button class="btn btn-default ml15" type="submit">提交</button>
+                                                <button class="btn btn-default ml15" onclick="sumbit()">提交</button>
                                             </div>
                                         </div>
                                         <!-- End .form-group  -->
@@ -410,34 +390,93 @@
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>
         <script>
             $(document).ready(function () {
-
+                appendTr();
+                appendOption();
             });
+            function sumbit() {
+                var $form = new FormData(document.getElementById("sumbitFrom"));
+                alert(JSON.stringify($form));
+            }
+            function cleanOptionText($option) {
+                $option.parentElement.children[0].value = "";
+            }
+            function appendOptionText($option) {
+                if($option.value > 0){
+                    var $optionVale = $option.parentElement.children[0].value;
+                    if($optionVale.split(" ").length < 6){
+                        $option.parentElement.children[0].value = $optionVale + " " + $option[$option.value].text
+                    }else {
+                        layer.msg("最多选5个规格个哟",{icon:6,time:1500});
+                    }
+                }else {
+                    cleanOptionText($option);
+                }
+            }
+            function appendOption() {
+                var $select = document.getElementsByName("shopDetail");
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSpecification",
+                        type:"post",
+                        success:function ($resultData) {
+                            for(var i = 0;i < $select.length;i++){
+                                $select[i].innerHTML = "";
+                                var $option = $("<option value='-1'>清空</option>")
+                                $option.appendTo($select[i]);
+                                for(var j = 0;j < $resultData.data.length;j++) {
+                                    var $option = $(
+                                        "<optgroup label=" + $resultData.data[j].topicName + ">" + $resultData.data[j].detailed + "</optgroup>"
+                                    );
+                                    $option.appendTo($select[i]);
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+            function deleteTr($input) {
+                layer.confirm("要删除吗?",function () {
+                    $input.parentElement.parentElement.remove();
+                    layer.msg("删除成功",{icon:6,time:1500});
+                })
+            }
             function appendTr() {
                 var $table = document.getElementById("shop_table");
-                var $tr = $("<tr>\n" +
+                var $tr = $(
+                    "<tr>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <div class=\"col-lg-10 col-md-10\" style=\"width: 250px;\">\n" +
-                    "                                                                        <input style=\"width: 250px;\" type=\"text\" disabled class=\"form-control tags\"  placeholder=\"请选择规格详细\">\n" +
-                    "                                                                            <select style=\"width: 250px;\" class=\"form-control\"></select>\n" +
+                    "                                                                        <input style=\"width: 250px;\" type=\"text\" disabled class=\"form-control tags\" name='shopDetailText' placeholder=\"请选择规格详细\">\n" +
+                    "                                                                            <select style=\"width: 250px;\" class=\"form-control\" name=\"shopDetail\" onchange='appendOptionText(this)'></select>\n" +
                     "                                                                    </div>\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
-                    "                                                                    <input style=\"width: 100px;\" type=\"number\" class=\"form-control\" role=\"spinbutton\" value=\"1\" />\n" +
+                    "                                                                    <input style=\"width: 100px;\" type=\"number\" class=\"form-control\" name='shopNumber' value=\"1\"  />\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
-                    "                                                                    <input style=\"width: 100px;\" class=\"form-control\" type=\"number\" id=\"spinner-currency\" name=\"spinner-currency\" value=\"1.00\" >\n" +
+                    "                                                                    <input style=\"width: 100px;\" class=\"form-control\" type=\"number\" name=\"shopSecurityLine\" value=\"1\" >\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
-                    "                                                                <input type=\"file\" id=\"smallFile\" />\n" +
+                    "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
+                    "                                                                    <input style=\"width: 100px;\" class=\"form-control\" type=\"number\" name=\"shopPrice\" value=\"1.00\" >\n" +
+                    "                                                                </div>\n" +
                     "                                                            </td>\n" +
-                    "                                                        </tr>");
+                    "                                                            <td>\n" +
+                    "                                                                <input type=\"file\" name=\"shopFile\"/>\n" +
+                    "                                                            </td>\n" +
+                    "                                                            <td>\n" +
+                    "                                                                <input class=\"btn btn-primary btn-alt\" type=\"button\" onclick='deleteTr(this)' value=\"删除\" />\n" +
+                    "                                                            </td>\n" +
+                    "                                                        </tr>"
+                );
                 $tr.appendTo($table);
+                appendOption();
             }
         </script>
         <script>
@@ -484,7 +523,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/select2/select2.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/dual-list-box/jquery.bootstrap-duallistbox.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/password/jquery-passy.js"></script>
-        <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/checkall/jquery.checkAll.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/validation/jquery.validate.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/validation/additional-methods.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/misc/highlight/highlight.pack.js"></script>
@@ -492,5 +530,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery.sprFlat.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/app.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/pages/form-validation.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/layer/layer.js"></script>
     </body>
 </html>

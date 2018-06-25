@@ -10,6 +10,7 @@ import com.zhkj.inventory_control_dao.entity.SpecificationdetailedEntity;
 import com.zhkj.inventory_control_dao.mapper.CommodityInventoryMapper;
 import com.zhkj.inventory_control_dao.mapper.CommodityMapper;
 import com.zhkj.inventory_control_dao.mapper.SpecificationDetailedMapper;
+import com.zhkj.inventory_control_tools.ConverDateTools;
 import com.zhkj.inventory_control_tools.GetSessionTools;
 import com.zhkj.inventory_control_tools.PageTools;
 import com.zhkj.inventory_control_tools.Result;
@@ -131,7 +132,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
             stringBuffer.append(" AND commoditySku = " + commodityVo.getCommoditySku());
         }
         if(null != commodityVo.getCreateTime() && !commodityVo.getCreateTime().equals("")){
-            stringBuffer.append(" AND commodityCreateTime > " + commodityVo.getCreateTime());
+            stringBuffer.append(" AND commodityCreateTime > '" + commodityVo.getCreateTime() + " 00:00:00'");
         }
         return stringBuffer.toString();
     }
@@ -153,6 +154,8 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
             commInventoryDto.setCommodityPrice(commodityInventoryEntityList.get(i).getCommodityPrice());
             commInventoryDto.setCommoditySmallPictureUrl(commodityInventoryEntityList.get(i).getCommoditySmallPictureUrl());
             commInventoryDto.setCommoditySku(getCommoditySku(commodityInventoryEntityList.get(i).getCommoditySku(),specificationdetailedEntityList));
+            commInventoryDto.setCommodityCreateTime(ConverDateTools.convertDateByCondition(commodityInventoryEntityList.get(i).getCommodityCreateTime()
+                    ,ConverDateTools.YEAR_MONTH_DATE));
             for(int j = 0;j < commodityEntityList.size();j++){
                 if(commodityInventoryEntityList.get(i).getCommodityId() == commodityEntityList.get(j).getId()){
                     commInventoryDto.setCommodity(commodityEntityList.get(j));

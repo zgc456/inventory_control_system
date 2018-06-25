@@ -39,7 +39,11 @@ public class Page {
     }
 
     public void setiDisplayStart(Integer iDisplayStart) {
-        this.iDisplayStart = iDisplayStart;
+        if(iDisplayStart < 0){
+            this.iDisplayStart = 0;
+        }else {
+            this.iDisplayStart = iDisplayStart;
+        }
     }
 
     public Integer getPageDisplayLength() {

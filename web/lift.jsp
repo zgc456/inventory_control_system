@@ -12,7 +12,6 @@
                 <ul class="nav sub">
                     <li><a href="table-shop-select.jsp"><i class="im-checkbox-checked"></i>查看已有商品</a></li>
                     <li><a href="form-shop-add.jsp"><i class="im-checkbox-checked"></i>商品添加</a></li>
-                    <li><a href="form-shop-type-add.jsp"><i class="im-checkbox-checked"></i>商品类型添加</a></li>
                 </ul>
             </li>
             <li>

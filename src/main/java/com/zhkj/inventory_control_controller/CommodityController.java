@@ -39,9 +39,9 @@ public class CommodityController {
      * @return
      */
     @RequestMapping(value = "/listCommodityByCondition",method = RequestMethod.POST)
-    public Result listCommodityByCondition(String json){
+    public Result listCommodityByCondition(String json,HttpServletRequest request){
         CommodityConditionVo commodityVo = JSON.parseObject(json,CommodityConditionVo.class);
-        return null;
+        return commodityInventoryService.listCommodityByCondition(commodityVo,request);
     }
 
     /**

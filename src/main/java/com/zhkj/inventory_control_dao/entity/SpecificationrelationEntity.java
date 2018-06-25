@@ -10,11 +10,8 @@ import java.util.Objects;
  */
 public class SpecificationrelationEntity {
     private int id;
-    //topicId 1 容量 detailedId 200ML 400ML
-    //json 如{"topicId":1,"detailedId":[1,2]},{"topicId":1,"detailedId":[1,2]}
-    private String specificationSku;
-    //商品id
-    private Integer commodityId;
+    private Integer specificationTopicId;
+    private Integer specificationDetailedId;
 
     public int getId() {
         return id;
@@ -24,21 +21,19 @@ public class SpecificationrelationEntity {
         this.id = id;
     }
 
-    public String getSpecificationSku() {
-        return specificationSku;
+    public Integer getSpecificationTopicId() {
+        return specificationTopicId;
     }
 
-    public void setSpecificationSku(String specificationSku) {
-        this.specificationSku = specificationSku;
+    public void setSpecificationTopicId(Integer specificationTopicId) {
+        this.specificationTopicId = specificationTopicId;
     }
 
-    public Integer getCommodityId() {
-        return commodityId;
+    public Integer getSpecificationDetailedId() {
+        return specificationDetailedId;
     }
 
-    public void setCommodityId(Integer commodityId) {
-        this.commodityId = commodityId;
+    public void setSpecificationDetailedId(Integer specificationDetailedId) {
+        this.specificationDetailedId = specificationDetailedId;
     }
-
-
 }

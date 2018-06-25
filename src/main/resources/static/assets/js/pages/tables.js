@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
 //------------- Check all checkboxes -------------//
-$('.table').checkAll({
-	masterCheckbox: '.check-all',
-	otherCheckboxes: '.check'
-})
+// $('.table').checkAll({
+// 	masterCheckbox: '.check-all',
+// 	otherCheckboxes: '.check'
+// })
 //------------- Hilight table rows on checkbox click -------------// 
 function tableHighlight () {
     var table = $('.table');

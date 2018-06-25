@@ -319,7 +319,26 @@
                         <div class="col-lg-12">
                             <!-- col-lg-12 start here -->
                             <div class="panel panel-default plain toggle panelClose panelRefresh">
-                                <!-- Start .panel -->
+                                <div class="panel-heading white-bg" style="height: 100px;">
+                                    <div style="width: 800px;height: 100px;float: left;">
+                                        <div style="width: 200px;height: 50px;padding-top: 40px;float: left;">
+                                            <input type="text" class="form-control" placeholder="商品名称" id="select_commodityName">
+                                        </div>
+                                        <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
+                                            <select class="form-control" id="select_commoditySpecification">
+                                                <option value="-1">商品规格</option>
+                                            </select>
+                                        </div>
+                                        <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
+                                            <input type="date" class="form-control" id="select_commodityCreateTime">
+                                        </div>
+                                    </div>
+                                    <div style="width: 200px;height: 100px;float: right;">
+                                        <div style="width: 100px;height: 50px;margin: 0px auto;padding-top: 40px">
+                                            <input class="btn btn-primary btn-alt" type="button" onclick="sumbitSelect()" value="搜索" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="panel-heading white-bg">
                                     <h4 class="panel-title">供应商列表</h4>
                                 </div>
@@ -327,39 +346,17 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="per5">
-                                                    <label class="checkbox">
-                                                        <input class="check-all" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    </label>
-                                                </th>
-                                                <th class="per15">商品名称</th>
+                                                <th class="pre10">编号</th>
+                                                <th class="per10">商品名称</th>
                                                 <th class="per15">商品规格</th>
                                                 <th class="per10">商品数量</th>
                                                 <th class="per10">商品单价</th>
                                                 <th class="per20">介绍</th>
+                                                <th class="per10">添加时间</th>
                                                 <th class="per10">操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="showShopList">
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input class="check" type="checkbox" value="option2">
-                                                    </label>
-                                                </td>
-                                                <td>特步</td>
-                                                <td>白色,41</td>
-                                                <td>12</td>
-                                                <td>2530$</td>
-                                                <td>这是一个商品</td>
-                                                <td>
-                                                    <div class="col-lg-3 col-md-6" style="width: 200px;">
-                                                        <input class="btn btn-primary btn-alt" type="button" value="修改" />
-                                                        <input class="btn btn-primary btn-alt" type="button" value="删除" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        <tbody id="showShopList"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -372,14 +369,144 @@
                 <!-- End .outlet -->
             </div>
             <!-- End .content-wrapper -->
-            <div class="clearfix"></div>
+            <div class="col-lg-12" >
+                <ul class="pagination mb0" id="page">
+
+                </ul>
+            </div>
         </div>
         <script>
+            $(document).ready(function () {
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listCommodityHomePage",
+                        type:"post",
+                        success:function ($result) {
+                            if($result.success){
+                                var $page = document.getElementById("page");
+                                appendCommodit($result);
+                                appendPage($result,$page);
+                            }
+                        }
+                    }
+                )
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSpecification",
+                        type:"post",
+                        success:function ($result) {
+                            if($result.success){
+                                var $select = document.getElementById("select_commoditySpecification");
+                                for(var i = 0;i < $result.data.length;i++){
+                                    var $optgroup = $(
+                                        "<optgroup label="+$result.data[i].topicName+">"+$result.data[i].detailed+"</optgroup>"
+                                    )
+                                    $optgroup.appendTo($select);
+                                }
+                            }
+                        }
+                    }
+                )
+            })
+            function sumbitSelect() {
+                var $select_CommodityName = document.getElementById("select_commodityName");
+                var $select_CommoditySku = document.getElementById("select_commoditySpecification");
+                var $select_CommodityCreateTime = document.getElementById("select_commodityCreateTime");
+                var $commodityVo = {};
+                $commodityVo.commodityName = $select_CommodityName.value;
+                if($select_CommoditySku.value > 0){
+                    $commodityVo.commoditySku = $select_CommoditySku.value
+                };
+                $commodityVo.createTime = $select_CommodityCreateTime.value;
+                $commodityVo.customPage = 1;
+                $json = JSON.stringify($commodityVo);
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listCommodityByCondition",
+                        type:"post",
+                        data: {
+                            json: $json
+                        },
+                        dataType : "json",
+                        success:function ($result) {
+                            if($result.success){
+                                var $page = document.getElementById("page");
+                                appendCommodit($result);
+                                appendPage($result,$page);
+                            }
+                        }
+                    }
+                )
+            }
             function isShop() {
                 if(confirm("是否删除?")){
                     $.ajax({
 
                     })
+                }
+            }
+            function skipPage($li,identifier) {
+                var $skip = {};
+                if(identifier > 0){
+                    $skip.skip = identifier;
+                }else{
+                    $skip.customPage = $li.innerText;
+                }
+                $json = JSON.stringify($skip);
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listCommodityByCondition",
+                        type:"post",
+                        data: {
+                            json: $json
+                        },
+                        dataType : "json",
+                        success:function ($result) {
+                            if($result.success){
+                                var $page = document.getElementById("page");
+                                appendCommodit($result);
+                                appendPage($result,$page);
+                            }
+                        }
+                    }
+                )
+            }
+            function appendPage($result,$page) {
+                $page.innerHTML = "";
+                var $li = $("<li onclick='skipPage(this,1)'><a><i class=\"en-arrow-left8\"></i></a></li>");
+                $li.appendTo($page);
+                for(var j = 0;j < $result.data.pageCount;j++){
+                    $li = $(
+                        "<li onclick='skipPage(this,-1)'><a>"+ (j + 1) +"</a></li>"
+                    );
+                    $li.appendTo($page);
+                }
+                $li = $("<li onclick='skipPage(this,2)'><a><i class=\"en-arrow-right8\"></i></a></li>");
+                $li.appendTo($page);
+            }
+            function appendCommodit($result) {
+                var $tbody = document.getElementById("showShopList");
+                $tbody.innerHTML = "";
+                var $pageData = $result.data.pageData;
+                for(var i = 0;i < $pageData.length;i++){
+                    var $tr = $(
+                        "<tr>" +
+                        "   <td>"+$pageData[i].id+"</td>"+
+                        "   <td>"+$pageData[i].commodity.commodityName+"</td>\n" +
+                        "   <td>"+$pageData[i].commoditySku+"</td>\n" +
+                        "   <td>"+$pageData[i].commodityNumber+"</td>\n" +
+                        "   <td>"+$pageData[i].commodityPrice+"</td>\n" +
+                        "   <td>"+$pageData[i].commodity.commodityIntroduce+"</td>\n" +
+                        "   <td>"+$pageData[i].commodityCreateTime+"</td>\n" +
+                        "   <td>\n" +
+                        "       <div class=\"col-lg-3 col-md-6\" style=\"width: 200px;\">\n" +
+                        "            <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"修改\" />\n" +
+                        "            <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"删除\" />\n" +
+                        "       </div>\n" +
+                        "  </td>\n" +
+                        "</tr>"
+                    )
+                    $tr.appendTo($tbody);
                 }
             }
         </script>

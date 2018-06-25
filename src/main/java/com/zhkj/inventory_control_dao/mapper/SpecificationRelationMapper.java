@@ -1,6 +1,7 @@
 package com.zhkj.inventory_control_dao.mapper;
 
 import com.zhkj.inventory_control_dao.entity.SpecificationrelationEntity;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,20 +11,11 @@ import java.util.List;
  * @Data 2018/5/22 18:29
  * 商品规格关系表
  */
+@Repository
 public interface SpecificationRelationMapper {
     /**
-     * 增加一条商品规格
-     * @param specificationrelationEntity 商品规格实体类
+     * 查询规格
+     * @return 规格列表
      */
-   void insertSpecificationRelation(SpecificationrelationEntity specificationrelationEntity);
-
-    /**
-     * 删除商品规格
-     * @param id 商品规格id
-     */
-   void deleteSpecificationRelation(Integer id);
-    //修改
-    void updateSpecificationRelation(SpecificationrelationEntity specificationrelationEntity);
-    //查询
-    List<SpecificationrelationEntity> getSpecificationRelation();
+    List<SpecificationrelationEntity> listSpecificationRelation();
 }

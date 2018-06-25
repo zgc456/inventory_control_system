@@ -360,6 +360,29 @@
             <div class="clearfix"></div>
         </div>
         <script>
+            $(document).ready(function () {
+                appendTopic();
+            })
+            function appendTopic() {
+                var $shopTopicName = document.getElementsByName("shopTopicName");
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSpecificationTopic",
+                        type:"post",
+                        success:function ($resultData) {
+                            for(var i = 0;i < $shopTopicName.length;i++){
+                                $shopTopicName[i].innerHTML = "";
+                                for(var j = 0 ;j < $resultData.data.length;j++){
+                                    var $option = $(
+                                        "<option value="+$resultData.data[j].id+">"+$resultData.data[j].topicName+"</option>"
+                                    );
+                                    $option.appendTo($shopTopicName[i]);
+                                }
+                            }
+                        }
+                    }
+                )
+            }
             function addShopSepcification() {
                 var shopDetailName = $("shopDetailName").val();
                 var shopTopicName = $("shopTopicName").val();
@@ -368,7 +391,6 @@
                     type : "post",
                     dataType : "json",
                     success : function ($data) {
-
                     }
                 })
             }
@@ -385,7 +407,7 @@
                     "                                                </td>\n" +
                     "                                                <td>\n" +
                     "                                                    <div class=\"col-lg-3 col-md-6\" style=\"width: 200px;\">\n" +
-                    "                                                        <select style=\"width: 200px;\" class=\"form-control\">\n" +
+                    "                                                        <select style=\"width: 200px;\" class=\"form-control\" name=\"shopTopicName\">\n" +
                     "\n" +
                     "                                                        </select>\n" +
                     "                                                    </div>\n" +
@@ -398,6 +420,7 @@
                     "                                                </td>\n" +
                     "                                            </tr>");
                 addtr.appendTo(table);
+                appendTopic();
             }
         </script>
         <!-- End #content -->

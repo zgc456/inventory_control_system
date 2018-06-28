@@ -42,6 +42,18 @@ public interface StatisticsMapper {
      */
     List<StatisticsEntity> findStatisticsAll();
 
+    /**
+     * 查询当月所有收入数据
+     * @return 收入实体类
+     */
+    List<StatisticsEntity> findStatisticsToIncome();
+
+    /**
+     * 查询当月所有支出数据
+     * @return 支出实体类
+     */
+    List<StatisticsEntity> findStatisticsToExpend();
+
 
 
 }

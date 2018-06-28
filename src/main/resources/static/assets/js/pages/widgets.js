@@ -137,7 +137,7 @@ $(document).ready(function() {
 	        	noColumns: 0,
 	        	labelBoxBorderColor: null,
 	        	labelFormatter: function(label, series) {
-				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
+				//    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
 				},
 				backgroundColor: colours.blue,
     			backgroundOpacity: 0.5,
@@ -169,8 +169,8 @@ $(document).ready(function() {
 	        }
     	}
 
-		var plot = $.plot($("#stats-earnings"),[{
-    			label: "Earnings", 
+        var plot = $.plot($("#stats-earnings"),[{
+    			label: "Earnings",
     			data: d1,
     		}], options
     	);
@@ -274,12 +274,13 @@ $(document).ready(function() {
 				defaultTheme: false
 			}
 		};
-		var data = [
-		    { label: "Coding",  data: 68, color: colours.red},
-		    { label: "Design",  data: 20, color: colours.green},
-		    { label: "SEO",  data: 12, color: colours.blue}
-		];
-	    $.plot($("#stats-category-earnings"), data, options);
+		//饼状图
+        // var data = [
+		 //    { label: "Coding",  data: 68, color: colours.red},
+		 //    { label: "Design",  data: 20, color: colours.green},
+		 //    { label: "SEO",  data: 12, color: colours.blue}
+        // ];
+	    // $.plot($("#stats-category-earnings"), data, options);
 
 	});
 

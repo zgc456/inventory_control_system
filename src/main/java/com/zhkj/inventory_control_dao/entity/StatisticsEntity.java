@@ -16,7 +16,7 @@ public class StatisticsEntity {
     private Integer commodityInventoryId;
     private Integer statisticsNumber;
     private Integer financeTypeId;
-    private BigDecimal financePrice;
+    private double financePrice;
 
     public Integer getFinanceTypeId() {
         return financeTypeId;
@@ -26,11 +26,11 @@ public class StatisticsEntity {
         this.financeTypeId = financeTypeId;
     }
 
-    public BigDecimal getFinancePrice() {
+    public double getFinancePrice() {
         return financePrice;
     }
 
-    public void setFinancePrice(BigDecimal financePrice) {
+    public void setFinancePrice(double financePrice) {
         this.financePrice = financePrice;
     }
 

@@ -4,14 +4,21 @@ import com.alibaba.fastjson.JSON;
 import com.zhkj.inventory_control_api.vo.CommodityConditionVo;
 import com.zhkj.inventory_control_service.inventory_control_inventory.CommodityInventoryServiceImpl;
 import com.zhkj.inventory_control_tools.Result;
+import org.omg.CORBA.NameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-@RestController
+@Controller
 public class CommodityController {
     @Autowired
     private CommodityInventoryServiceImpl commodityInventoryService;
@@ -53,4 +60,6 @@ public class CommodityController {
     public Result selectCommodityById(Integer commodityId){
         return null;
     }
+
+
 }

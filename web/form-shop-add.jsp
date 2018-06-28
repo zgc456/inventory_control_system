@@ -11,8 +11,7 @@
         <meta name="keywords" content=""/>
         <meta name="application-name" content="sprFlat admin template" />
         <!-- Import google fonts - Heading first/ text second -->
-        <!--[if lt IE 9]>
-
+        <!--[if lt IE 9]-->
 <![endif]-->
         <!-- Css files -->
         <!-- Icons -->

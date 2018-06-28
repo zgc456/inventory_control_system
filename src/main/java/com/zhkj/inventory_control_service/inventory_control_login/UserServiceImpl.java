@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  * @author 郑国超
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
             request.getSession().setAttribute("userPassword",resultUserEntity.getUserPassword());
             // 选择记住我
             if(userVo.isRememberMe()){
+
                 Cookie userAccountCookie = new Cookie("userAccount",resultUserEntity.getUserAccount());
                 Cookie userPasswordCookie = new Cookie("userPassword",resultUserEntity.getUserPassword());
                 // 设置过期时间

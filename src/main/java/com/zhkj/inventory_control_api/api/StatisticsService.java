@@ -1,7 +1,9 @@
 package com.zhkj.inventory_control_api.api;
 
+import com.zhkj.inventory_control_api.dto.PercentageDTO;
 import com.zhkj.inventory_control_api.dto.StatisticsDTO;
 import com.zhkj.inventory_control_api.vo.StatisticsVO;
+import com.zhkj.inventory_control_dao.entity.FinancetypeEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_tools.Result;
 
@@ -20,6 +22,11 @@ public interface StatisticsService {
      */
     Result selectStatiscsEntityAll();
 
+    /**
+     * 查询当月财务统计
+     * @return
+     */
+    List<StatisticsEntity> financeStatuscs();
     /**
      * 删除所有统计表数据
      */
@@ -45,5 +52,11 @@ public interface StatisticsService {
      * @param response
      */
     void outPutExcelByStatistics(HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 计算本月收支百分比
+     * @return 返回收支情况
+     */
+     PercentageDTO incomeAndExpensesPercentage();
 
 }

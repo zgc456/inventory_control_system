@@ -31,4 +31,10 @@
     <delete id="delStatistics">
     delete from inventory_control.statistics
     </delete>
+    <select id="findStatisticsToIncome" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+    select * from inventory_control.statistics where financeTypeId=1;
+    </select>
+    <select id="findStatisticsToExpend" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+    select * from inventory_control.statistics where financeTypeId=2;
+    </select>
 </mapper>

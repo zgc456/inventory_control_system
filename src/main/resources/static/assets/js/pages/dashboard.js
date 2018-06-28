@@ -1,6 +1,5 @@
 //------------- Dashboard.js -------------//
 $(document).ready(function() {
-
 	//get object with colros from plugin and store it.
 	var objColors = $('body').data('sprFlat').getColors();
 	var colours = {
@@ -20,39 +19,141 @@ $(document).ready(function() {
 		textcolor: '#5a5e63',
 		gray: objColors.gray
 	}
-
 	//------------- Add carouse to tiles -------------//
 	$('.carousel-tile').carousel({
 		interval:   6000
 	});
-
  	//generate random number for charts
 	randNum = function(){
 		return (Math.floor( Math.random()* (1+150-50) ) ) + 80;
 	}
-
 	//------------- Earnings chart -------------//
 	$(function() {
 
-		//first line chart
-		var d1 = [];
-		//here we generate randomdata data for chart
-		for (var i = 0; i < 8; i++) {
-			d1.push([new Date(Date.today().add(i).days()).getTime(),randNum()]);
-		}
 
-		var chartMinDate = d1[0][0]; //first day
-    	var chartMaxDate = d1[7][0];//last day
+        $.ajax({
+            type: "GET",
+            url: "/getweek",
+            async:false,
+            success: function(data){
+                for (var i=0;i<data.data.forecast.length;i++){
+                    var week= data.data.forecast[i].date.split('日')[1];
+                    var showWeek=null;
+                    switch (week){
+                        case '星期一':
+                            showWeek="周一";
+                            break;
+                        case '星期二':
+                            showWeek="周二";
+                            break;
+                        case '星期三':
+                            showWeek="周三";
+                            break;
+                        case '星期四':
+                            showWeek="周四";
+                            break;
+                        case '星期五':
+                            showWeek="周五";
+                            break;
+                        case '星期六':
+                            showWeek="周六";
+                            break;
+                        case '星期七':
+                            showWeek="周天";
+                            break;
+                    }
+
+
+                    switch ( data.data.forecast[i].type){
+                        case '小雨':
+                            if (i==0){
+                                $("#title").append(" \n              " +
+									"         <p class=\"weather-location\"><strong>"+data.data.forecast[i].high+"--"+data.data.forecast[i].low+"</strong> LuoYang</p>")
+                            }
+                            //<canvas width="64" height="64" id="forecast-now"></canvas>
+                            $("#week"+i).append("<p class=\"weather-day\">"+week+"</p><p class=\"weather-degree\">"+data.data.forecast[i].high+"--"+data.data.forecast[i].low+"</p>")
+                            break;
+                        case '西北风':
+                        case '东北风':
+                            if (i==0){
+                           // <canvas width='64' height='64' id='forecast-day3'></canvas>
+                                $("#title").append(" \n              " +
+                                    "         <p class=\"weather-location\"><strong>"+data.data.forecast[i].high+"--"+data.data.forecast[i].low+"</strong> LuoYang</p>")
+                            }
+                            // <canvas width="64" height="64" id="forecast-day3">
+                            $("#week"+i).append("<p class=\"weather-day\">"+week+"</p><p class=\"weather-degree\">"+data.data.forecast[i].high+"-"+data.data.forecast[i].low+"</p>")
+
+                            break;
+                        case '多云':
+                       // <canvas width='64' height='64' id='forecast-day1'></canvas>
+                            if (i==0){
+                                $("#title").append("  \n              " +
+                                    "         <p class=\"weather-location\"><strong>"+data.data.forecast[i].high+"--"+data.data.forecast[i].low+"</strong> LuoYang</p>")
+                            }
+                            $("#week"+i).append("<p class=\"weather-day\">"+week+"</p>\n" +
+                                "                           \n" +
+                                "                           <p class=\"weather-degree\">"+data.data.forecast[i].high+"-"+data.data.forecast[i].low+"</p>")
+                            break;
+                        case '晴':
+                      //  <canvas width='64' height='64' id='forecast-day2'></canvas>
+                            if (i==0){
+                                $("#title").append(" \n              " +
+                                    "         <p class=\"weather-location\"><strong>"+data.data.forecast[i].high+"--"+data.data.forecast[i].low+"</strong> LuoYang</p>")
+                            }
+                            $("#week"+i).append("<p class=\"weather-day\">"+week+"</p>\n" +
+                                "                         \n" +
+                                "                           <p class=\"weather-degree\">"+data.data.forecast[i].high+"-"+data.data.forecast[i].low+"</p>")
+                            break;
+                    }
+
+                }
+            }
+        });
+
+
+		//支出
+		var d1 = [];
+        //收入
+        var dl1=[];
+		//here we generate randomdata data for chart
+        //Ajax调用处理
+        $.ajax({
+            type: "POST",
+            async:false,
+            url: "/theMouthStatistics",
+            data: "name=garfield&age=18",
+            success: function(data){
+            for (var i=0;i<data.length;i++){
+                if (data[i].financeTypeId==1){
+                    //收入
+                    dl1.push([new Date(data[i].statisticsCreateTime),data[i].financePrice]);
+                } else{
+                    //支出
+                    d1.push([new Date(data[i].statisticsCreateTime),data[i].financePrice]);
+                }
+            }
+            }
+        });
+
+        //
+        var chartMinDate = d1[0][0]; //first day
+    	// var chartMaxDate = d1[31][0];//last day
 
     	var tickSize = [1, "day"];
     	var tformat = "%d/%m/%y";
 
     	var total = 0;
     	//calculate total earnings for this period
-    	for (var i = 0; i < 8; i++) {
+    	for (var i = 0; i < d1.length; i++) {
 			total = d1[i][1] + total;
-		}
+        }
+        var total1 = 0;
+        //calculate total earnings for this period
+        for (var i = 0; i < dl1.length; i++) {
+            total1 = dl1[i][1] + total1;
+        }
 
+        var state=0;
     	var options = {
     		grid: {
 				show: true,
@@ -93,7 +194,15 @@ $(document).ready(function() {
 	        	noColumns: 0,
 	        	labelBoxBorderColor: null,
 	        	labelFormatter: function(label, series) {
-				    return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ 'Total: $'+ total +'</div>';
+	        	    if (state==0){
+                        //计算财务总和
+                        state+=1;
+                        return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ '收入: $'+ total +'</div>';
+                    }else{
+                        return '<div style="padding: 10px; font-size:20px;font-weight:bold;">'+ '支出: $'+ total1 +'</div>' ;
+                    }
+
+
 				},
 				backgroundColor: colours.blue,
     			backgroundOpacity: 0.5,
@@ -118,26 +227,26 @@ $(document).ready(function() {
 	        	mode: "time",
 	        	minTickSize: tickSize,
 	        	timeformat: tformat,
-	        	min: chartMinDate,
-	        	max: chartMaxDate,
 	        	tickLength: 0,
-	            
 	        }
     	}
-
-		var plot = $.plot($("#stats-earnings"),[{
-    			label: "Earnings", 
+			//折线图数据
+        var plot = $.plot($("#stats-earnings"),[{
+    			label: "Earnings",
     			data: d1,
-    		}], options
+    		},{
+                label: "123123123",
+                data: dl1,
+            }], options
     	);
+
+
 
 	});
 
 	//second bars chart
-    $(function () {	
-    	
+    $(function () {
     	var data = [ ["JAN", 1500], ["FEB", 1345], ["MAR", 1800], ["APR", 1670], ["MAY", 1780], ["JUN", 1500], ["JUL", 1350], ["AUG", 1700], ["SEP", 1890], ["OCT", 2000], ["NOV", 1950], ["DEC", 2000] ];
-    	
     	//Replicate the existing bar data to reproduce bar fill effect
     	var arr= [];
     	for (var i = 0; i <= data.length -1; i++) {
@@ -149,7 +258,6 @@ $(document).ready(function() {
     		sum = largest - data[i][1];
     		d1.push([data[i][0],sum]);
     	};
-
     	var options = {
     		series : {
 				stack: true
@@ -184,9 +292,12 @@ $(document).ready(function() {
 				tickLength: 0
 	        }
 		};
-		 
 		$.plot($("#stats-earnings-bars"), [data, d1], options);
 	});
+
+
+
+
 
 	//second donut chart
 	$(function () {
@@ -230,12 +341,20 @@ $(document).ready(function() {
 				defaultTheme: false
 			}
 		};
-		var data = [
-		    { label: "Coding",  data: 68, color: colours.red},
-		    { label: "Design",  data: 20, color: colours.green},
-		    { label: "SEO",  data: 12, color: colours.blue}
-		];
-	    $.plot($("#stats-category-earnings"), data, options);
+        //饼状图
+        var data1=null	 ;
+        $.ajax({
+            type: "POST",
+            url: "/getPercentage",
+            async:false,
+            success: function(data){
+                data1= [
+                    { label: "收入",  data: data.expend.split('%')[0], color: colours.red},
+                    { label: "支出",  data: data.income.split('%')[0], color: colours.green}
+                ];
+            }
+        });
+	    $.plot($("#stats-category-earnings"), data1, options);
 
 	});
 
@@ -339,6 +458,8 @@ $(document).ready(function() {
    	forecast.set("forecast-now", "rain");
    	forecast.set("forecast-day1", "partly-cloudy-day");
    	forecast.set("forecast-day2", "clear-day");
+    forecast.set("forecast-day7", "clear-day");
+    forecast.set("forecast-day8", "clear-day");
    	forecast.set("forecast-day3", "wind");
    	forecast.play();
 

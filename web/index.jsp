@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
         <meta charset="utf-8">
         <title>Dashboard</title>
         <!-- Mobile specific metas -->
@@ -371,13 +372,12 @@
                     </div>
                     <!-- End .row -->
                     <div class="row">
-                        <!-- End col-lg-6 -->
                         <div class="col-lg-6 col-md-6 sortable-layout">
                             <!-- Start col-lg-6 -->
                             <div class="panel panel-primary plain toggle panelMove panelClose panelRefresh">
                                 <!-- Start .panel -->
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><i class="im-bars"></i> Week Earnings</h4>
+                                    <h4 class="panel-title"><i class="im-bars"></i> Financial Statement</h4>
                                 </div>
                                 <div class="panel-body blue-bg">
                                     <div id="stats-earnings" style="width: 100%; height:250px;"></div>
@@ -391,7 +391,36 @@
                             </div>
                             <!-- End .panel -->
                         </div>
-                        <!-- End col-lg-6 -->
+
+                            <div class="col-lg-6 col-md-6 sortable-layout">
+                                <div class="weather-widget panel panel-primary plain toggle panelMove panelClose panelRefresh" id="spr_4">
+                                    <!-- Start .panel -->
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Weather</h4>
+                                        <div class="panel-controls panel-controls-hide" style="display: none;"><a href="#" class="panel-refresh"><i class="im-spinner6"></i></a><a href="#" class="toggle panel-minimize"><i class="im-minus"></i></a><a href="#" class="panel-close"><i class="im-close"></i></a></div></div>
+                                    <div class="panel-body blue-bg text-center" id="title">
+                                        <canvas width='64' height='64' id='forecast-day7'></canvas>
+                                    </div>
+                                    <div class="panel-footer white-bg text-center">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" id="week0">
+                                            <canvas width='64' height='64' id='forecast-day2'></canvas>
+                                        </div>
+                                        <!-- col-lg-3 end here -->
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" id="week1">
+                                            <canvas width='64' height='64' id='forecast-day1'></canvas>
+                                        </div>
+                                        <!-- col-lg-3 end here -->
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" id="week2">
+                                            <canvas width='64' height='64' id='forecast-day3'></canvas>
+                                        </div>
+                                        <!-- col-lg-3 end here -->
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" id="week3">
+                                            <canvas width='64' height='64' id='forecast-day8'></canvas>
+                                        </div>
+                                        <!-- col-lg-3 end here -->
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <!-- End .row -->
                     <!-- Page End here -->
@@ -453,5 +482,8 @@
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery.sprFlat.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/app.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/pages/dashboard.js"></script>
+    <script>
+
+    </script>
     </body>
 </html>

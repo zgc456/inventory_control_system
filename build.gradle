@@ -24,6 +24,13 @@ dependencies {
     compile "org.aspectj:aspectjweaver:1.7.4"
 // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.10'
+// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.5'
+
+// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.3.2'
+// https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
+    compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
 //springmvc + Spring Configuration
     compile "org.springframework:spring-web:$spring_version"
     compile "org.springframework:spring-webmvc:$spring_version"
@@ -39,6 +46,8 @@ dependencies {
     compile "org.springframework:spring-orm:$spring_version"
     compile "org.springframework:spring-tx:$spring_version"
     compile "org.springframework:spring-test:$spring_version"
+
+
 //MyBatis
     compile "org.mybatis:mybatis:3.4.4"
 //mybatis spring 插件

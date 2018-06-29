@@ -140,11 +140,22 @@ public class StatisticsImpl implements StatisticsService {
 
     @Override
     public Result selectStatiscsCondition(StatisticsVO statisticsVO) {
-        StatisticsEntity statisticsEntity=new StatisticsEntity();
-        statisticsEntity.setFinanceTypeId(statisticsVO.getFinanceTypeId());
-        statisticsEntity.setStatisticsTypeId(statisticsVO.getStatisticsTypeId());
-        //根据条件查询统计表
-        List<StatisticsEntity> statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity,statisticsVO.getEndTime(),statisticsVO.getStatisticsCreateTime());
+        List<StatisticsEntity> statisticsEntities=null;
+        List<StatisticsEntity> StatisticsEntity=   statisticsMapper.findStatisticsAll();
+        if ( StatisticsEntity.size()%TablePage.getPageCount()==0){
+            TablePage.setCount(StatisticsEntity.size()%TablePage.getPageCount());
+        }else{
+            TablePage.setCount(StatisticsEntity.size()/TablePage.getPageCount()+1);
+        }
+        if (statisticsVO==null){
+            statisticsEntities= statisticsMapper.findStatisticsCondition(null,null,null,(TablePage.getThisIndex()-1)*TablePage.getPageCount(),TablePage.getPageCount());
+        }else{
+            StatisticsEntity statisticsEntity=new StatisticsEntity();
+            statisticsEntity.setFinanceTypeId(statisticsVO.getFinanceTypeId());
+            statisticsEntity.setStatisticsTypeId(statisticsVO.getStatisticsTypeId());
+            //根据条件查询统计表
+            statisticsEntities= statisticsMapper.findStatisticsCondition(statisticsEntity,statisticsVO.getEndTime(),statisticsVO.getStatisticsCreateTime(),(TablePage.getThisIndex()-1)*TablePage.getPageCount(),TablePage.getPageCount());
+        }
         result.setSuccess(ServiceConstant.SUCCERSS);
         result.setData(ConverToDTO(statisticsEntities));
         return result;

@@ -34,13 +34,15 @@ public interface StatisticsMapper {
      * @param statisticsEntity 统计表实体类
      * @return
      */
-    List<StatisticsEntity> findStatisticsCondition(@Param("StatisticsEntity") StatisticsEntity statisticsEntity,@Param("endTime") String endTime,@Param("startTime") String startTime);
+    List<StatisticsEntity> findStatisticsCondition(@Param("StatisticsEntity") StatisticsEntity statisticsEntity,@Param("endTime") String endTime,@Param("startTime") String startTime,@Param("start") Integer start,@Param("end") Integer end);
 
     /**
      * 查询所有统计表数据
      * @return
      */
     List<StatisticsEntity> findStatisticsAll();
+
+    List<StatisticsEntity> findStatisticsByLimit(@Param("start") int start, @Param("end")int end);
 
     /**
      * 查询当月所有收入数据

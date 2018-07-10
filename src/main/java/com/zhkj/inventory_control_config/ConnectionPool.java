@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.io.IOException;
 @MapperScan("com.zhkj.inventory_control_dao.mapper")
 @ComponentScan("com.zhkj")
 @Configuration
+@EnableTransactionManagement
 public class ConnectionPool {
     @Autowired
     private PropertiesConfig propertiesConfig;

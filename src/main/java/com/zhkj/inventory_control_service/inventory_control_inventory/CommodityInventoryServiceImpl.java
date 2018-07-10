@@ -123,6 +123,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
 
     @Override
     public Result deleteCommodityByCommodityInventoryId(Integer commodityId) {
+        System.out.println(1);
         Result result = new Result();
         if(null != commodityId){
             CommodityinventoryEntity commodityinventoryEntity = commodityInventoryMapper

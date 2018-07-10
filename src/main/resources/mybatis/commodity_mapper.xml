@@ -4,8 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.CommodityMapper">
     <!-- 增加商品 -->
-    <insert id="insertCommodity">
-      insert into inventory_control.commodity (commodityName, commodityIntroduce, commodityBigPictureUrl) values (#{CommodityEntity.commodityName},#{CommodityEntity.commodityIntroduce},#{CommodityEntity.commodityBigPictureUrl})
+    <insert id="insertCommodity" parameterType="com.zhkj.inventory_control_dao.entity.CommodityEntity">
+        INSERT INTO inventory_control.commodity(commodityName,commodityIntroduce,supplierId)
+        VALUES (#{commodityEntity.commodityName},default,#{commodityEntity.supplierId})
     </insert>
     <!-- 删除商品 -->
     <delete id="delCommodity">
@@ -36,5 +37,18 @@
                 ${conditionSql}
             </if>
         </where>
+    </select>
+    <!-- 查询最后一个商品 -->
+    <select id="selectLastCommodityId" resultType="java.lang.Integer">
+        SELECT inventory_control.commodity.id
+        FROM inventory_control.commodity
+        ORDER BY inventory_control.commodity.id DESC
+        LIMIT 0,1
+    </select>
+    <!-- 根据商品名称查询商品数量 -->
+    <select id="selectCommodityByCommodityName" resultType="java.lang.Integer">
+        SELECT COUNT(inventory_control.commodity.id)
+        FROM inventory_control.commodity
+        WHERE inventory_control.commodity.commodityName  = #{commodityName}
     </select>
 </mapper>

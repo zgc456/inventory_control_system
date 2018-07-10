@@ -318,27 +318,27 @@
                             <div class="panel panel-default toggle">
                                 <!-- Start .panel -->
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">商品添加</h3>
+                                    <h3 class="panel-title">供应商添加</h3>
                                 </div>
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">供应商名称</label>
                                         <div class="col-lg-10">
-                                            <input name="supplier_name" type="text" class="form-control required">
+                                            <input id="supplier_name" type="text" class="form-control required">
                                         </div>
                                     </div>
                                     <div class="form-group"></div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">供应商电话</label>
                                         <div class="col-lg-10">
-                                            <input name="supplier_phone" type="text" class="form-control required">
+                                            <input id="supplier_phone" type="text" class="form-control required">
                                         </div>
                                     </div>
                                     <div class="form-group"></div>
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">供应商介绍</label>
                                         <div class="col-lg-10">
-                                            <textarea name="supplier_introduce" style="height: 200px;" class="form-control required"></textarea>
+                                            <textarea id="supplier_introduce" style="height: 200px;" class="form-control required"></textarea>
                                         </div>
                                     </div>
                                     <!-- End .form-group  -->
@@ -363,18 +363,43 @@
         </div>
         <script>
             function form_supplier() {
-                var name = $('supplier_name').val();
-                var phone = $('supplier_phone').val();
-                var introduce = $('supplier_introduce').val();
-                $.ajax({
-                    url :{},
-                    type : {},
-                    data : {},
-                    dataType : "json",
-                    function (data) {
-
+                var $supplierName = $('#supplier_name').val();
+                var $supplierPhone = $('#supplier_phone').val();
+                if("" != $supplierName && null != $supplierName){
+                    if("" != $supplierPhone && null != $supplierPhone){
+                       if($supplierPhone.length == 11){
+                           var $supplier = {};
+                           $supplier.supplierName = $supplierName;
+                           $supplier.supplierPhone = $supplierPhone;
+                           $supplier.supplierRemark = $('#supplier_introduce').val();
+                           var $jsonData = JSON.stringify($supplier);
+                           $.ajax(
+                               {
+                                   url:"<%=request.getContextPath()%>/insertSupplier",
+                                   type:"post",
+                                   data:{
+                                       json:$jsonData
+                                   },
+                                   dataType:"json",
+                                   success:function ($result) {
+                                       if($result.success){
+                                           layer.msg($result.message,{icon:6,time:1500});
+                                           location.href = "<%=request.getContextPath()%>/table-supplier-select.jsp";
+                                       }else {
+                                           layer.alert("添加失败",{icon:5,time:1500})
+                                       }
+                                   }
+                               }
+                           )
+                       }else {
+                           layer.msg("电话的格式为11位",{icon:5,time:1500})
+                       }
+                    }else {
+                        layer.msg("电话不能为空",{icon:5,time:1500})
                     }
-                });
+                }else {
+                    layer.msg("名称不能为空",{icon:5,time:1500})
+                }
             }
         </script>
         <!-- End #content -->

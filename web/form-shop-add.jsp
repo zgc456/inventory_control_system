@@ -168,7 +168,7 @@
                                 </li>
                             </ul>
                             <div class="chat-write">
-                                <form action="#" class="form-horizontal" role="form">
+                                <form class="form-horizontal" role="form">
                                     <div class="form-group">
                                         <textarea name="sendmsg" id="sendMsg" class="form-control elastic" rows="1"></textarea>
                                         <a role="button" class="btn" id="attach_photo_btn">
@@ -320,19 +320,18 @@
                                 </div>
                                 <div class="panel-body">
                                     <!-- 表单提交 -->
-                                    <form class="form-horizontal group-border hover-stripped" role="form" id="sumbitFrom">
+                                    <form class="form-horizontal group-border hover-stripped" id="submitFrom">
                                         <div class="form-group">
                                             <label class="col-lg-2 control-label">商品名称</label>
                                             <div class="col-lg-10">
-                                                <input type="text" class="form-control required" name="commodityName">
+                                                <input type="text" class="form-control required" id="commodityName">
+                                                <span style="width: 200px;height: 50px;color: #953b39;" id="commodityNameSpan"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group"></div>
-                                        <!-- End .form-group  -->
                                         <div class="form-group">
-                                            <label class="col-lg-2 control-label">商品介绍图片</label>
+                                            <label class="col-lg-2 control-label">供应商名称</label>
                                             <div class="col-lg-10">
-                                                <input type="file" name="commodityBigFile" id="bigFile">
+                                                <select id='supplierId' class="form-control"></select>
                                             </div>
                                         </div>
                                         <div class="form-group"></div>
@@ -350,7 +349,6 @@
                                                         <th class="per5">进货数量</th>
                                                         <th class="per5">警戒数量</th>
                                                         <th class="per5">商品单价</th>
-                                                        <th class="per5">商品展示图片</th>
                                                         <th class="per5">操作</th>
                                                     </tr>
                                                     </thead>
@@ -363,7 +361,7 @@
                                         <!-- End .form-group  -->
                                         <div class="form-group">
                                             <div class="col-lg-offset-2">
-                                                <button class="btn btn-default ml15" onclick="sumbit()">提交</button>
+                                                <input type="button" class="btn btn-default ml15" onclick="sumbit()" value="提交"></input>
                                             </div>
                                         </div>
                                         <!-- End .form-group  -->
@@ -392,14 +390,52 @@
             $(document).ready(function () {
                 appendTr();
                 appendOption();
+                appendSupplier();
             });
+            <!-- 提交数据 -->
             function sumbit() {
-                var $form = new FormData(document.getElementById("sumbitFrom"));
-                alert(JSON.stringify($form));
+                if(verifyFrom()){
+                    var $commodity = {};
+                    $commodity.commodityName = document.getElementById("commodityName").value;
+                    $commodity.supplier = document.getElementById("supplierId").value;
+                    $commodity.supplierName = $("#supplierId").find("option:selected").text();
+                    var $commodityNumber = [];
+                    var $commoditySecurityLine = [];
+                    var $commodityPrice = [];
+                    var $commoditySku = [];
+                    for(var i = 0;i < document.getElementsByName("shopDetail").length;i++){
+                        $commodityNumber[i] = document.getElementsByName("commodityNumber")[i].value;
+                        $commoditySecurityLine[i]= document.getElementsByName("commoditySecurityLine")[i].value;
+                        $commodityPrice[i] = document.getElementsByName("commodityPrice")[i].value;
+                        $commoditySku[i] = document.getElementsByName("commoditySku")[i].value;
+                    }
+                    $commodity.commodityNumber = $commodityNumber;
+                    $commodity.commoditySecurityLine = $commoditySecurityLine;
+                    $commodity.commodityPrice = $commodityPrice;
+                    $commodity.commoditySku = $commoditySku;
+                    var $jsonFromData = JSON.stringify($commodity);
+                    $.ajax(
+                        {
+                            url:"<%=request.getContextPath()%>/insertCommodity",
+                            type:"post",
+                            data:{
+                                json:$jsonFromData
+                            },
+                            dataType:"json",
+                            success:function ($resultData) {
+                                if($resultData.success){
+                                    layer.msg($resultData.message,{icon:6,time:1500})
+                                }
+                            }
+                        }
+                    )
+                }
             }
+            <!-- 清空规格数据 -->
             function cleanOptionText($option) {
                 $option.parentElement.children[0].value = "";
             }
+            <!-- 规格框追加数据 -->
             function appendOptionText($option) {
                 if($option.value > 0){
                     var $optionVale = $option.parentElement.children[0].value;
@@ -412,6 +448,7 @@
                     cleanOptionText($option);
                 }
             }
+            <!-- 规格下拉框添加数据 -->
             function appendOption() {
                 var $select = document.getElementsByName("shopDetail");
                 $.ajax(
@@ -434,12 +471,32 @@
                     }
                 )
             }
+            <!-- 获取供应商 -->
+            function appendSupplier() {
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSupplierAll",
+                        type:"POST",
+                        success:function ($resultData) {
+                            var $select = document.getElementById("supplierId");
+                            $select.innerHTML = "";
+                            $("<option value='-1'>请选择</option>").appendTo($select);
+                            for(var i = 0;i < $resultData.data.length;i++){
+                                var $option = $("<option value="+$resultData.data[i].id+">"+$resultData.data[i].supplierName+"</option>");
+                                $option.appendTo($select);
+                            }
+                        }
+                    }
+                )
+            }
+            <!-- 删除商品规格信息 -->
             function deleteTr($input) {
                 layer.confirm("要删除吗?",function () {
                     $input.parentElement.parentElement.remove();
                     layer.msg("删除成功",{icon:6,time:1500});
                 })
             }
+            <!-- 添加一行商品样式 -->
             function appendTr() {
                 var $table = document.getElementById("shop_table");
                 var $tr = $(
@@ -447,28 +504,25 @@
                     "                                                            <td>\n" +
                     "                                                                <div class=\"form-group\">\n" +
                     "                                                                    <div class=\"col-lg-10 col-md-10\" style=\"width: 250px;\">\n" +
-                    "                                                                        <input style=\"width: 250px;\" type=\"text\" disabled class=\"form-control tags\" name='shopDetailText' placeholder=\"请选择规格详细\">\n" +
-                    "                                                                            <select style=\"width: 250px;\" class=\"form-control\" name=\"shopDetail\" onchange='appendOptionText(this)'></select>\n" +
+                    "                                                                        <input style=\"width: 250px;\" type=\"text\" disabled class=\"form-control tags\" name='commoditySku' placeholder=\"请选择规格详细\">\n" +
+                    "                                                                            <select style=\"width: 250px;\" name='shopDetail' class=\"form-control\" onchange='appendOptionText(this)'></select>\n" +
                     "                                                                    </div>\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
-                    "                                                                    <input style=\"width: 100px;\" type=\"number\" class=\"form-control\" name='shopNumber' value=\"1\"  />\n" +
+                    "                                                                    <input style=\"width: 200px;\" type=\"number\" class=\"form-control\" name='commodityNumber' min='1' value=\"1\"  />\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
-                    "                                                                    <input style=\"width: 100px;\" class=\"form-control\" type=\"number\" name=\"shopSecurityLine\" value=\"1\" >\n" +
+                    "                                                                    <input style=\"width: 200px;\" class=\"form-control\" type=\"number\" name='commoditySecurityLine' min='1' value=\"1\" >\n" +
                     "                                                                </div>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <div class=\"col-lg-3 col-md-6\">\n" +
-                    "                                                                    <input style=\"width: 100px;\" class=\"form-control\" type=\"number\" name=\"shopPrice\" value=\"1.00\" >\n" +
+                    "                                                                    <input style=\"width: 200px;\" class=\"form-control\" type=\"number\" name='commodityPrice' min='1' value=\"1.00\" >\n" +
                     "                                                                </div>\n" +
-                    "                                                            </td>\n" +
-                    "                                                            <td>\n" +
-                    "                                                                <input type=\"file\" name=\"shopFile\"/>\n" +
                     "                                                            </td>\n" +
                     "                                                            <td>\n" +
                     "                                                                <input class=\"btn btn-primary btn-alt\" type=\"button\" onclick='deleteTr(this)' value=\"删除\" />\n" +
@@ -477,6 +531,41 @@
                 );
                 $tr.appendTo($table);
                 appendOption();
+            }
+            <!-- 验证表单 -->
+            function verifyFrom() {
+                var commodityName = document.getElementById("commodityName").value;
+                if(null == commodityName || "" == commodityName){
+                    layer.msg("商品名称不能为空",{icon:6,time:1500});
+                    return false
+                }
+                if(parseInt(document.getElementById("supplierId").value) < 0){
+                    layer.msg("请选择供应商",{icon:6,time:1500});
+                    return false
+                }
+                for(var i = 0;i < document.getElementsByName("shopDetail").length;i++){
+                    var $commodityNumber = document.getElementsByName("commodityNumber")[i].value;
+                    var $commoditySecurityLine = document.getElementsByName("commoditySecurityLine")[i].value;
+                    var $commodityPrice = document.getElementsByName("commodityPrice")[i].value;
+                    var $commoditySku = document.getElementsByName("commoditySku")[i].value;
+                    if("" == $commodityNumber || parseInt($commodityNumber) <= 0){
+                        layer.msg("商品数量格式不正确",{icon:6,time:1500});
+                        return false;
+                    }
+                    if("" == $commoditySecurityLine || parseInt($commoditySecurityLine) <= 0){
+                        layer.msg("商品警告数量格式不正确",{icon:6,time:1500});
+                        return false;
+                    }
+                    if("" == $commodityPrice || parseInt($commodityPrice) <= 0){
+                        layer.msg("商品价格格式不正确",{icon:6,time:1500});
+                        return false;
+                    }
+                    if(null == $commoditySku || "" == $commoditySku){
+                        layer.msg("商品规格不能为空",{icon:6,time:1500});
+                        return false;
+                    }
+                }
+                return true;
             }
         </script>
         <script>

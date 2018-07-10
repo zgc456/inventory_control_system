@@ -6,7 +6,7 @@ public class CommInventoryDto {
     private int id;
     private Integer commodityNumber;
     private Integer commoditySecurityLine;
-    private double commodityPrice;
+    private String commodityPrice;
     private String commoditySmallPictureUrl;
     private String[] commoditySku;
     private CommodityEntity commodity;
@@ -36,11 +36,11 @@ public class CommInventoryDto {
         this.commoditySecurityLine = commoditySecurityLine;
     }
 
-    public double getCommodityPrice() {
+    public String getCommodityPrice() {
         return commodityPrice;
     }
 
-    public void setCommodityPrice(double commodityPrice) {
+    public void setCommodityPrice(String commodityPrice) {
         this.commodityPrice = commodityPrice;
     }
 

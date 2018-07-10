@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
         userEntity.setUserPassword(userVo.getUserPassword());
         UserEntity resultUserEntity = userMapper.selectUserToLogin(userEntity);
         if(null != resultUserEntity){
+            // session永不过期
+            request.getSession().setMaxInactiveInterval(-1);
             // Session 中存储用户信息
             request.getSession().setAttribute("userId",resultUserEntity.getId());
             request.getSession().setAttribute("userName",resultUserEntity.getUserName());
@@ -98,7 +100,7 @@ public class UserServiceImpl implements UserService {
             int userId = GetSessionTools.getUserIdBySession(request);
             if(userMapper.updatePasswordByUserId(password,userId) > 0){
                 result.setSuccess(true);
-                result.setMessage(MessageConstant.PASSWOR_UPDATE_SUCCEED);
+                result.setMessage(MessageConstant.PASSWORD_UPDATE_SUCCEED);
             }
         }
         return result;

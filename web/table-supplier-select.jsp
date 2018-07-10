@@ -42,6 +42,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%=request.getContextPath()%>/static/assets/img/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="<%=request.getContextPath()%>/static/assets/img/ico/apple-touch-icon-57-precomposed.png">
         <link rel="icon" href="<%=request.getContextPath()%>/static/assets/img/ico/favicon.ico" type="image/png">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/static/assets/layui/css/layui.css" media="all">
         <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
         <meta name="msapplication-TileColor" content="#3399cc" />
     </head>
@@ -328,38 +329,16 @@
                                 <div class="panel-body">
                                     <table class="table">
                                         <thead>
-                                            <tr>
-                                                <th class="per5">
-                                                    <label class="checkbox">
-                                                        <input class="check-all" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    </label>
-                                                </th>
-                                                <th class="per15">名称</th>
-                                                <th class="per15">电话</th>
-                                                <th class="per35">介绍</th>
-                                                <th class="per10">操作</th>
-                                            </tr>
+                                        <tr>
+                                            <th class="per10">编号</th>
+                                            <th class="per15">名称</th>
+                                            <th class="per15">电话</th>
+                                            <th class="per10">操作</th>
+                                        </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input class="check" type="checkbox" value="option2">
-                                                    </label>
-                                                </td>
-                                                <td>Jacob Olsen</td>
-                                                <td>Developer</td>
-                                                <td>2530$</td>
-                                                <td>
-                                                    <div class="col-lg-3 col-md-6" style="width: 200px;">
-                                                        <input class="btn btn-primary btn-alt" type="button" value="修改" onclick="updateSupplier()"/>
-                                                        <input class="btn btn-primary btn-alt" type="button" value="删除" onclick="deleteSupplier()"/>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <tbody id="supplier_table">
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                             <!-- End .panel -->
@@ -372,13 +351,175 @@
             </div>
             <!-- End .content-wrapper -->
             <div class="clearfix"></div>
+            <div id="supplier_update" style="width: 1000px;height: 550px;margin: 0px auto;display: none;">
+                <div class="panel-body" style="margin: 0px auto;width: 800px;height: 400px;padding-top: 100px;">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">供应商名称</label>
+                        <div class="col-lg-10">
+                            <input id="supplier_name" type="text" class="form-control required">
+                        </div>
+                    </div>
+                    <div class="form-group"></div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label class="col-lg-2 control-label">供应商电话</label>
+                        <div class="col-lg-10">
+                            <input id="supplier_phone" type="text" class="form-control required">
+                        </div>
+                    </div>
+                    <div class="form-group"></div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label class="col-lg-2 control-label">供应商介绍</label>
+                        <div class="col-lg-10">
+                            <textarea id="supplier_introduce" style="height: 200px;" class="form-control required"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+       <script src="<%=request.getContextPath()%>/static/assets/layui/layui.js"></script>
         <script>
-            function updateSupplier() {
-
+            $(document).ready(function () {
+                appendTr();
+            })
+            function updateSupplier($td) {
+                var $supplierId = $td.parentElement.parentElement.parentElement.children[0].innerText;
+                layer.open(
+                    {
+                        type: 1,
+                        closeBtn: 1,
+                        title: "修改供应商信息",
+                        area: ['1000px', '650px'],
+                        content: $("#supplier_update"),
+                        btn:['提交','取消'],
+                        success:function () {
+                            $.ajax(
+                                {
+                                    url:"<%=request.getContextPath()%>/selectSupplier",
+                                    type:"post",
+                                    data:{
+                                        supplierId:$supplierId
+                                    },
+                                    success:function ($resultData) {
+                                        if($resultData.success){
+                                            $("#supplier_name").val($resultData.data.supplierName);
+                                            $("#supplier_phone").val($resultData.data.supplierPhone);
+                                            $("#supplier_introduce").val($resultData.data.supplierRemark);
+                                        }
+                                    }
+                                }
+                            )
+                        },
+                        yes:function () {
+                            var $supplierName = document.getElementById("supplier_name").value;
+                            var $supplierPhone = document.getElementById("supplier_phone").value;
+                            var $supplierIntroduce = document.getElementById("supplier_introduce").value;
+                            var $supplier = {}
+                            $supplier.supplierName = $supplierName;
+                            $supplier.supplierPhone = $supplierPhone;
+                            if("" != $supplierName && null != $supplierName){
+                                if("" != $supplierPhone && null != $supplierPhone){
+                                    if($supplierPhone.length == 11){
+                                        $supplier.supplierRemark = $supplierIntroduce;
+                                        $supplier.id = $supplierId;
+                                        var $supplierJson = JSON.stringify($supplier);
+                                        $.ajax(
+                                            {
+                                                url:"<%=request.getContextPath()%>/updateSupplier",
+                                                type:"post",
+                                                data:{
+                                                    json:$supplierJson
+                                                },
+                                                dataType:"json",
+                                                success:function ($resultData) {
+                                                    if($resultData.success){
+                                                        layer.msg($resultData.message,{icon:6,time:1500})
+                                                        appendTr();
+                                                        layer.close();
+                                                    }
+                                                }
+                                            }
+                                        )
+                                    }else {
+                                        layer.msg("电话的格式位11位",{icon:5,time:1500})
+                                    }
+                                }else {
+                                    layer.msg("电话不能为空",{icon:5,time:1500})
+                                }
+                            }else {
+                                layer.msg("名称不能为空",{icon:5,time:1500})
+                            }
+                        },
+                        btn2:function () {
+                            layer.close();
+                            $("#supplier_update").css({display:"none"})
+                            clearForm();
+                        },
+                        cancel:function () {
+                            $("#supplier_update").css({display:"none"})
+                            clearForm();
+                        }
+                    }
+                )
             }
-            function deleteSupplier() {
-                if(confirm("是否删除?")){}
+            function clearForm() {
+                document.getElementById("supplier_name").value = "";
+                document.getElementById("supplier_phone").value = "";
+                document.getElementById("supplier_introduce").value = "";
+            }
+            function deleteSupplier($td) {
+                var $supplierId = $td.parentElement.parentElement.parentElement.children[0].innerText;
+                layer.confirm("是否删除",{
+                    btn:['确定','取消']
+                },function () {
+                    $.ajax(
+                        {
+                            url:"<%=request.getContextPath()%>/deleteSupplier",
+                            type:"post",
+                            data:{
+                                supplierId:$supplierId
+                            },
+                            success:function ($resultData) {
+                                if($resultData.success){
+                                    layer.msg($resultData.message,{icon:6,time:1500});
+                                    appendTr();
+                                }
+                            }
+                        }
+                    )
+                })
+            }
+            function clearForm() {
+                document.getElementById("supplier_name").value = "";
+                document.getElementById("supplier_phone").value = "";
+                document.getElementById("supplier_introduce").value = "";
+            }
+            function appendTr() {
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSupplierAll",
+                        type:"POST",
+                        success:function ($resultData) {
+                            var $tbody = document.getElementById("supplier_table");
+                            $tbody.innerHTML = "";
+                            for(var i = 0;i < $resultData.data.length;i++){
+                                var $tr = $(
+                                    "<tr>\n" +
+                                    "                                            <td>"+$resultData.data[i].id+"</td>"+
+                                    "                                            <td>"+$resultData.data[i].supplierName+"</td>\n" +
+                                    "                                            <td>"+$resultData.data[i].supplierPhone+"</td>\n" +
+                                    "                                            <td>\n" +
+                                    "                                                <div class=\"col-lg-3 col-md-6\" style=\"width: 200px;\">\n" +
+                                    "                                                    <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"修改\" onclick=\"updateSupplier(this)\"/>\n" +
+                                    "                                                    <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"删除\" onclick=\"deleteSupplier(this)\"/>\n" +
+                                    "                                                </div>\n" +
+                                    "                                            </td>\n" +
+                                    "                                        </tr>"
+                                )
+                                $tr.appendTo($tbody);
+                            }
+                        }
+                    }
+                )
             }
         </script>
         <!-- End #content -->
@@ -422,7 +563,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/icheck/jquery.icheck.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/tinymce/tinymce.min.js"></script>
-        <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/checkall/jquery.checkAll.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/misc/highlight/highlight.pack.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/misc/countTo/jquery.countTo.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery.sprFlat.js"></script>

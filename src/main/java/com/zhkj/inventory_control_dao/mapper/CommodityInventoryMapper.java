@@ -16,21 +16,20 @@ import java.util.List;
 public interface CommodityInventoryMapper {
     /**
      * 增加一条新的库存
-     * @param commodityinventoryEntity 库存实体类
      */
-    void insertCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
+    int insertCommodityInventory(@Param("commodityInventorySql") String commodityInventorySql);
 
     /**
      * 删除一条商品库存
      * @param id  商品库存id
      */
-    void delCommodityInventory(@Param("id") int id);
+    int delCommodityInventory(@Param("id") int id);
 
     /**
      * 修改商品信息
      * @param commodityinventoryEntity 商品库存实体类
      */
-    void updateCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
+    int updateCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
 
     /**
      * 查询商品所有商品库存
@@ -69,6 +68,7 @@ public interface CommodityInventoryMapper {
      * @return 商品列表
      */
     List<CommodityinventoryEntity> listCommodityByCondition(@Param("condition") String condition);
+
 
     /**
      * 根据商品库存 id 查询数据

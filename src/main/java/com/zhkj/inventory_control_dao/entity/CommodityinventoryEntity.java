@@ -20,7 +20,7 @@ public class CommodityinventoryEntity {
     private double commodityPrice;
     //商品图片
     private String commoditySmallPictureUrl;
-    //库存规格关系json 引用topic 自己查询所属规格
+    //库存规格关系
     private String commoditySku;
     //商品外键id
     private Integer commodityId;

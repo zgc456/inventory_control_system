@@ -40,6 +40,9 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%=request.getContextPath()%>/static/assets/img/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="<%=request.getContextPath()%>/static/assets/img/ico/apple-touch-icon-57-precomposed.png">
         <link rel="icon" href="<%=request.getContextPath()%>/static/assets/img/ico/favicon.ico" type="image/png">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/static/assets/layer/mobile/need/layer.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/static/assets/layui/css/layui.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/static/assets/css/jquery.dataTables.css">
         <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
         <meta name="msapplication-TileColor" content="#3399cc" />
     </head>
@@ -330,7 +333,7 @@
                                             </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
-                                            <input type="date" class="form-control" id="select_commodityCreateTime">
+                                            <span style="float: left;font-size: 16px;">起始日期:</span><input type="date" class="form-control" id="select_commodityCreateTime">
                                         </div>
                                     </div>
                                     <div style="width: 200px;height: 100px;float: right;">
@@ -343,20 +346,19 @@
                                     <h4 class="panel-title">供应商列表</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <table class="table">
+                                    <table class="table" id="showShopList">
                                         <thead>
                                             <tr>
-                                                <th class="pre10">编号</th>
-                                                <th class="per10">商品名称</th>
-                                                <th class="per15">商品规格</th>
-                                                <th class="per10">商品数量</th>
-                                                <th class="per10">商品单价</th>
-                                                <th class="per20">介绍</th>
-                                                <th class="per10">添加时间</th>
-                                                <th class="per10">操作</th>
+                                                <th class="pre10" style="text-align: center;">编号</th>
+                                                <th class="per15" style="text-align: center;">商品名称</th>
+                                                <th class="per20" style="text-align: center;">商品规格</th>
+                                                <th class="per10" style="text-align: center;">商品数量</th>
+                                                <th class="per10" style="text-align: center;">商品单价</th>
+                                                <th class="per15" style="text-align: center;">添加时间</th>
+                                                <th class="per10" style="text-align: center;">操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="showShopList"></tbody>
+                                        <tbody></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -375,21 +377,121 @@
                 </ul>
             </div>
         </div>
+        <div id="updateCommodity" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
+            <div style="width: 600px;height: 300px;margin: 0px auto">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品名称</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="commodityName">
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品规格</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="commoditySku" disabled>
+                        <select style="width: 70%;" id="shopDetail" class="form-control" onchange="appendOptionText(this)">
+                        </select>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">进货数量</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commodityNumber">
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group" >
+                    <label class="col-lg-2 control-label">商品警戒值</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commoditySecurityLine">
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group" >
+                    <label class="col-lg-2 control-label">商品单价</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commodityPrice">
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
+            var table;
             $(document).ready(function () {
-                $.ajax(
-                    {
-                        url:"<%=request.getContextPath()%>/listCommodityHomePage",
-                        type:"post",
-                        success:function ($result) {
-                            if($result.success){
-                                var $page = document.getElementById("page");
-                                appendCommodit($result);
-                                appendPage($result,$page);
+                table = $("#showShopList").dataTable({
+                    "language":"${pageContext.request.contextPath}/chat/zh_CN.txt",
+                    "processing":false,
+                    "searching":false,
+                    "bPaginate" : true,
+                    "bLengthChange":false,
+                    "info":false,
+                    "bStateSave": false,
+                    "sPaginationType":"full_numbers",
+                    "bFilter": false,
+                    "iDisplayLength": 10,
+                    "bServerSide": true,
+                    "serverSide":true,
+                    "ajax":{
+                        type:"POST",
+                        data: function(d) {
+                            return $.extend({}, d, {
+                                "commodityName":$("#select_commodityName").val(),
+                                "commoditySku":$("#select_commoditySpecification").val(),
+                                "createTime":$("#select_commodityCreateTime").val()
+                            });
+                        },
+                        url:"<%=request.getContextPath()%>/listCommodityByCondition"
+                    },
+                    "aoColumns":[
+                        {
+                            "mData": "id",
+                            "bSortable": false,
+                            "sWidth": "5%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "commodity.commodityName",
+                            "bSortable": false,
+                            "sWidth": "20%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "commoditySku",
+                            "bSortable": false,
+                            "sWidth": "10%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "commodityNumber",
+                            "bSortable": false,
+                            "sWidth": "15%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "commodityPrice",
+                            "bSortable": false,
+                            "sWidth": "15%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "commodityCreateTime",
+                            "bSortable": false,
+                            "sWidth": "10%",
+                            "sClass": "center"
+                        },
+                        {
+                            "mData": "id",
+                            "bSortable": false,
+                            "sWidth": "15%",
+                            "sClass": "center",
+                            "mRender":function (data,type,row) {
+                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="修改" onclick="updateCommodity('+row.id+')" /><input class="btn btn-primary btn-alt" type="button" value="删除" /></div></td>'
                             }
                         }
-                    }
-                )
+                    ]
+                });
                 $.ajax(
                     {
                         url:"<%=request.getContextPath()%>/listSpecification",
@@ -409,112 +511,108 @@
                 )
             })
             function sumbitSelect() {
-                var $select_CommodityName = document.getElementById("select_commodityName");
-                var $select_CommoditySku = document.getElementById("select_commoditySpecification");
-                var $select_CommodityCreateTime = document.getElementById("select_commodityCreateTime");
-                var $commodityVo = {};
-                $commodityVo.commodityName = $select_CommodityName.value;
-                if($select_CommoditySku.value > 0){
-                    $commodityVo.commoditySku = $select_CommoditySku.value
-                };
-                $commodityVo.createTime = $select_CommodityCreateTime.value;
-                $commodityVo.customPage = 1;
-                $json = JSON.stringify($commodityVo);
-                $.ajax(
-                    {
-                        url:"<%=request.getContextPath()%>/listCommodityByCondition",
-                        type:"post",
-                        data: {
-                            json: $json
-                        },
-                        dataType : "json",
-                        success:function ($result) {
-                            if($result.success){
-                                var $page = document.getElementById("page");
-                                appendCommodit($result);
-                                appendPage($result,$page);
-                            }
-                        }
-                    }
-                )
+                table.fnDraw();
             }
+            <!-- 删除商品 -->
             function isShop() {
-                if(confirm("是否删除?")){
-                    $.ajax({
+                layer.confirm("是否删除",{
+                    btn:['确认','取消']
+                },function () {
+                    $.ajax(
+                        {
+                            url:"<%=request.getContextPath()%>/",
+                            type:"post",
+                            data:{
 
-                    })
-                }
-            }
-            function skipPage($li,identifier) {
-                var $skip = {};
-                if(identifier > 0){
-                    $skip.skip = identifier;
-                }else{
-                    $skip.customPage = $li.innerText;
-                }
-                $json = JSON.stringify($skip);
-                $.ajax(
-                    {
-                        url:"<%=request.getContextPath()%>/listCommodityByCondition",
-                        type:"post",
-                        data: {
-                            json: $json
-                        },
-                        dataType : "json",
-                        success:function ($result) {
-                            if($result.success){
-                                var $page = document.getElementById("page");
-                                appendCommodit($result);
-                                appendPage($result,$page);
+                            },
+                            success:function ($resultData) {
+                                if($resultData.success){
+
+                                }
                             }
+                        }
+                    )
+                })
+            }
+            <!-- 修改商品 -->
+            function updateCommodity($input) {
+                var $commodityInventoryId = $input.parentElement.parentElement.parentElement.children[0].innerHTML;
+                layer.open(
+                    {
+                        type:1,
+                        title:"修改商品",
+                        closeBtn:0,
+                        area:['800px','500px'],
+                        content:$("#updateCommodity"),
+                        btn:['确认','取消'],
+                        success:function () {
+                            $.ajax(
+                                {
+                                    url:"<%=request.getContextPath()%>/selectCommodity",
+                                    type:"post",
+                                    data:{
+                                        commodityId:$commodityInventoryId
+                                    },
+                                    success:function ($resultData) {
+                                        if($resultData.success){
+                                            document.getElementById("commodityName").value = $resultData.data[0].commodity.commodityName;
+                                            document.getElementById("commoditySku").value = $resultData.data[0].commoditySku;
+                                            document.getElementById("commodityNumber").value = $resultData.data[0].commodityNumber;
+                                            document.getElementById("commoditySecurityLine").value = $resultData.data[0].commoditySecurityLine;
+                                            document.getElementById("commodityPrice").value = $resultData.data[0].commodityPrice;
+                                            appendOption();
+                                        }
+                                    }
+                                }
+                            )
+                        },
+                        yes:function () {
+
+                        },
+                        btn2:function () {
+                            $("#updateCommodity").css({display:"none"})
                         }
                     }
                 )
             }
-            function appendPage($result,$page) {
-                $page.innerHTML = "";
-                var $li = $("<li onclick='skipPage(this,1)'><a><i class=\"en-arrow-left8\"></i></a></li>");
-                $li.appendTo($page);
-                for(var j = 0;j < $result.data.pageCount;j++){
-                    $li = $(
-                        "<li onclick='skipPage(this,-1)'><a>"+ (j + 1) +"</a></li>"
-                    );
-                    $li.appendTo($page);
-                }
-                $li = $("<li onclick='skipPage(this,2)'><a><i class=\"en-arrow-right8\"></i></a></li>");
-                $li.appendTo($page);
+            function cleanOptionText($option) {
+                $option.parentElement.children[0].value = "";
             }
-            function appendCommodit($result) {
-                var $tbody = document.getElementById("showShopList");
-                $tbody.innerHTML = "";
-                var $pageData = $result.data.pageData;
-                for(var i = 0;i < $pageData.length;i++){
-                    var $tr = $(
-                        "<tr>" +
-                        "   <td>"+$pageData[i].id+"</td>"+
-                        "   <td>"+$pageData[i].commodity.commodityName+"</td>\n" +
-                        "   <td>"+$pageData[i].commoditySku+"</td>\n" +
-                        "   <td>"+$pageData[i].commodityNumber+"</td>\n" +
-                        "   <td>"+$pageData[i].commodityPrice+"</td>\n" +
-                        "   <td>"+$pageData[i].commodity.commodityIntroduce+"</td>\n" +
-                        "   <td>"+$pageData[i].commodityCreateTime+"</td>\n" +
-                        "   <td>\n" +
-                        "       <div class=\"col-lg-3 col-md-6\" style=\"width: 200px;\">\n" +
-                        "            <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"修改\" />\n" +
-                        "            <input class=\"btn btn-primary btn-alt\" type=\"button\" value=\"删除\" />\n" +
-                        "       </div>\n" +
-                        "  </td>\n" +
-                        "</tr>"
-                    )
-                    $tr.appendTo($tbody);
+            <!-- 规格框追加数据 -->
+            function appendOptionText($option) {
+                if($option.value > 0){
+                    var $optionVale = $option.parentElement.children[0].value;
+                    if($optionVale.split(" ").length < 6){
+                        $option.parentElement.children[0].value = $optionVale + " " + $option[$option.value].text
+                    }else {
+                        layer.msg("最多选5个规格个哟",{icon:6,time:1500});
+                    }
+                }else {
+                    cleanOptionText($option);
                 }
+            }
+            function appendOption() {
+                var $select = document.getElementById("shopDetail");
+                $.ajax(
+                    {
+                        url:"<%=request.getContextPath()%>/listSpecification",
+                        type:"post",
+                        success:function ($resultData) {
+                            $select.innerHTML = "";
+                            var $option = $("<option value='-1'>清空</option>")
+                            $option.appendTo($select);
+                            for(var j = 0;j < $resultData.data.length;j++) {
+                                var $option = $(
+                                    "<optgroup label=" + $resultData.data[j].topicName + ">" + $resultData.data[j].detailed + "</optgroup>"
+                                );
+                                $option.appendTo($select);
+                            }
+                        }
+                    }
+                )
             }
         </script>
-        <!-- End #content -->
-        <!-- Javascripts -->
-        <!-- Load pace first -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
-        <!-- Important javascript libs(put in all pages) -->
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>
         <script>
         window.jQuery || document.write('<script src="<%=request.getContextPath()%>/static/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
@@ -523,37 +621,27 @@
         <script>
         window.jQuery || document.write('<script src="<%=request.getContextPath()%>/static/assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
         </script>
-        <!--[if lt IE 9]>
-  <script type="text/javascript" src="<%=request.getContextPath()%>/static/assets/js/libs/excanvas.min.js"></script>
-  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <script type="text/javascript" src="<%=request.getContextPath()%>/static/assets/js/libs/respond.min.js"></script>
-<![endif]-->
-        <!-- Bootstrap plugins -->
+        <script src="<%=request.getContextPath()%>/static/assets/layui/layui.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/bootstrap/bootstrap.js"></script>
-        <!-- Core plugins ( not remove ever) -->
-        <!-- Handle responsive view functions -->
         <script src="<%=request.getContextPath()%>/static/assets/js/jRespond.min.js"></script>
-        <!-- Custom scroll for sidebars,tables and etc. -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
-        <!-- Resize text area in most pages -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/autosize/jquery.autosize.js"></script>
-        <!-- Proivde quick search for many widgets -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/quicksearch/jquery.quicksearch.js"></script>
-        <!-- Bootbox confirm dialog for reset postion on panels -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/ui/bootbox/bootbox.js"></script>
-        <!-- Other plugins ( load only nessesary plugins for every page) -->
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/moment/moment.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/charts/sparklines/jquery.sparkline.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/charts/pie-chart/jquery.easy-pie-chart.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/icheck/jquery.icheck.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/tinymce/tinymce.min.js"></script>
-        <script src="<%=request.getContextPath()%>/static/assets/plugins/forms/checkall/jquery.checkAll.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/misc/highlight/highlight.pack.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/misc/countTo/jquery.countTo.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/jquery.sprFlat.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/app.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/pages/tables.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/jquery.dataTables.bootstrap.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/dataTables.select.js"></script>
     </body>
 </html>

@@ -16,6 +16,8 @@ public class CommodityEntity {
     private String commodityIntroduce;
     //商品图片路径
     private String commodityBigPictureUrl;
+    // 商品供应商
+    private Integer supplierId;
 
 
     public int getId() {
@@ -50,4 +52,11 @@ public class CommodityEntity {
         this.commodityBigPictureUrl = commodityBigPictureUrl;
     }
 
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
+    }
 }

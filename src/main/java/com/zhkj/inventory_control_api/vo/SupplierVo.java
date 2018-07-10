@@ -13,6 +13,7 @@ public class SupplierVo {
     private String supplierName;
     //供应商联系方式
     private String supplierPhone;
+    private String supplierRemark;
 
     public int getId() {
         return id;
@@ -38,4 +39,11 @@ public class SupplierVo {
         this.supplierPhone = supplierPhone;
     }
 
+    public String getSupplierRemark() {
+        return supplierRemark;
+    }
+
+    public void setSupplierRemark(String supplierRemark) {
+        this.supplierRemark = supplierRemark;
+    }
 }

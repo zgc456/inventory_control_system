@@ -1,0 +1,38 @@
+<!-- 操作日志表 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhkj.inventory_control_dao.mapper.OperationLogMapper">
+    <select id="listOperationLogLimit" resultType="com.zhkj.inventory_control_dao.entity.OperationlogEntity">
+        SELECT * FROM inventory_control.operationlog
+        <where>
+            <where>
+                <if test="_parameter.containsKey('condition')">
+                    ${condition}
+                </if>
+            </where>
+        </where>
+        ORDER BY operationCreateTime DESC
+        LIMIT #{startNumber},#{lengthNumber}
+    </select>
+    <select id="selectOperationLogByOperationId" parameterType="java.lang.Integer" resultType="com.zhkj.inventory_control_dao.entity.OperationlogEntity">
+        SELECT * FROM inventory_control.operationlog
+        WHERE operationlog.id = #{operationId}
+    </select>
+    <select id="countOperationLog" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM inventory_control.operationlog
+        <where>
+            <if test="_parameter.containsKey('condition')">
+                ${condition}
+            </if>
+        </where>
+    </select>
+    <insert id="insertOperationLog" parameterType="com.zhkj.inventory_control_dao.entity.OperationlogEntity">
+      INSERT INTO operationlog(operationUserName, operationModel, operationModelAction, operationDescribe, operationCreateTime)
+      VALUES (#{operation.operationUserName},#{operation.operationModel},#{operation.operationModelAction},#{operation.operationDescribe},now())
+    </insert>
+    <delete id="deleteOperationLog" parameterType="java.lang.Integer">
+        DELETE FROM inventory_control.operationlog
+        WHERE id = #{operationLogId}
+    </delete>
+</mapper>

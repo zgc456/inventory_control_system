@@ -18,19 +18,19 @@ public interface CommodityMapper {
      * 增加商品
      * @param commodityEntity 商品实体类
      */
-    void insertCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
+    int insertCommodity(@Param("commodityEntity")CommodityEntity commodityEntity);
 
     /**
      * 删除商品
      * @param id 删除的商品id
      */
-    void delCommodity(@Param("id") int id);
+    int delCommodity(@Param("id") int id);
 
     /**
      * 修改商品
      * @param commodityEntity 商品实体类
      */
-    void updateCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
+    int updateCommodity(@Param("CommodityEntity")CommodityEntity commodityEntity);
 
     /**
      *  查找商品
@@ -59,4 +59,16 @@ public interface CommodityMapper {
      * @return 商品列表
      */
     List<CommodityEntity> listCommodityByCondition(@Param("conditionSql") String conditionSql);
+
+    /**
+     * 根据商品名称查询商品
+     * @param commodityName 商品名称
+     * @return 符号条件的个数
+     */
+    Integer selectCommodityByCommodityName(@Param("commodityName") String commodityName);
+    /**
+     * 查找最后一个商品的id
+     * @return 商品id
+     */
+    Integer selectLastCommodityId();
 }

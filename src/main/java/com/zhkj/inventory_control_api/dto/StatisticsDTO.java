@@ -23,7 +23,7 @@ public class StatisticsDTO{
     //财务类型
     private String financeType;
     //交易金额
-    private BigDecimal financePrice;
+    private double financePrice;
 
     public String getFinanceType() {
         return financeType;
@@ -33,11 +33,11 @@ public class StatisticsDTO{
         this.financeType = financeType;
     }
 
-    public BigDecimal getFinancePrice() {
+    public double getFinancePrice() {
         return financePrice;
     }
 
-    public void setFinancePrice(BigDecimal financePrice) {
+    public void setFinancePrice(double financePrice) {
         this.financePrice = financePrice;
     }
 

@@ -11,21 +11,34 @@
     <select id="findStatisticsAll" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
         select * from inventory_control.statistics ;
     </select>
+    <select id="findStatisticsByLimit" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+        select * from inventory_control.statistics limit #{start},#{end};
+    </select>
     <!-- 根据条件查询统计表 根据时间查找 根据进出退货查找 根据财务收支查找-->
     <select id="findStatisticsCondition" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
         select * from inventory_control.statistics where 1=1
-        <if test="statisticsCreateTime!=null">
-            and statisticsCreateTime like %#{StatisticsEntity.statisticsCreateTime}%
+        <if test="startTime!=null">
+            and statisticsCreateTime &gt; #{startTime}
         </if>
-        <if test="statisticsTypeId>0">
+        <if test="endTime!=null">
+            and statisticsCreateTime &lt;  #{endTime}
+        </if>
+        <if test="StatisticsEntity.statisticsTypeId>0">
             and statisticsTypeId = #{StatisticsEntity.statisticsTypeId}
         </if>
-        <if test="financeTypeId>0">
+        <if test="StatisticsEntity.financeTypeId>0">
             and  financeTypeId = #{StatisticsEntity.financeTypeId}
         </if>
+        limit #{start},#{end}
     </select>
     <!-- 删除统计表中所有的数据 -->
     <delete id="delStatistics">
     delete from inventory_control.statistics
     </delete>
+    <select id="findStatisticsToIncome" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+    select * from inventory_control.statistics where financeTypeId=1;
+    </select>
+    <select id="findStatisticsToExpend" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
+    select * from inventory_control.statistics where financeTypeId=2;
+    </select>
 </mapper>

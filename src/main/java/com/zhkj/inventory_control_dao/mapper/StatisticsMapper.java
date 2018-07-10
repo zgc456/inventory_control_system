@@ -4,6 +4,7 @@ import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -33,13 +34,27 @@ public interface StatisticsMapper {
      * @param statisticsEntity 统计表实体类
      * @return
      */
-    List<StatisticsEntity> findStatisticsCondition(@Param("StatisticsEntity") StatisticsEntity statisticsEntity);
+    List<StatisticsEntity> findStatisticsCondition(@Param("StatisticsEntity") StatisticsEntity statisticsEntity,@Param("endTime") String endTime,@Param("startTime") String startTime,@Param("start") Integer start,@Param("end") Integer end);
 
     /**
      * 查询所有统计表数据
      * @return
      */
     List<StatisticsEntity> findStatisticsAll();
+
+    List<StatisticsEntity> findStatisticsByLimit(@Param("start") int start, @Param("end")int end);
+
+    /**
+     * 查询当月所有收入数据
+     * @return 收入实体类
+     */
+    List<StatisticsEntity> findStatisticsToIncome();
+
+    /**
+     * 查询当月所有支出数据
+     * @return 支出实体类
+     */
+    List<StatisticsEntity> findStatisticsToExpend();
 
 
 

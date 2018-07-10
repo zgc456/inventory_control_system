@@ -2,26 +2,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhkj.inventory_control_dao.mapper.MessageMapper">
-    <!-- 查询所有消息 -->
-    <select id="listMessageAll" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
-        SELECT * FROM inventory_control.message
-    </select>
-    <select id="listMessageByUnread" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
-        SELECT * FROM inventory_control.message
-        WHERE messageStatus = 2
-    </select>
-    <!-- 根据条件查询消息 -->
-    <select id="listMessageByCondition" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
-        SELECT * FROM inventory_control.message
-        <where>
-            <if test="_parameter.containsKey('conditionSql')">
-                ${conditionSql}
-            </if>
-        </where>
-    </select>
+
     <!-- 添加消息 -->
-    <insert id="insertMessage" parameterType="com.zhkj.inventory_control_dao.entity.MessageEntity">
-        INSERT INTO inventory_control.message(messageTitle, messageContent, messageStatus, messageTypeId, messageCreateTime)
-        VALUES(${messageEntity.messageTitle},${messageEntity.messageContent},${messageEntity.messageStatus},${messageEntity.messageTypeId},now())
+    <insert id="addMessageByMessageEntity" parameterType="com.zhkj.inventory_control_dao.entity.MessageEntity">
+        INSERT INTO inventory_control.message(messageTitle, messageContent, messageStatus, messageTypeId, messageCreateTime, sendMessageName, messageToken)
+        VALUES(${messageEntity.messageTitle},${messageEntity.messageContent},${messageEntity.messageStatus},${messageEntity.messageTypeId},now(),${messageEntity.sendMessageName},${messageEntity.messageToken})
     </insert>
+    <!-- 删除一条消息 -->
+    <delete id="delMessageById">
+      delete from inventory_control.message where id=#{id}
+    </delete>
+    <!-- 根据条件查询消息 -->
+    <select id="findMessageAll" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
+    select * from inventory_control.message where 1=1
+    <where>
+        <if test="messageToken!=null">
+            messageToken=#{messageToken}
+        </if>
+        <if test="messageCreateTime!=null">
+            <![CDATA[messageCreateTime < ${messageCreateTime}]]>
+        </if>
+        <if test="messageStatus>0">
+            messageStatus=${messageStatus}
+        </if>
+    </where>
+    </select>
 </mapper>

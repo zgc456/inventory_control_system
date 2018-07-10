@@ -2,7 +2,9 @@ package com.zhkj.inventory_control_controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zhkj.inventory_control_api.vo.CommodityConditionVo;
+import com.zhkj.inventory_control_api.vo.CommodityVo;
 import com.zhkj.inventory_control_service.inventory_control_inventory.CommodityInventoryServiceImpl;
+import com.zhkj.inventory_control_tools.DataTables;
 import com.zhkj.inventory_control_tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 public class CommodityController {
     @Autowired
     private CommodityInventoryServiceImpl commodityInventoryService;
-    /**
-     * 查询所有商品
-     * @return
-     */
-    @RequestMapping(value = "/listCommodityHomePage",method = RequestMethod.POST)
-    public Result listCommodityHomePage(HttpServletRequest request) {
-        return commodityInventoryService.listCommodityHomePage(request);
-    }
-
     /**
      * 根据条件查询
      *      查询条件
@@ -39,18 +32,20 @@ public class CommodityController {
      * @return
      */
     @RequestMapping(value = "/listCommodityByCondition",method = RequestMethod.POST)
-    public Result listCommodityByCondition(String json){
+    public DataTables listCommodityByCondition(String json, HttpServletRequest request){
         CommodityConditionVo commodityVo = JSON.parseObject(json,CommodityConditionVo.class);
-        return null;
+        return commodityInventoryService.listCommodityByCondition(commodityVo,request);
     }
 
     /**
-     * 根据商品库存 id 查询商品
-     * @param commodityId 商品 id
+     * 添加商品
+     * @param json 商品信息
+     * @param request
      * @return
      */
-    @RequestMapping(value = "/selectCommodity",method = RequestMethod.POST)
-    public Result selectCommodityById(Integer commodityId){
-        return null;
+    @RequestMapping(value = "/insertCommodity",method = RequestMethod.POST)
+    public Result insertCommodity(String json,HttpServletRequest request){
+        CommodityVo commodityVo = JSON.parseObject(json,CommodityVo.class);
+        return commodityInventoryService.insertCommodityInventory(commodityVo,request);
     }
 }

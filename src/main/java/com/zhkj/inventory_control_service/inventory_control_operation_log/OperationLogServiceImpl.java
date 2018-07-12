@@ -93,7 +93,7 @@ public class OperationLogServiceImpl implements OperationLogService {
             }
         }
         if(null != operationLogVO.getOperationCreateTime() && !("").equals(operationLogVO.getOperationCreateTime())) {
-            condition.append(" AND operationCreateTime >= " + operationLogVO.getOperationCreateTime());
+            condition.append(" AND operationCreateTime >= '" + operationLogVO.getOperationCreateTime() + " 00:00:00'");
         }
         return condition.toString();
     }

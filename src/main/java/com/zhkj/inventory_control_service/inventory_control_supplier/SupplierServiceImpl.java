@@ -27,12 +27,10 @@ public class SupplierServiceImpl implements SupplierService {
     public DataTables selectSupplier(HttpServletRequest request) {
         DataTables dataTables = new DataTables();
         Integer startNumber = Integer.valueOf(0);
-        Integer lengthNumber = Integer.valueOf(10);
         if(null != request.getParameter("start")){
             startNumber = Integer.valueOf(request.getParameter("start"));
-            lengthNumber = Integer.valueOf(request.getParameter("length"));
         }
-        List<SupplierEntity> supplierEntityList = supplierMapper.listSupplierLimit(startNumber,lengthNumber);
+        List<SupplierEntity> supplierEntityList = supplierMapper.listSupplierLimit(startNumber,MessageConstant.PAGE_LENGTH);
         if(null != supplierEntityList && supplierEntityList.size() > 0){
             dataTables.setiTotalRecords(supplierMapper.countSupplier());
             dataTables.setiTotalDisplayRecords(supplierEntityList.size());

@@ -60,5 +60,8 @@ public class MessageConstant {
 
     public static final String DELETE_STATUSTICS_ERROR="删除统计表失败";
     public static final String DINSERT_STATUSTICS_ERROR="添加一条记录到统计表失败";
-
+    /**
+     * 分页参数
+     */
+    public static final Integer PAGE_LENGTH = Integer.valueOf(10);
 }

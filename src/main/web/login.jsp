@@ -129,7 +129,7 @@
                          dataType : "json",
                          success : function ($data) {
                              if($data.success){
-                                 location.href = "<%=request.getContextPath()%>/index.jsp"
+                                 location.href = "index.jsp"
                              }else {
                                  layer.msg($data.message,{icon:5,time:1500});
                              }

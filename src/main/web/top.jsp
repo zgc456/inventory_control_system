@@ -113,7 +113,7 @@
                     type:"get",
                     success:function ($data) {
                         if($data.success){
-                            location.href = "<%=request.getContextPath()%>/login.jsp"
+                            location.href = "login.jsp"
                         }
                     }
                 }

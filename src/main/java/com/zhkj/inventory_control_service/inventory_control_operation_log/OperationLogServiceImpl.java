@@ -22,8 +22,7 @@ public class OperationLogServiceImpl implements OperationLogService {
         if(null != operationLogVO){
             String condition = joinParam(operationLogVO);
             Integer startNumber = Integer.valueOf(request.getParameter("start"));
-            Integer lengthNumber = Integer.valueOf(request.getParameter("length"));
-            List<OperationlogEntity> operationlogEntityList = operationLogMapper.listOperationLogLimit(condition,startNumber,lengthNumber);
+            List<OperationlogEntity> operationlogEntityList = operationLogMapper.listOperationLogLimit(condition,startNumber,MessageConstant.PAGE_LENGTH);
             List<OperationLogDTO> operationLogDTOList = convertOperationLog(operationlogEntityList);
             dataTables.setiTotalDisplayRecords(operationLogMapper.countOperationLog(condition));
             dataTables.setiTotalRecords(operationLogDTOList.size());
@@ -85,12 +84,12 @@ public class OperationLogServiceImpl implements OperationLogService {
         }
         if(null != operationLogVO.getOperationModel() && !("").equals(operationLogVO.getOperationModel())){
             if(!"请选择".equals(operationLogVO.getOperationModel())){
-                condition.append(" AND operationModel = " + operationLogVO.getOperationModel());
+                condition.append(" AND operationModel = '" + operationLogVO.getOperationModel() + "'");
             }
         }
         if(null != operationLogVO.getOperationModelAction() && !("").equals(operationLogVO.getOperationModelAction())){
             if(!"请选择".equals(operationLogVO.getOperationModelAction())) {
-                condition.append(" AND operationModelAction = " + operationLogVO.getOperationModelAction());
+                condition.append(" AND operationModelAction LIKE '%" + operationLogVO.getOperationModelAction() + "'");
             }
         }
         if(null != operationLogVO.getOperationCreateTime() && !("").equals(operationLogVO.getOperationCreateTime())) {

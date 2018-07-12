@@ -6,11 +6,9 @@
     <select id="listOperationLogLimit" resultType="com.zhkj.inventory_control_dao.entity.OperationlogEntity">
         SELECT * FROM inventory_control.operationlog
         <where>
-            <where>
-                <if test="_parameter.containsKey('condition')">
+            <if test="_parameter.containsKey('condition')">
                     ${condition}
-                </if>
-            </where>
+            </if>
         </where>
         ORDER BY operationCreateTime DESC
         LIMIT #{startNumber},#{lengthNumber}

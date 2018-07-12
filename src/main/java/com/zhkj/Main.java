@@ -17,18 +17,6 @@ import static javax.swing.UIManager.get;
  */
 public class Main {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(KafkaConfig.class);
-        KafkaTemplate<String, String> kafkaTemplate = applicationContext.getBean(KafkaTemplate.class);
-        kafkaTemplate.send("test", 0,"msg","{\"id\":2}").addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
-            @Override
-            public void onFailure(Throwable ex) {
-                ex.printStackTrace();
-            }
 
-            @Override
-            public void onSuccess(SendResult<String, String> result) {
-                System.out.println("发送消息成功....");
-            }
-        });
     }
 }

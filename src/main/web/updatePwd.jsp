@@ -66,7 +66,7 @@
                                 {
                                     btn:['确定']
                                 },function () {
-                                    top.location.href = "<%=request.getContextPath()%>/login.jsp";
+                                    top.location.href = "login.jsp";
                                 }
                             );
                         }

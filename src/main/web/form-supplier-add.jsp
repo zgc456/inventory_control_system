@@ -384,7 +384,7 @@
                                    success:function ($result) {
                                        if($result.success){
                                            layer.msg($result.message,{icon:6,time:1500});
-                                           location.href = "<%=request.getContextPath()%>/table-supplier-select.jsp";
+                                           location.href = "table-supplier-select.jsp";
                                        }else {
                                            layer.alert("添加失败",{icon:5,time:1500})
                                        }

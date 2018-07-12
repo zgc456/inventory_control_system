@@ -34,25 +34,32 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
 
     @Override
     public DataTables listCommodityByCondition(CommodityConditionVo commodityVo, HttpServletRequest request) {
+        // 创建 DataTables 对象
         DataTables dataTables = new DataTables();
+        /*
+            判断传入参数是否为空
+                如果为空,返回空 DataTables
+         */
         if(null != commodityVo){
-            Page page = GetSessionTools.getCommodityPage(request);
+            // 拼合查询参数
             String condition = joinParam(commodityVo);
+            // 获取分页起始位
             Integer startNumber = Integer.valueOf(request.getParameter("start"));
-            Integer lengthNumber = Integer.valueOf(request.getParameter("length"));
+            // 根据条件查询,并分页
             List<CommodityinventoryEntity> commodityInventoryEntityList = commodityInventoryMapper.listCommodityByConditionLimit(condition
-                    ,startNumber,lengthNumber);
-            if(null != commodityInventoryEntityList){
-                List<CommInventoryDto> commodityinventoryDTOList = getCommodityInventoryDto(commodityInventoryEntityList);
-                page.setPageData(commodityinventoryDTOList);
-                dataTables.setiTotalDisplayRecords(commodityInventoryMapper.listCommodityByCondition(condition).size());
-                dataTables.setiTotalRecords(commodityinventoryDTOList.size());
-                dataTables.setData(commodityinventoryDTOList);
-            }else {
-                dataTables.setiTotalDisplayRecords(0);
-                dataTables.setiTotalRecords(0);
-                dataTables.setData(new ArrayList<>());
-            }
+                    ,startNumber,MessageConstant.PAGE_LENGTH);
+            // 转换返回参数类型
+            List<CommInventoryDto> commodityinventoryDTOList = getCommodityInventoryDto(commodityInventoryEntityList);
+            // 获取查询总条数
+            dataTables.setiTotalDisplayRecords(commodityInventoryMapper.listCommodityByCondition(condition).size());
+            // 获取查询的条数
+            dataTables.setiTotalRecords(commodityinventoryDTOList.size());
+            // 存入查询的信息
+            dataTables.setData(commodityinventoryDTOList);
+        }else {
+            dataTables.setiTotalDisplayRecords(0);
+            dataTables.setiTotalRecords(0);
+            dataTables.setData(new ArrayList<>());
         }
         return dataTables;
     }

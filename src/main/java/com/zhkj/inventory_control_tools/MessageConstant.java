@@ -34,19 +34,20 @@ public class MessageConstant {
             操作模块
          */
         public static final String OPERATION_MODEL_SHOP = "商品";
-        public static final String OPERATION_MODEL_MESSAGE = "消息";
+        public static final String OPERATION_MODEL_MESSAGE = "消息审核";
         public static final String OPERATION_MODEL_SUPPLIER = "供应商";
         /*
             操作模块动作
          */
-        public static final String OPERATION_MODEL_ACTION_MESSAGE_LODING = "进货";
-        public static final String OPERATION_MODEL_ACTION_MESSAGE_UNLOAD = "出货";
+        public static final String OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS= "发货";
+        public static final String OPERATION_MODEL_ACTION_MESSAGE_SALESRETURN= "退货";
         public static final String OPERATION_MODEL_ACTION_SHOP_INSERT = "商品添加";
         public static final String OPERATION_MODEL_ACTION_SHOP_UPDATE = "商品修改";
         public static final String OPERATION_MODEL_ACTION_SHOP_DELETE = "商品删除";
         public static final String OPERATION_MODEL_ACTION_SUPPLIER_INSERT = "供应商添加";
         public static final String OPERATION_MODEL_ACTION_SUPPLIER_UPDATE = "供应商修改";
         public static final String OPERATION_MODEL_ACTION_SUPPLIER_DELETE = "供应商删除";
+
 
     /**
      * 统计类型

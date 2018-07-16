@@ -51,7 +51,7 @@ public interface MessageService {
      * @param messageTitle 审核类型  发货 or 退货
      * @return 审核状态
      */
-    String isApprove(int id,int state,String messageTitle);
+    String isApprove(int id,int state,String messageTitle, HttpServletRequest request);
 
 
 

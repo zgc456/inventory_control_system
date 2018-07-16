@@ -24,12 +24,12 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" style="height: 50px;"><i class="br-alarm"></i> <span class="notification">提示</span></a>
-                        <ul class="dropdown-menu notification-menu right" role="menu">
+                    <%--<li class="dropdown">--%>
+                        <%--<a href="#" data-toggle="dropdown" style="height: 50px;"><i class="br-alarm"></i> <span class="notification">提示</span></a>--%>
+                        <%--<ul class="dropdown-menu notification-menu right" role="menu">--%>
 
-                        </ul>
-                    </li>
+                        <%--</ul>--%>
+                    <%--</li>--%>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown">
                             <img class="user-avatar" src="<%=request.getContextPath()%>/static/assets/img/avatars/48.jpg" alt="SuggeElson">管理员</a>

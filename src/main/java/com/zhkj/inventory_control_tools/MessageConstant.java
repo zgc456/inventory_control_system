@@ -49,14 +49,24 @@ public class MessageConstant {
         public static final String OPERATION_MODEL_ACTION_SUPPLIER_DELETE = "供应商删除";
 
     /**
-     * 消息类型
-     *      1.后台消息
-     *      2.库存预警
-     *      3.系统消息
+     * 统计类型
      */
-    public static final Integer BACKGROUND_MESSAGE = Integer.valueOf(1);
-    public static final Integer INVENTORY_EARLY_WARNING = Integer.valueOf(2);
-    public static final Integer SYSTEM_MESSAGE = Integer.valueOf(3);
+        /*
+            财务类型
+                1.收入
+                2.支出
+         */
+        public static final Integer FINANCE_INCOME = Integer.valueOf(1);
+        public static final Integer FINANCE_EXPEND = Integer.valueOf(2);
+        /*
+            统计类型
+               1.进货
+               2.退货
+               3.出货
+        */
+        public static final Integer STATISTICS_SHIPMENT = Integer.valueOf(1);
+        public static final Integer STATISTICS_SALES_RETURN = Integer.valueOf(2);
+        public static final Integer STATISTICS_SALE = Integer.valueOf(3);
 
     public static final String DELETE_STATUSTICS_ERROR="删除统计表失败";
     public static final String DINSERT_STATUSTICS_ERROR="添加一条记录到统计表失败";

@@ -2,14 +2,15 @@ package com.zhkj.inventory_control_service.inventory_control_inventory;
 
 import com.zhkj.inventory_control_api.api.CommodityInventoryService;
 import com.zhkj.inventory_control_api.api.OperationLogService;
+import com.zhkj.inventory_control_api.api.StatisticsService;
 import com.zhkj.inventory_control_api.dto.CommInventoryDto;
-import com.zhkj.inventory_control_api.dto.CommodityinventoryDTO;
 import com.zhkj.inventory_control_api.vo.CommodityConditionVo;
+import com.zhkj.inventory_control_api.vo.CommodityInventoryVo;
 import com.zhkj.inventory_control_api.vo.CommodityVo;
 import com.zhkj.inventory_control_dao.entity.CommodityEntity;
 import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
-import com.zhkj.inventory_control_dao.entity.Page;
 import com.zhkj.inventory_control_dao.entity.SpecificationdetailedEntity;
+import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_dao.mapper.CommodityInventoryMapper;
 import com.zhkj.inventory_control_dao.mapper.CommodityMapper;
 import com.zhkj.inventory_control_dao.mapper.SpecificationDetailedMapper;
@@ -31,6 +32,8 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
     private SpecificationDetailedMapper specificationDetailedMapper;
     @Autowired
     private OperationLogService operationLogService;
+    @Autowired
+    private StatisticsService statisticsService;
 
     @Override
     public DataTables listCommodityByCondition(CommodityConditionVo commodityVo, HttpServletRequest request) {
@@ -111,7 +114,8 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
                     result.setSuccess(true);
                     result.setMessage(MessageConstant.INSERT_COMMODITY_SUCCEED);
                     operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_SHOP,MessageConstant.OPERATION_MODEL_ACTION_SHOP_INSERT
-                            ,joinMessage(commodityVo),request);
+                            ,joinMessage(commodityVo,null,1),request);
+                    insertFinance(resultBoolean);
                 }
             }
         }
@@ -131,6 +135,46 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
                     result.setSuccess(true);
                     result.setMessage(MessageConstant.DELETE_COMMODITY_SUCCEED);
                 }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Result updateCommodityByCommodityId(CommodityInventoryVo commodityInventoryVo,HttpServletRequest request) {
+        Result result = new Result();
+        if(null != commodityInventoryVo){
+            // 获取要修改的商品库存信息
+            CommodityinventoryEntity resultCommodityInventoryEntity = commodityInventoryMapper.selectCommodityinventoryToId(commodityInventoryVo.getId());
+            if(commodityMapper.selectCommodityToName(commodityInventoryVo.getCommodityName()) < 1){
+                /*
+                    修改商品信息
+                */
+                CommodityEntity commodityEntity = new CommodityEntity();
+                commodityEntity.setId(resultCommodityInventoryEntity.getCommodityId());
+                commodityEntity.setCommodityName(commodityInventoryVo.getCommodityName());
+                commodityEntity.setSupplierId(commodityInventoryVo.getSupplierId());
+                commodityMapper.updateCommodity(commodityEntity);
+            }
+            // 获取商品规格信息
+            List<SpecificationdetailedEntity> specificationdetailedEntityList = specificationDetailedMapper.getSpecificationDetailed();
+            /*
+                修改商品库存信息
+             */
+            CommodityinventoryEntity commodityInventoryEntity = new CommodityinventoryEntity();
+            commodityInventoryEntity.setId(commodityInventoryVo.getId());
+            commodityInventoryEntity.setCommodityNumber(commodityInventoryVo.getCommodityNumber());
+            commodityInventoryEntity.setCommodityPrice(commodityInventoryVo.getCommodityPrice());
+            commodityInventoryEntity.setCommoditySecurityLine(commodityInventoryVo.getCommoditySecurityLine());
+            commodityInventoryEntity.setCommoditySku(splitCommoditySku(commodityInventoryVo.getCommoditySku(),specificationdetailedEntityList));
+            if(commodityInventoryMapper.updateCommodityInventory(commodityInventoryEntity) > 0){
+                result.setSuccess(true);
+                result.setMessage(MessageConstant.OPERATION_MODEL_ACTION_SHOP_INSERT);
+                CommodityVo commodityVo = new CommodityVo();
+                commodityVo.setCommodityName(commodityInventoryVo.getCommodityName());
+                commodityVo.setSupplierName(commodityInventoryVo.getSupplierName());
+                operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_SHOP,MessageConstant.OPERATION_MODEL_ACTION_SHOP_UPDATE
+                ,joinMessage(commodityVo,commodityInventoryVo,2),request);
             }
         }
         return result;
@@ -203,16 +247,23 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
 
     /**
      * 拼合消息参数
-     * @param commodityVo
+     * @param commodityVo 商品信息
+     * @param commodityInventoryVo 商品库存信息
+     * @param index 标识
      * @return
      */
-    private String joinMessage(CommodityVo commodityVo){
+    private String joinMessage(CommodityVo commodityVo,CommodityInventoryVo commodityInventoryVo,int index){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("商品名称:" + commodityVo.getCommodityName());
         stringBuffer.append("\n供应厂商:" + commodityVo.getSupplierName());
-        for(int i = 0;i < commodityVo.getCommoditySku().length;i++){
-            stringBuffer.append("\n商品规格:" + commodityVo.getCommoditySku()[i] + " 商品数量:" + commodityVo.getCommodityNumber()[i]
-            + " 商品警戒数量:" + commodityVo.getCommoditySecurityLine()[i] + " 商品价格:" + commodityVo.getCommodityPrice()[i]);
+        if(index == 1){
+            for(int i = 0;i < commodityVo.getCommoditySku().length;i++){
+                stringBuffer.append("\n商品规格:" + commodityVo.getCommoditySku()[i] + " 商品数量:" + commodityVo.getCommodityNumber()[i]
+                        + " 商品警戒数量:" + commodityVo.getCommoditySecurityLine()[i] + " 商品价格:" + commodityVo.getCommodityPrice()[i]);
+            }
+        }else {
+            stringBuffer.append("\n商品规格:" + commodityInventoryVo.getCommoditySku() + "商品数量:" + commodityInventoryVo.getCommodityNumber()
+            + "商品警戒数量:" + commodityInventoryVo.getCommoditySecurityLine() + "商品价格:" + commodityInventoryVo.getCommodityPrice());
         }
         return stringBuffer.toString();
     }
@@ -232,7 +283,6 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
             commInventoryDto.setCommodityNumber(commodityInventoryEntityList.get(i).getCommodityNumber());
             commInventoryDto.setCommoditySecurityLine(commodityInventoryEntityList.get(i).getCommoditySecurityLine());
             commInventoryDto.setCommodityPrice(commodityInventoryEntityList.get(i).getCommodityPrice() + ".00");
-            commInventoryDto.setCommoditySmallPictureUrl(commodityInventoryEntityList.get(i).getCommoditySmallPictureUrl());
             commInventoryDto.setCommoditySku(getCommoditySku(commodityInventoryEntityList.get(i).getCommoditySku(),specificationdetailedEntityList));
             commInventoryDto.setCommodityCreateTime(ConverDateTools.convertDateByCondition(commodityInventoryEntityList.get(i).getCommodityCreateTime()
                     ,ConverDateTools.YEAR_MONTH_DATE_HOUR_MINUTE_SECOND));
@@ -277,22 +327,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
     private String convertCommoditySku(int commodityId,CommodityVo commodityVo,List<SpecificationdetailedEntity> specificationdetailedEntityList){
         StringBuffer stringBuffer = new StringBuffer();
         for(int i = 0;i < commodityVo.getCommoditySku().length;i++){
-            String[] commoditySkuStringList = commodityVo.getCommoditySku()[i].split(" ");
-            int index = 0;
-            StringBuffer commoditySkuBuffer = new StringBuffer();
-            for(int k = 1;k < commoditySkuStringList.length;k++){
-                for(int u= 0;u < specificationdetailedEntityList.size();u++){
-                    if(specificationdetailedEntityList.get(u).getDetailedName().equals(commoditySkuStringList[k])){
-                        if(commoditySkuStringList.length == 1 || (k == commoditySkuStringList.length - 1)){
-                            commoditySkuBuffer.append(specificationdetailedEntityList.get(u).getId());
-                        }else {
-                            commoditySkuBuffer.append(specificationdetailedEntityList.get(u).getId() + ",");
-                        }
-                        index ++;
-                        if(index == commoditySkuStringList.length - 1) break;
-                    }
-                }
-            }
+            String commoditySkuBuffer = splitCommoditySku(commodityVo.getCommoditySku()[i],specificationdetailedEntityList);
             if(commodityVo.getCommoditySku().length == 1 || i == (commodityVo.getCommoditySku().length - 1)){
                 stringBuffer.append("("+commodityVo.getCommodityNumber()[i]+","+commodityVo.getCommoditySecurityLine()[i]
                         +"," +commodityVo.getCommodityPrice()[i] +",'"+commoditySkuBuffer+"',"+commodityId+",now())");
@@ -302,5 +337,45 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
             }
         }
         return stringBuffer.toString();
+    }
+
+    /**
+     * 拆分商品规格
+     * @param commoditySku 要拆分的商品规格
+     * @param specificationdetailedEntityList 商品规格
+     * @return
+     */
+    private String splitCommoditySku(String commoditySku,List<SpecificationdetailedEntity> specificationdetailedEntityList){
+        int index = 0;
+        String[] commoditySkuStringList = commoditySku.split(" ");
+        StringBuffer commoditySkuBuffer = new StringBuffer();
+        for(int k = 1;k < commoditySkuStringList.length;k++){
+            for(int u= 0;u < specificationdetailedEntityList.size();u++){
+                if(specificationdetailedEntityList.get(u).getDetailedName().equals(commoditySkuStringList[k])){
+                    if(commoditySkuStringList.length == 1 || (k == commoditySkuStringList.length - 1)){
+                        commoditySkuBuffer.append(specificationdetailedEntityList.get(u).getId());
+                    }else {
+                        commoditySkuBuffer.append(specificationdetailedEntityList.get(u).getId() + ",");
+                    }
+                    index ++;
+                    if(index == commoditySkuStringList.length - 1) break;
+                }
+            }
+        }
+        return commoditySkuBuffer.toString();
+    }
+    private void insertFinance(Integer index){
+         List<CommodityinventoryEntity> commodityinventoryEntityList = commodityInventoryMapper.listCommodityByConditionLimit("1 = 1 ORDER BY id DESC"
+                 ,0,index);
+         for(CommodityinventoryEntity commodityinventoryEntity : commodityinventoryEntityList){
+             StatisticsEntity statisticsEntity = new StatisticsEntity();
+             statisticsEntity.setCommodityInventoryId(commodityinventoryEntity.getId());
+             statisticsEntity.setStatisticsNumber(commodityinventoryEntity.getCommodityNumber());
+             statisticsEntity.setFinancePrice(commodityinventoryEntity.getCommodityNumber() * commodityinventoryEntity.getCommodityPrice());
+             statisticsEntity.setStatisticsTypeId(MessageConstant.STATISTICS_SHIPMENT);
+             statisticsEntity.setFinanceTypeId(MessageConstant.FINANCE_EXPEND);
+             statisticsService.insertStatiscs(statisticsEntity);
+         }
+
     }
 }

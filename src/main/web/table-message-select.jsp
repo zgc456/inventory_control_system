@@ -203,6 +203,7 @@
                     <!-- Start .row -->
                     <!-- Start .page-header -->
                     <div class="col-lg-12 heading">
+<<<<<<< Updated upstream
                         <h1 class="page-header"><i class="im-table2"></i> Tables</h1>
                         <!-- Start .bredcrumb -->
                         <ul id="crumb" class="breadcrumb">
@@ -311,6 +312,9 @@
                             </div>
                         </div>
                         <!-- End .option-buttons -->
+=======
+                        <h1 class="page-header"><i class="im-table2"></i> 消息列表</h1>
+>>>>>>> Stashed changes
                     </div>
                     <!-- End .page-header -->
                 </div>
@@ -325,6 +329,7 @@
                                 <div class="panel-heading white-bg" style="height: 100px;">
                                     <div style="width: 800px;height: 100px;float: left;">
                                         <div style="width: 200px;height: 50px;padding-top: 40px;float: left;">
+<<<<<<< Updated upstream
                                             <select class="form-control" id="messageStatus">
                                                 <option value="-1">消息状态</option>
                                                 <option value="1">同意</option>
@@ -338,6 +343,13 @@
                                                 <option value="发货">发货</option>
                                                 <option value="进货">进货</option>
                                                 <option value="货物调度">货物调度</option>
+=======
+                                            <input type="text" class="form-control" placeholder="商品名称" id="select_commodityName">
+                                        </div>
+                                        <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
+                                            <select class="form-control" id="select_commoditySpecification">
+                                                <option value="-1">商品规格</option>
+>>>>>>> Stashed changes
                                             </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
@@ -358,10 +370,18 @@
                                         <thead>
                                             <tr>
                                                 <th class="pre10" style="text-align: center;">编号</th>
+<<<<<<< Updated upstream
                                                 <th class="per15" style="text-align: center;">消息类型</th>
                                                 <th class="per20" style="text-align: center;">消息时间</th>
                                                 <th class="per10" style="text-align: center;">提交人姓名</th>
                                                 <th class="per10" style="text-align: center;">消息状态</th>
+=======
+                                                <th class="per15" style="text-align: center;">商品名称</th>
+                                                <th class="per20" style="text-align: center;">商品规格</th>
+                                                <th class="per10" style="text-align: center;">商品数量</th>
+                                                <th class="per10" style="text-align: center;">商品单价</th>
+                                                <th class="per15" style="text-align: center;">添加时间</th>
+>>>>>>> Stashed changes
                                                 <th class="per10" style="text-align: center;">操作</th>
                                             </tr>
                                         </thead>
@@ -379,30 +399,61 @@
             </div>
             <!-- End .content-wrapper -->
         </div>
+<<<<<<< Updated upstream
         <div id="updateMessage" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
             <div style="width: 600px;height: 300px;margin: 0px auto">
                 <div class="form-group">
                     <label class="col-lg-2 control-label">消息标题</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control required" id="messageTitles" disabled>
+=======
+        <div id="updateCommodity" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
+            <div style="width: 600px;height: 300px;margin: 0px auto">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品名称</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="commodityName">
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
+<<<<<<< Updated upstream
                     <label class="col-lg-2 control-label">消息状态</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control required" id="messageStutas" disabled>
+=======
+                    <label class="col-lg-2 control-label">商品规格</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="commoditySku" disabled>
+                        <select style="width: 70%;" id="shopDetail" class="form-control" onchange="appendOptionText(this)">
+                        </select>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
+<<<<<<< Updated upstream
                     <label class="col-lg-2 control-label">消息发送人</label>
                     <div class="col-lg-10">
                         <input type="number" class="form-control required" id="sendMessageName" disabled>
+=======
+                    <label class="col-lg-2 control-label">进货数量</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commodityNumber">
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group" >
+                    <label class="col-lg-2 control-label">商品警戒值</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commoditySecurityLine">
+>>>>>>> Stashed changes
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group" >
+<<<<<<< Updated upstream
                     <label class="col-lg-2 control-label">消息内容</label>
                     <div class="col-lg-10">
                         <textarea class="form-control required" id="messageText" disabled></textarea>
@@ -411,6 +462,14 @@
 
             </div>
             <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
+=======
+                    <label class="col-lg-2 control-label">商品单价</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="commodityPrice">
+                    </div>
+                </div>
+            </div>
+>>>>>>> Stashed changes
         </div>
         <script>
             var table;
@@ -435,58 +494,96 @@
                                 "json":returnJson()
                             });
                         },
+<<<<<<< Updated upstream
                         url:"<%=request.getContextPath()%>/findMessage"
                     },
                     "aoColumns":[
                         {
                             <!--Dto属性名称 -->
                             "mData": "showMessageId",
+=======
+                        url:"<%=request.getContextPath()%>/listCommodityByCondition"
+                    },
+                    "aoColumns":[
+                        {
+                            "mData": "id",
+>>>>>>> Stashed changes
                             "bSortable": false,
                             "sWidth": "5%",
                             "sClass": "center"
                         },
                         {
+<<<<<<< Updated upstream
                             "mData": "messageTitle",
+=======
+                            "mData": "commodity.commodityName",
+>>>>>>> Stashed changes
                             "bSortable": false,
                             "sWidth": "20%",
                             "sClass": "center"
                         },
                         {
+<<<<<<< Updated upstream
                             "mData": "messageCreateTime",
+=======
+                            "mData": "commoditySku",
+>>>>>>> Stashed changes
                             "bSortable": false,
                             "sWidth": "10%",
                             "sClass": "center"
                         },
                         {
+<<<<<<< Updated upstream
 
                             "mData": "sendMessageName",
+=======
+                            "mData": "commodityNumber",
+>>>>>>> Stashed changes
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
                         {
+<<<<<<< Updated upstream
                             "mData": "messageStatus",
+=======
+                            "mData": "commodityPrice",
+>>>>>>> Stashed changes
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
+<<<<<<< Updated upstream
 
+=======
+                        {
+                            "mData": "commodityCreateTime",
+                            "bSortable": false,
+                            "sWidth": "10%",
+                            "sClass": "center"
+                        },
+>>>>>>> Stashed changes
                         {
                             "mData": "id",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center",
                             "mRender":function (data,type,row) {
+<<<<<<< Updated upstream
                                 // <!-- 查看详情
                                 // // row 对象 onClick id
                                 // -->
                                 return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="查看详情" onclick="selectMessage('+ row.id +')" /></div></td>'
+=======
+                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="修改" onclick="updateCommodity('+row.id+')" /><input class="btn btn-primary btn-alt" type="button" value="删除" /></div></td>'
+>>>>>>> Stashed changes
                             }
                         }
                     ]
                 });
             })
             function sumbitSelect() {
+<<<<<<< Updated upstream
                     //搜索 刷新table
                 table.fnDraw();
             }
@@ -553,6 +650,21 @@
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
         <script src="<%=request.getContextPath()%>
          /static/assets/js/jquery-1.8.3.min.js"></script>
+=======
+                table.fnDraw();
+            }
+            function returnJson() {
+                var commodity = {};
+                commodity.commodityName = document.getElementById("select_commodityName").value;
+                commodity.commoditySku = document.getElementById("select_commoditySpecification").value;
+                commodity.createTime = document.getElementById("select_commodityCreateTime").value;
+                var json = JSON.stringify(commodity);
+                return json;
+            }
+        </script>
+        <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
+        <script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>
+>>>>>>> Stashed changes
         <script>
         window.jQuery || document.write('<script src="<%=request.getContextPath()%>/static/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
         </script>

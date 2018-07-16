@@ -54,6 +54,12 @@ public interface CommodityMapper {
     String selectCommodityToId(@Param("id") Integer id);
 
     /**
+     * 根据商品 id 查询商品信息
+     * @param commodityId 商品 id
+     * @return
+     */
+    CommodityEntity selectCommodityByCommodityId(@Param("commodityId")Integer commodityId);
+    /**
      * 根据条件查询商品信息
      * @param conditionSql 查询条件列表
      * @return 商品列表

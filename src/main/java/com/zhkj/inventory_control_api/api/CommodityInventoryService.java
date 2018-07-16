@@ -1,6 +1,7 @@
 package com.zhkj.inventory_control_api.api;
 
 import com.zhkj.inventory_control_api.vo.CommodityConditionVo;
+import com.zhkj.inventory_control_api.vo.CommodityInventoryVo;
 import com.zhkj.inventory_control_api.vo.CommodityVo;
 import com.zhkj.inventory_control_tools.DataTables;
 import com.zhkj.inventory_control_tools.Result;
@@ -45,9 +46,17 @@ public interface CommodityInventoryService {
     Result insertCommodityInventory(CommodityVo commodityVo,HttpServletRequest request);
 
     /**
-     * 根据库存id删除商品
+     * 根据库存 id 删除商品
      * @param commodityId 库存id
      * @return
      */
     Result deleteCommodityByCommodityInventoryId(Integer commodityId);
+
+    /**
+     * 根据库存 id 修改商品
+     * @param commodityInventoryVo 要修改的商品信息
+     * @param request
+     * @return
+     */
+    Result updateCommodityByCommodityId(CommodityInventoryVo commodityInventoryVo,HttpServletRequest request);
 }

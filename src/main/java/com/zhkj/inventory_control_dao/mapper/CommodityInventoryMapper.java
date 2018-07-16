@@ -46,7 +46,7 @@ public interface CommodityInventoryMapper {
      List<CommodityinventoryEntity> selectCommodityinventoryToCommmodityId(@Param("commodityId") Integer commodityId);
 
     /**
-     * 根据库存id 查询库存集合
+     * 根据库存id 查询库存
      *
      * @param id 库存id
      * @return 库存实体类

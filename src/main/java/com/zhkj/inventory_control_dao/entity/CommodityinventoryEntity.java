@@ -4,25 +4,12 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @author
- * @Version 1.0
- * @Data 2018/5/22 17:23
- * 商品存货表
- */
 public class CommodityinventoryEntity {
     private int id;
-    //商品数量
     private Integer commodityNumber;
-    //库存报警值
     private Integer commoditySecurityLine;
-    //商品价格
-    private double commodityPrice;
-    //商品图片
-    private String commoditySmallPictureUrl;
-    //库存规格关系
+    private Double commodityPrice;
     private String commoditySku;
-    //商品外键id
     private Integer commodityId;
     private Timestamp commodityCreateTime;
 
@@ -50,20 +37,12 @@ public class CommodityinventoryEntity {
         this.commoditySecurityLine = commoditySecurityLine;
     }
 
-    public double getCommodityPrice() {
+    public Double getCommodityPrice() {
         return commodityPrice;
     }
 
-    public void setCommodityPrice(double commodityPrice) {
+    public void setCommodityPrice(Double commodityPrice) {
         this.commodityPrice = commodityPrice;
-    }
-
-    public String getCommoditySmallPictureUrl() {
-        return commoditySmallPictureUrl;
-    }
-
-    public void setCommoditySmallPictureUrl(String commoditySmallPictureUrl) {
-        this.commoditySmallPictureUrl = commoditySmallPictureUrl;
     }
 
     public String getCommoditySku() {

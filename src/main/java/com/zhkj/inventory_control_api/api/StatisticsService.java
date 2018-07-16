@@ -1,9 +1,7 @@
 package com.zhkj.inventory_control_api.api;
 
 import com.zhkj.inventory_control_api.dto.PercentageDTO;
-import com.zhkj.inventory_control_api.dto.StatisticsDTO;
 import com.zhkj.inventory_control_api.vo.StatisticsVO;
-import com.zhkj.inventory_control_dao.entity.FinancetypeEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_tools.Result;
 

@@ -40,4 +40,9 @@
         INSERT INTO inventory_control.commodityinventory(commodityNumber, commoditySecurityLine, commodityPrice, commoditySku, commodityId, commodityCreateTime)
         VALUES ${commodityInventorySql}
     </insert>
+    <update id="updateCommodityInventory" parameterType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+        UPDATE commodityinventory
+        SET commodityNumber = #{CommodityinventoryEntity.commodityNumber},commoditySecurityLine = #{CommodityinventoryEntity.commoditySecurityLine},commodityPrice = #{CommodityinventoryEntity.commodityPrice},commoditySku = #{CommodityinventoryEntity.commoditySku}
+        WHERE id = #{CommodityinventoryEntity.id}
+    </update>
 </mapper>

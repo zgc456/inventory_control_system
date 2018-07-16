@@ -2,7 +2,9 @@ package com.zhkj.inventory_control_controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zhkj.inventory_control_api.vo.CommodityConditionVo;
+import com.zhkj.inventory_control_api.vo.CommodityInventoryVo;
 import com.zhkj.inventory_control_api.vo.CommodityVo;
+import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
 import com.zhkj.inventory_control_service.inventory_control_inventory.CommodityInventoryServiceImpl;
 import com.zhkj.inventory_control_tools.DataTables;
 import com.zhkj.inventory_control_tools.Result;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class CommodityController {
@@ -47,5 +50,27 @@ public class CommodityController {
     public Result insertCommodity(String json,HttpServletRequest request){
         CommodityVo commodityVo = JSON.parseObject(json,CommodityVo.class);
         return commodityInventoryService.insertCommodityInventory(commodityVo,request);
+    }
+
+    /**
+     * 根据库存 id 查询商品库存
+     * @param commodityId 库存 id
+     * @return
+     */
+    @RequestMapping(value = "/selectCommodity",method = RequestMethod.POST)
+    public Result selectCommodityByCommodityId(Integer commodityId){
+        return commodityInventoryService.selectCommodityByCommodityInventoryId(commodityId);
+    }
+
+    /**
+     * 修改商品信息
+     * @param json 商品信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/updateCommodity",method = RequestMethod.POST)
+    public Result updateCommodityByCommodityId(String json,HttpServletRequest request){
+        CommodityInventoryVo commodityInventoryVo = JSON.parseObject(json,CommodityInventoryVo.class);
+        return commodityInventoryService.updateCommodityByCommodityId(commodityInventoryVo,request);
     }
 }

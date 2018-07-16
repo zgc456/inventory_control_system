@@ -5,23 +5,18 @@ import com.zhkj.inventory_control_api.dto.PercentageDTO;
 import com.zhkj.inventory_control_api.dto.StatisticsDTO;
 import com.zhkj.inventory_control_api.vo.StatisticsVO;
 import com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity;
-import com.zhkj.inventory_control_dao.entity.FinancetypeEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_dao.entity.StatisticstypeEntity;
 import com.zhkj.inventory_control_dao.mapper.*;
 import com.zhkj.inventory_control_tools.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.invoke.empty.Empty;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

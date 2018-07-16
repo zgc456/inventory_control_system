@@ -371,8 +371,13 @@
                 <!-- End .outlet -->
             </div>
             <!-- End .content-wrapper -->
+            <div class="col-lg-12" >
+                <ul class="pagination mb0" id="page">
+
+                </ul>
+            </div>
         </div>
-        <div id="updateCommodityForm" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
+        <div id="updateCommodity" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
             <div style="width: 600px;height: 300px;margin: 0px auto">
                 <div class="form-group">
                     <label class="col-lg-2 control-label">商品名称</label>
@@ -432,7 +437,9 @@
                         type:"POST",
                         data: function(d) {
                             return $.extend({}, d, {
-                                "json":returnJson()
+                                "commodityName":$("#select_commodityName").val(),
+                                "commoditySku":$("#select_commoditySpecification").val(),
+                                "createTime":$("#select_commodityCreateTime").val()
                             });
                         },
                         url:"<%=request.getContextPath()%>/listCommodityByCondition"
@@ -506,14 +513,6 @@
             function sumbitSelect() {
                 table.fnDraw();
             }
-            function returnJson() {
-                var commodity = {};
-                commodity.commodityName = document.getElementById("select_commodityName").value;
-                commodity.commoditySku = document.getElementById("select_commoditySpecification").value;
-                commodity.createTime = document.getElementById("select_commodityCreateTime").value;
-                var json = JSON.stringify(commodity);
-                return json;
-            }
             <!-- 删除商品 -->
             function isShop() {
                 layer.confirm("是否删除",{
@@ -537,13 +536,14 @@
             }
             <!-- 修改商品 -->
             function updateCommodity($input) {
+                var $commodityInventoryId = $input.parentElement.parentElement.parentElement.children[0].innerHTML;
                 layer.open(
                     {
                         type:1,
                         title:"修改商品",
                         closeBtn:0,
                         area:['800px','500px'],
-                        content:$("#updateCommodityForm"),
+                        content:$("#updateCommodity"),
                         btn:['确认','取消'],
                         success:function () {
                             $.ajax(
@@ -551,7 +551,7 @@
                                     url:"<%=request.getContextPath()%>/selectCommodity",
                                     type:"post",
                                     data:{
-                                        commodityId:$input
+                                        commodityId:$commodityInventoryId
                                     },
                                     success:function ($resultData) {
                                         if($resultData.success){

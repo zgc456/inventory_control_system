@@ -29,6 +29,11 @@
     <select id="selectCommodityToId" resultType="java.lang.String">
       select commodityName from inventory_control.commodity where id=#{id};
     </select>
+    <!--  -->
+    <select id="selectCommodityByCommodityId" resultType="com.zhkj.inventory_control_dao.entity.CommodityEntity">
+        SELECT * FROM inventory_control.commodity
+        WHERE id = #{commodityId}
+    </select>
     <!-- 根据商品 id 列表查询商品信息 -->
     <select id="listCommodityByCondition" resultType="com.zhkj.inventory_control_dao.entity.CommodityEntity">
         SELECT * FROM inventory_control.commodity

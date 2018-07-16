@@ -98,4 +98,8 @@ public class StatisticsController {
         //计算当月收支占总金额的百分比
       return   statisticsService.incomeAndExpensesPercentage();
     }
+    @RequestMapping(value = "/selectStatiscs",method = RequestMethod.POST)
+    public Result selectStatiscsAll(){
+        return statisticsService.selectStatiscsEntityAll();
+    }
 }

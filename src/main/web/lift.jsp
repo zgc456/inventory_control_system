@@ -27,7 +27,7 @@
             <li>
                 <a href="#"> 消息管理 <i class="im-paragraph-justify"></i></a>
                 <ul class="nav sub">
-                    <li><a href=""><i class="im-checkbox-checked"></i>查看消息</a></li>
+                    <li><a href="table-message-select.jsp"><i class="im-checkbox-checked"></i>查看消息</a></li>
                     <li><a href=""><i class="im-checkbox-checked"></i>待处理消息</a></li>
                 </ul>
             </li>

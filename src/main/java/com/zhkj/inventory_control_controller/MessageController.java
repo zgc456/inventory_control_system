@@ -1,17 +1,14 @@
 package com.zhkj.inventory_control_controller;
-
 import com.alibaba.fastjson.JSON;
 import com.zhkj.inventory_control_api.api.MessageService;
 import com.zhkj.inventory_control_api.dto.MessageDTO;
 import com.zhkj.inventory_control_api.vo.MessageVo;
-import com.zhkj.inventory_control_service.inventory_control_message.MessageServiceImpl;
-import com.zhkj.inventory_control_tools.Result;
-import org.apache.ibatis.annotations.Param;
+import com.zhkj.inventory_control_dao.entity.MessageEntity;
+import com.zhkj.inventory_control_tools.DataTables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Date;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -20,8 +17,15 @@ public class MessageController {
      private MessageService  messageService;
      @ResponseBody
      @RequestMapping("/findMessage")
-     public List<MessageDTO> findMessage(@RequestParam(value = "messageToken",required = false) String messageToken, @RequestParam(value = "messageCreateTime",required = false) Date messageCreateTime, @RequestParam(value = "messageStatus",required = false) Integer messageStatus){
-         List<MessageDTO> messageDTOS= messageService.findMessageByCondition(messageToken,messageCreateTime,messageStatus);
-         return messageDTOS;
-     }
+     public DataTables findMessage(@RequestParam("json") String  json, HttpServletRequest request){
+        MessageVo messageVo=JSON.parseObject(json,MessageVo.class);
+         DataTables dataTables= messageService.findMessageByCondition(messageVo,request);
+         return dataTables;
+            }
+
+     @RequestMapping("/selectMessageById")
+     @ResponseBody
+     public List<MessageDTO> selectMessageById(@RequestParam(value = "id",required = false) int id){
+      return    messageService.findMessageById(id);
+        }
 }

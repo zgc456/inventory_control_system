@@ -93,7 +93,6 @@ public class StatisticsImpl implements StatisticsService {
                  state=true;
                  break;
              }
-
              if (state==false&&j==(returnStatistics.size()-1)){
                  returnStatistics.add(statisticsEntity);
                  break;
@@ -130,7 +129,6 @@ public class StatisticsImpl implements StatisticsService {
        int state= statisticsMapper.delStatistics();
        if (state==1){
            result.setSuccess(ServiceConstant.SUCCERSS);
-
        }else {
            result.setSuccess(ServiceConstant.DEFEATED);
            result.setMessage(MessageConstant.DELETE_STATUSTICS_ERROR);
@@ -173,6 +171,7 @@ public class StatisticsImpl implements StatisticsService {
         }
         return result;
     }
+
 
     /**
      * 类型转换 方法
@@ -285,6 +284,17 @@ public class StatisticsImpl implements StatisticsService {
        String expendPrices= percnet(expendPrice,expendPrice+incomePrice);
        String incomesPrices= percnet(incomePrice,expendPrice+incomePrice);
         return new PercentageDTO(expendPrices,incomesPrices);
+    }
+
+    @Override
+    public Boolean updateStatisticsById(int id,double price,int count) {
+        //修改一条库存表id
+      int state=  statisticsMapper.updateStatisticsById(id,price,count);
+      if (state==1){
+          return  true;
+      }else{
+          return false;
+      }
     }
 
     /**

@@ -1,9 +1,19 @@
 package com.zhkj.inventory_control_api.vo;
 
+import java.sql.Date;
+
 public class MessageVo {
-    private Integer messageStatus;
-    private Integer messageType;
+    private Date messageCreateTime;
     private String messageTitle;
+    private Integer messageStatus;
+
+    public String getMessageTitle() {
+        return messageTitle;
+    }
+
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
+    }
 
     public Integer getMessageStatus() {
         return messageStatus;
@@ -13,19 +23,11 @@ public class MessageVo {
         this.messageStatus = messageStatus;
     }
 
-    public Integer getMessageType() {
-        return messageType;
+    public Date getMessageCreateTime() {
+        return messageCreateTime;
     }
 
-    public void setMessageType(Integer messageType) {
-        this.messageType = messageType;
-    }
-
-    public String getMessageTitle() {
-        return messageTitle;
-    }
-
-    public void setMessageTitle(String messageTitle) {
-        this.messageTitle = messageTitle;
+    public void setMessageCreateTime(Date messageCreateTime) {
+        this.messageCreateTime = messageCreateTime;
     }
 }

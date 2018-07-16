@@ -2,12 +2,20 @@ package com.zhkj.inventory_control_service.inventory_control_message;
 
 import com.zhkj.inventory_control_api.api.MessageService;
 import com.zhkj.inventory_control_api.dto.MessageDTO;
+import com.zhkj.inventory_control_api.dto.OperationLogDTO;
+import com.zhkj.inventory_control_api.vo.MessageVo;
 import com.zhkj.inventory_control_dao.entity.MessageEntity;
+import com.zhkj.inventory_control_dao.entity.OperationlogEntity;
 import com.zhkj.inventory_control_dao.mapper.MessageMapper;
+import com.zhkj.inventory_control_tools.DataTables;
+import com.zhkj.inventory_control_tools.MessageConstant;
+import com.zhkj.inventory_control_tools.ServiceConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +48,69 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDTO> findMessageByCondition(String messageToken, Date messageCreateTime, Integer messageStatus) {
-        List<MessageEntity> list=   messageMapper.findMessageAll(messageToken,messageCreateTime,messageStatus);
-        return convertToMessageDTO(list);
+    public DataTables  findMessageByCondition(MessageVo messageVo, HttpServletRequest request) {
+        DataTables dataTables=new DataTables();
+        if(null != messageVo){
+            Integer startNumber = Integer.valueOf(request.getParameter("start"));
+            List<MessageEntity> list= messageMapper.findMessageAll(messageVo.getMessageTitle(),messageVo.getMessageCreateTime(),messageVo.getMessageStatus(),startNumber,MessageConstant.PAGE_LENGTH);
+            List<MessageDTO> messageDTOS=   convertToMessageDTO(list);
+            List<MessageEntity> Messagecount=  messageMapper.findMessageAll(null,null,0,0,0);
+
+            dataTables.setiTotalDisplayRecords(Messagecount.size());
+            dataTables.setiTotalRecords(messageDTOS.size());
+            dataTables.setData(messageDTOS);
+        }else {
+            dataTables.setiTotalDisplayRecords(Integer.valueOf(0));
+            dataTables.setiTotalRecords(Integer.valueOf(0));
+            dataTables.setData(new ArrayList<>());
+        }
+        return dataTables;
+
     }
+
+    @Override
+    public List<MessageDTO> findMessageById(int id) {
+        List<MessageDTO> messageDTOS= convertToMessageDTO( messageMapper.findMessageById(id));
+        return messageDTOS;
+    }
+
+    @Override
+    public String isApprove(int id, int state,String messageTitle) {
+        try {
+            if (state==ServiceConstant.IS_PASS){ //审核同意
+                //kafka
+                  //参数（处理人，处理唯一标识，同意 或者 拒绝）
+                //判断是发货还是退货
+                if (messageTitle.equals("退货")){   //如果是退货
+                    //修改message
+                messageMapper.alterMessageAudit(id,ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
+                    //添加日志表
+                    //加库存
+                }else if (messageTitle.equals("发货")){//如果是发货
+                    //修改message
+                messageMapper.alterMessageAudit(id,ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
+                    //添加日志表
+                    //发货减库存
+                }
+                return ServiceConstant.MESSAGE_AUDIT_ISOK; //同意审核
+            }else if (state==ServiceConstant.NOT_PASS){ //审核拒绝
+                //修改message
+                messageMapper.alterMessageAudit(id,ServiceConstant.MESSAGE_AUDIT_INTEGER_SALERETURN);
+                //添加日志表
+                //kafka
+                  //参数（处理人，处理唯一标识，同意 或者 拒绝）
+                return ServiceConstant.MESSAGE_AUDIT_NOTOK; //拒绝审核
+            }else{ //非法参数
+                messageMapper.alterMessageAudit(id,ServiceConstant.MESSAGE_AUDIT_INTEGER_DISPATCH);
+                return ServiceConstant.MESSAGE_AUDIT_ILLEGITMACY;
+            }
+        }catch (Exception e){//报异常 走非法参数
+            messageMapper.alterMessageAudit(id,ServiceConstant.MESSAGE_AUDIT_INTEGER_DISPATCH);
+            return ServiceConstant.MESSAGE_AUDIT_ILLEGITMACY;
+        }
+    }
+
+
 
     /**
      *用来转换信息表DTO
@@ -57,26 +124,31 @@ public class MessageServiceImpl implements MessageService {
             MessageEntity messageEntity=messageEntities.get(i);
             MessageDTO messageDTO=new MessageDTO();
             messageDTO.setMessageContent(messageEntity.getMessageContent());
-            messageDTO.setMessageCreateTime(messageEntity.getMessageCreateTime());
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            messageDTO.setMessageCreateTime(sd.format(messageEntity.getMessageCreateTime()));
             //1已处理 2未处理
             Integer status=messageEntity.getMessageStatus();
             String statusMessage=null;
             if (status==1){
-                statusMessage="已处理";
+                statusMessage="同意";
             }else if (status==2){
+                statusMessage="拒绝";
+            }else if (status==3){
                 statusMessage="未处理";
             }
+            messageDTO.setShowMessageId(i+1);
+            messageDTO.setId(messageEntity.getId());
             messageDTO.setMessageStatus(statusMessage);
             messageDTO.setMessageTitle(messageEntity.getMessageTitle());
             messageDTO.setMessageToken(messageEntity.getMessageToken());
             //进货 退货 3.货物调度
-            Integer type=messageEntity.getMessageStatus();
+            Integer type=messageEntity.getMessageTypeId();
             String messageType=null;
-            if (status==1){
+            if (type==1){
                 messageType="进货";
-            }else if (status==2){
+            }else if (type==2){
                 messageType="退货";
-            }else if (status==3){
+            }else if (type==3){
                 messageType="货物调度";
             }
             messageDTO.setMessageTypeId(messageType);
@@ -85,4 +157,5 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageDTOS;
     }
+
 }

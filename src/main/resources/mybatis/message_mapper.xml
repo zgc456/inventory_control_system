@@ -15,16 +15,26 @@
     <!-- 根据条件查询消息 -->
     <select id="findMessageAll" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
     select * from inventory_control.message where 1=1
-    <where>
-        <if test="messageToken!=null">
-            messageToken=#{messageToken}
+
+    <if test="messageTitle!=null and messageTitle!='-1'">
+      and  messageTitle=#{messageTitle}
+    </if>
+    <if test="messageCreateTime!=null">
+        and messageCreateTime>#{messageCreateTime}
+    </if>
+    <if test="messageStatus>0">
+        and messageStatus=#{messageStatus}
+     </if>
+     <if test="startNumber>0 and end>0">
+        limit ${startNumber},${end}
         </if>
-        <if test="messageCreateTime!=null">
-            <![CDATA[messageCreateTime < ${messageCreateTime}]]>
-        </if>
-        <if test="messageStatus>0">
-            messageStatus=${messageStatus}
-        </if>
-    </where>
     </select>
+
+    <select id="findMessageById" resultType="com.zhkj.inventory_control_dao.entity.MessageEntity">
+      select * from inventory_control.message where id=#{id};
+    </select>
+
+    <update id="alterMessageAudit">
+        update message set messageStatus=#{messageStatus} =  where id=#{messageId} ;
+    </update>
 </mapper>

@@ -13,11 +13,20 @@ public class MessageDTO {
     //消息类型
     private String messageTypeId;
     //消息创建时间
-    private Timestamp messageCreateTime;
+    private String messageCreateTime;
     //提交人姓名
     private String sendMessageName;
     //订单编号
     private String messageToken;
+    private Integer showMessageId;
+
+    public Integer getShowMessageId() {
+        return showMessageId;
+    }
+
+    public void setShowMessageId(Integer showMessageId) {
+        this.showMessageId = showMessageId;
+    }
 
     public int getId() {
         return id;
@@ -59,11 +68,11 @@ public class MessageDTO {
         this.messageTypeId = messageTypeId;
     }
 
-    public Timestamp getMessageCreateTime() {
+    public String getMessageCreateTime() {
         return messageCreateTime;
     }
 
-    public void setMessageCreateTime(Timestamp messageCreateTime) {
+    public void setMessageCreateTime(String  messageCreateTime) {
         this.messageCreateTime = messageCreateTime;
     }
 

@@ -27,11 +27,24 @@ public interface MessageMapper {
 
     /**
      * 查询消息
-     * @param messageToken 订单号
+     * @param messageTitle 订单号
      * @param messageCreateTime 创建时间
      * @param messageStatus 是否处理
-     *
+     *messageVo.getMessageTiele(),messageVo.getMessageCreateTime(),messageVo.getMessageType(),startNumber,MessageConstant.PAGE_LENGTH
      * @return 集合
      */
-    List<MessageEntity> findMessageAll(@Param("messageToken") String messageToken ,@Param("messageCreateTime") Date messageCreateTime ,@Param("messageStatus") Integer messageStatus);
+    List<MessageEntity> findMessageAll(@Param("messageTitle") String messageTitle ,@Param("messageCreateTime") Date messageCreateTime ,@Param("messageStatus") Integer messageStatus,@Param("startNumber") Integer startNumber,@Param("end") Integer end);
+
+    /**
+     * 根据id查询消息实体类
+     * @param id
+     * @return
+     */
+    List<MessageEntity> findMessageById(@Param("id") int id);
+
+    /**
+     * 修改处理状态
+     */
+    int alterMessageAudit(int messageId,int messageStatus);
+
 }

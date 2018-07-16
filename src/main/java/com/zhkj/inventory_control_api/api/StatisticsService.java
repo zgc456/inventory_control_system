@@ -59,4 +59,9 @@ public interface StatisticsService {
      */
      PercentageDTO incomeAndExpensesPercentage();
 
+    /**
+     * 修改一条库存表记录
+     */
+    Boolean updateStatisticsById(int id,double price,int count);
+
 }

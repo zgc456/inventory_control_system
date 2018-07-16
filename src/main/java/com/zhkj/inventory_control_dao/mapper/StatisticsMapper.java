@@ -56,6 +56,13 @@ public interface StatisticsMapper {
      */
     List<StatisticsEntity> findStatisticsToExpend();
 
+    /**
+     * 根据id修改库存表
+     * @param id
+     * @return
+     */
+    int updateStatisticsById(@Param("id") int id,@Param("financePrice") double financePrice,@Param("statisticsNumber") int statisticsNumber);
+
 
 
 }

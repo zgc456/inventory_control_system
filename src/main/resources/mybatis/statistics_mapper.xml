@@ -41,4 +41,7 @@
     <select id="findStatisticsToExpend" resultType="com.zhkj.inventory_control_dao.entity.StatisticsEntity">
     select * from inventory_control.statistics where financeTypeId=2;
     </select>
+    <update id="updateStatisticsById">
+    update inventory_control.statistics set financePrice=#{financePrice},statisticsNumber=#{statisticsNumber} where id=#{id}
+    </update>
 </mapper>

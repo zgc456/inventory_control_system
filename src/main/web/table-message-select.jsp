@@ -16,11 +16,11 @@
         <!-- Import google fonts - Heading first/ text second -->
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans:400,700' />
         <!--[if lt IE 9]>
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css" />
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet" type="text/css" />
-<link href="http://fonts.googleapis.com/css?family=Droid+Sans:400" rel="stylesheet" type="text/css" />
-<link href="http://fonts.googleapis.com/css?family=Droid+Sans:700" rel="stylesheet" type="text/css" />
-<![endif]-->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans:700" rel="stylesheet" type="text/css" />
+        <![endif]-->
         <!-- Css files -->
         <!-- Icons -->
         <link href="<%=request.getContextPath()%>/static/assets/css/icons.css" rel="stylesheet" />
@@ -325,11 +325,19 @@
                                 <div class="panel-heading white-bg" style="height: 100px;">
                                     <div style="width: 800px;height: 100px;float: left;">
                                         <div style="width: 200px;height: 50px;padding-top: 40px;float: left;">
-                                            <input type="text" class="form-control" placeholder="商品名称" id="select_commodityName">
+                                            <select class="form-control" id="messageStatus">
+                                                <option value="-1">消息状态</option>
+                                                <option value="1">同意</option>
+                                                <option value="2">拒绝</option>
+                                                <option value="3">未处理</option>
+                                            </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
-                                            <select class="form-control" id="select_commoditySpecification">
-                                                <option value="-1">商品规格</option>
+                                            <select class="form-control" id="messageTitle">
+                                                <option value="-1">消息类型</option>
+                                                <option value="发货">发货</option>
+                                                <option value="进货">进货</option>
+                                                <option value="货物调度">货物调度</option>
                                             </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
@@ -350,11 +358,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="pre10" style="text-align: center;">编号</th>
-                                                <th class="per15" style="text-align: center;">商品名称</th>
-                                                <th class="per20" style="text-align: center;">商品规格</th>
-                                                <th class="per10" style="text-align: center;">商品数量</th>
-                                                <th class="per10" style="text-align: center;">商品单价</th>
-                                                <th class="per15" style="text-align: center;">添加时间</th>
+                                                <th class="per15" style="text-align: center;">消息类型</th>
+                                                <th class="per20" style="text-align: center;">消息时间</th>
+                                                <th class="per10" style="text-align: center;">提交人姓名</th>
+                                                <th class="per10" style="text-align: center;">消息状态</th>
                                                 <th class="per10" style="text-align: center;">操作</th>
                                             </tr>
                                         </thead>
@@ -372,45 +379,38 @@
             </div>
             <!-- End .content-wrapper -->
         </div>
-        <div id="updateCommodityForm" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
+        <div id="updateMessage" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
             <div style="width: 600px;height: 300px;margin: 0px auto">
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">商品名称</label>
+                    <label class="col-lg-2 control-label">消息标题</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="commodityName">
+                        <input type="text" class="form-control required" id="messageTitles" disabled>
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">商品规格</label>
+                    <label class="col-lg-2 control-label">消息状态</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="commoditySku" disabled>
-                        <select style="width: 70%;" id="shopDetail" class="form-control" onchange="appendOptionText(this)">
-                        </select>
+                        <input type="text" class="form-control required" id="messageStutas" disabled>
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">进货数量</label>
+                    <label class="col-lg-2 control-label">消息发送人</label>
                     <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commodityNumber">
+                        <input type="number" class="form-control required" id="sendMessageName" disabled>
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group" >
-                    <label class="col-lg-2 control-label">商品警戒值</label>
+                    <label class="col-lg-2 control-label">消息内容</label>
                     <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commoditySecurityLine">
+                        <textarea class="form-control required" id="messageText" disabled></textarea>
                     </div>
                 </div>
-                <div style="height: 50px;"></div>
-                <div class="form-group" >
-                    <label class="col-lg-2 control-label">商品单价</label>
-                    <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commodityPrice">
-                    </div>
-                </div>
+
             </div>
+            <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
         </div>
         <script>
             var table;
@@ -435,185 +435,124 @@
                                 "json":returnJson()
                             });
                         },
-                        url:"<%=request.getContextPath()%>/listCommodityByCondition"
+                        url:"<%=request.getContextPath()%>/findMessage"
                     },
                     "aoColumns":[
                         {
-                            "mData": "id",
+                            <!--Dto属性名称 -->
+                            "mData": "showMessageId",
                             "bSortable": false,
                             "sWidth": "5%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "commodity.commodityName",
+                            "mData": "messageTitle",
                             "bSortable": false,
                             "sWidth": "20%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "commoditySku",
+                            "mData": "messageCreateTime",
                             "bSortable": false,
                             "sWidth": "10%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "commodityNumber",
+
+                            "mData": "sendMessageName",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "commodityPrice",
+                            "mData": "messageStatus",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
-                        {
-                            "mData": "commodityCreateTime",
-                            "bSortable": false,
-                            "sWidth": "10%",
-                            "sClass": "center"
-                        },
+
                         {
                             "mData": "id",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center",
                             "mRender":function (data,type,row) {
-                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="修改" onclick="updateCommodity('+row.id+')" /><input class="btn btn-primary btn-alt" type="button" value="删除" /></div></td>'
+                                // <!-- 查看详情
+                                // // row 对象 onClick id
+                                // -->
+                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="查看详情" onclick="selectMessage('+ row.id +')" /></div></td>'
                             }
                         }
                     ]
                 });
-                $.ajax(
-                    {
-                        url:"<%=request.getContextPath()%>/listSpecification",
-                        type:"post",
-                        success:function ($result) {
-                            if($result.success){
-                                var $select = document.getElementById("select_commoditySpecification");
-                                for(var i = 0;i < $result.data.length;i++){
-                                    var $optgroup = $(
-                                        "<optgroup label="+$result.data[i].topicName+">"+$result.data[i].detailed+"</optgroup>"
-                                    )
-                                    $optgroup.appendTo($select);
-                                }
-                            }
-                        }
-                    }
-                )
             })
             function sumbitSelect() {
+                    //搜索 刷新table
                 table.fnDraw();
             }
             function returnJson() {
-                var commodity = {};
-                commodity.commodityName = document.getElementById("select_commodityName").value;
-                commodity.commoditySku = document.getElementById("select_commoditySpecification").value;
-                commodity.createTime = document.getElementById("select_commodityCreateTime").value;
-                var json = JSON.stringify(commodity);
+                //发送参数
+                var messageVo = {};
+                messageVo.messageStatus = document.getElementById("messageStatus").value;
+                messageVo.messageTitle = document.getElementById("messageTitle").value;
+                messageVo.messageCreateTime = document.getElementById("select_commodityCreateTime").value;
+                var json = JSON.stringify(messageVo);
                 return json;
             }
-            <!-- 删除商品 -->
-            function isShop() {
-                layer.confirm("是否删除",{
-                    btn:['确认','取消']
-                },function () {
-                    $.ajax(
-                        {
-                            url:"<%=request.getContextPath()%>/",
-                            type:"post",
-                            data:{
-
-                            },
-                            success:function ($resultData) {
-                                if($resultData.success){
-
-                                }
-                            }
-                        }
-                    )
-                })
-            }
-            <!-- 修改商品 -->
-            function updateCommodity($input) {
+            function selectMessage($value) {
+                //根据id查询消息
                 layer.open(
                     {
                         type:1,
-                        title:"修改商品",
-                        closeBtn:0,
-                        area:['800px','500px'],
-                        content:$("#updateCommodityForm"),
-                        btn:['确认','取消'],
+                        title:"消息审核",
+                        closeBtn:1,
+                        area:['800px','650px'],
+                        content:$("#updateMessage"),
                         success:function () {
-                            $.ajax(
-                                {
-                                    url:"<%=request.getContextPath()%>/selectCommodity",
-                                    type:"post",
-                                    data:{
-                                        commodityId:$input
-                                    },
-                                    success:function ($resultData) {
-                                        if($resultData.success){
-                                            document.getElementById("commodityName").value = $resultData.data[0].commodity.commodityName;
-                                            document.getElementById("commoditySku").value = $resultData.data[0].commoditySku;
-                                            document.getElementById("commodityNumber").value = $resultData.data[0].commodityNumber;
-                                            document.getElementById("commoditySecurityLine").value = $resultData.data[0].commoditySecurityLine;
-                                            document.getElementById("commodityPrice").value = $resultData.data[0].commodityPrice;
-                                            appendOption();
-                                        }
+                            $.ajax({
+                                type: "get",
+                                url: "<%=request.getContextPath()%>/selectMessageById",
+                                data:{id:$value},
+                                async:false,
+                                success: function(data){
+                                    $("#messageTitles").val(data[0].messageTitle);
+                                    $("#messageStutas").val(data[0].messageStatus);
+                                    $("#sendMessageName").val(data[0].sendMessageName);
+                                    $("#messageText").val(data[0].messageContent);
+                                    if (data[0].messageStatus=="同意"||data[0].messageStatus=="拒绝"){
+                                        buttondisable();
+                                    }else{
+                                       clearButtonDisable();
                                     }
                                 }
-                            )
+                            });
                         },
-                        yes:function () {
+                        cancel:function () {
+                            $("#updateMessage").css({display:"none"});
+                        }
+                    }
+                )
+            }
+            //审核通过
+            function approved(messageId) {
 
-                        },
-                        btn2:function () {
-                            $("#updateCommodity").css({display:"none"})
-                        }
-                    }
-                )
             }
-            function cleanOptionText($option) {
-                $option.parentElement.children[0].value = "";
+            //拒绝审核
+            function auditFailure(messageId){
+
             }
-            <!-- 规格框追加数据 -->
-            function appendOptionText($option) {
-                if($option.value > 0){
-                    var $optionVale = $option.parentElement.children[0].value;
-                    if($optionVale.split(" ").length < 6){
-                        $option.parentElement.children[0].value = $optionVale + " " + $option[$option.value].text
-                    }else {
-                        layer.msg("最多选5个规格个哟",{icon:6,time:1500});
-                    }
-                }else {
-                    cleanOptionText($option);
-                }
+            function buttondisable() {
+                $("#approved").attr("disabled","true")
+                $("#auditFailure").attr("disabled","true")
             }
-            function appendOption() {
-                var $select = document.getElementById("shopDetail");
-                $.ajax(
-                    {
-                        url:"<%=request.getContextPath()%>/listSpecification",
-                        type:"post",
-                        success:function ($resultData) {
-                            $select.innerHTML = "";
-                            var $option = $("<option value='-1'>清空</option>")
-                            $option.appendTo($select);
-                            for(var j = 0;j < $resultData.data.length;j++) {
-                                var $option = $(
-                                    "<optgroup label=" + $resultData.data[j].topicName + ">" + $resultData.data[j].detailed + "</optgroup>"
-                                );
-                                $option.appendTo($select);
-                            }
-                        }
-                    }
-                )
+            function clearButtonDisable() {
+                $("#approved").removeAttr("disabled")
+                $("#auditFailure").removeAttr("disabled")
             }
         </script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
-        <script src="<%=request.getContextPath()%>/static/assets/js/jquery-1.8.3.min.js"></script>
+        <script src="<%=request.getContextPath()%>
+         /static/assets/js/jquery-1.8.3.min.js"></script>
         <script>
         window.jQuery || document.write('<script src="<%=request.getContextPath()%>/static/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
         </script>

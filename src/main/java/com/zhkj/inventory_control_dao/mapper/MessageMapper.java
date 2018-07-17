@@ -45,6 +45,6 @@ public interface MessageMapper {
     /**
      * 修改处理状态
      */
-    int alterMessageAudit(int messageId,int messageStatus);
+    int alterMessageAudit(@Param("messageId") int messageId,@Param("messageStatus") int messageStatus);
 
 }

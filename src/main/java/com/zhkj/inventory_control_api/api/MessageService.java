@@ -1,5 +1,6 @@
 package com.zhkj.inventory_control_api.api;
 
+import com.zhkj.inventory_control_api.dto.MessageAuditDTO;
 import com.zhkj.inventory_control_api.dto.MessageDTO;
 import com.zhkj.inventory_control_api.vo.MessageVo;
 import com.zhkj.inventory_control_dao.entity.MessageEntity;
@@ -51,7 +52,7 @@ public interface MessageService {
      * @param messageTitle 审核类型  发货 or 退货
      * @return 审核状态
      */
-    String isApprove(int id,int state,String messageTitle, HttpServletRequest request);
+    MessageAuditDTO isApprove(int id, int state, String messageTitle, HttpServletRequest request);
 
 
 

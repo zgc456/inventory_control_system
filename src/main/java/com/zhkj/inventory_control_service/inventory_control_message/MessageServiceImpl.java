@@ -2,6 +2,7 @@ package com.zhkj.inventory_control_service.inventory_control_message;
 
 import com.zhkj.inventory_control_api.api.MessageService;
 import com.zhkj.inventory_control_api.api.OperationLogService;
+import com.zhkj.inventory_control_api.dto.MessageAuditDTO;
 import com.zhkj.inventory_control_api.dto.MessageDTO;
 import com.zhkj.inventory_control_api.dto.OperationLogDTO;
 import com.zhkj.inventory_control_api.vo.MessageVo;
@@ -13,6 +14,7 @@ import com.zhkj.inventory_control_tools.MessageConstant;
 import com.zhkj.inventory_control_tools.ServiceConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -79,48 +81,49 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public String isApprove(int id, int state, String messageTitle, HttpServletRequest request) {
-        try {
-            if (state == ServiceConstant.IS_PASS) { //审核同意
-                //kafka
-                //参数（处理人，处理唯一标识，同意 或者 拒绝）
-                //判断是发货还是退货
-                if (messageTitle.equals("退货")) {   //如果是退货
-                    //修改message
-                    messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
-                    //添加日志表
-                    operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SALESRETURN, "审核通过", request);
-                    //加库存
-                } else if (messageTitle.equals("发货")) {//如果是发货
-                    //修改message
-                    messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
-                    //添加日志表
-                    operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS, "审核通过", request);
-                    //发货减库存
-                }
-                return ServiceConstant.MESSAGE_AUDIT_ISOK; //同意审核
-            } else if (state == ServiceConstant.NOT_PASS) { //审核拒绝
+    @Transactional
+    public MessageAuditDTO isApprove(int id, int state, String messageTitle, HttpServletRequest request) {
+
+        if (state == ServiceConstant.IS_PASS) { //审核同意
+            //kafka
+            //参数（处理人，处理唯一标识，同意 或者 拒绝）
+            //判断是发货还是退货
+            if (messageTitle.equals("退货")) {   //如果是退货
                 //修改message
-                messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_SALERETURN);
+                messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
                 //添加日志表
-                if (messageTitle.equals("退货")) {   //如果是退货
-                    operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SALESRETURN, "审核未通过", request);
-                } else { //发货
-                    operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS, "审核未通过", request);
-                }
-                //kafka
-                //参数（处理人，处理唯一标识，同意 或者 拒绝）
-                return ServiceConstant.MESSAGE_AUDIT_NOTOK; //拒绝审核
-            } else { //非法参数
-                messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_DISPATCH);
-                return ServiceConstant.MESSAGE_AUDIT_ILLEGITMACY;
+                operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SALESRETURN, "审核通过", request);
+                //加库存
+            } else if (messageTitle.equals("发货")) {//如果是发货
+                //修改message
+                messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
+                //添加日志表
+                operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS, "审核通过", request);
+                //发货减库存
             }
-        } catch (Exception e) {//报异常 走非法参数
+            return getMessageAuditDTO(ServiceConstant.MESSAGE_AUDIT_ISOK); //同意审核
+        } else if (state == ServiceConstant.NOT_PASS) { //审核拒绝
+            //修改message
+            messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_SALERETURN);
+            //添加日志表
+            if (messageTitle.equals("退货")) {   //如果是退货
+                operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SALESRETURN, "审核未通过", request);
+            } else { //发货
+                operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS, "审核未通过", request);
+            }
+            //kafka
+            //参数（处理人，处理唯一标识，同意 或者 拒绝）
+            return getMessageAuditDTO(ServiceConstant.MESSAGE_AUDIT_NOTOK); //拒绝审核
+        } else { //非法参数
             messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_DISPATCH);
-            return ServiceConstant.MESSAGE_AUDIT_ILLEGITMACY;
+            return getMessageAuditDTO(ServiceConstant.MESSAGE_AUDIT_ILLEGITMACY);
         }
+
     }
 
+    private MessageAuditDTO getMessageAuditDTO(String auditResult) {
+        return new MessageAuditDTO(auditResult);
+    }
 
     /**
      * 用来转换信息表DTO

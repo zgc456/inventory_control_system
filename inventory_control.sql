@@ -108,49 +108,57 @@ CREATE TABLE `commoditytype` (
 INSERT INTO `commoditytype` VALUES ('1', '酒类');
 INSERT INTO `commoditytype` VALUES ('2', '红酒');
 
+
+
 -- ----------------------------
--- Table structure for financetype
+INSERT INTO `statistics` VALUES ('1', '2018-06-14 02:41:07', '1', '1', '1.00', '1', '1');
+INSERT INTO `statistics` VALUES ('2', '2018-06-14 16:30:55', '2', '2', '2.00', '2', '2');
+INSERT INTO `statistics` VALUES ('3', '2018-06-25 07:00:05', '1', '1', '23.00', '1', '2');
+INSERT INTO `statistics` VALUES ('4', '2018-06-25 07:00:18', '1', '1', '1.00', '1', '1');
+INSERT INTO `statistics` VALUES ('5', '2018-06-26 00:26:42', '1', '1', '1.00', '2', '1');
+INSERT INTO `statistics` VALUES ('6', '2018-06-26 00:27:01', '1', '1', '1.00', '1', '1');
+
 -- ----------------------------
-DROP TABLE IF EXISTS `financetype`;
-CREATE TABLE `financetype` (
+-- Table structure for statisticstype
+-- ----------------------------
+DROP TABLE IF EXISTS `statisticstype`;
+CREATE TABLE `statisticstype` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `financeTypeName` varchar(20) DEFAULT NULL COMMENT '财务类型名称',
+  `statisticsTypeName` varchar(20) DEFAULT NULL COMMENT '统计类型名称',
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of financetype
+-- Records of statisticstype
 -- ----------------------------
-INSERT INTO `financetype` VALUES ('1', '收入');
-INSERT INTO `financetype` VALUES ('2', '支出');
+INSERT INTO `statisticstype` VALUES ('1', '进货');
+INSERT INTO `statisticstype` VALUES ('2', '退货');
+INSERT INTO `statisticstype` VALUES ('3', '卖出');
 
--- ----------------------------
--- Table structure for message
--- ----------------------------
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `messageTitle` varchar(50) DEFAULT NULL COMMENT '消息标题',
   `messageContent` varchar(200) DEFAULT NULL COMMENT '消息内容',
-  `messageStatus` int(11) DEFAULT NULL COMMENT '消息状态 1:已读 2:未读',
+  `messageStatus` int(11) DEFAULT NULL COMMENT '消息状态 1:已处理 2:未处理',
   `messageTypeId` int(11) DEFAULT NULL COMMENT '消息类型',
   `messageCreateTime` datetime DEFAULT NULL COMMENT '消息创建时间',
+  `sendMessageName` varchar(50) DEFAULT NULL COMMENT '发送消息人',
+  `messageToken` varchar(50) DEFAULT NULL COMMENT '发送  消息的标识用来回掉',
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of message
 -- ----------------------------
+INSERT INTO `message` VALUES ('1', '发货', '1', '1', '1', '2018-07-10 02:47:18', '1', '1');
+INSERT INTO `message` VALUES ('2', '退货', '2', '2', '2', '2018-07-10 02:47:33', '2', '2');
+INSERT INTO `message` VALUES ('3', '发货', '1', '3', '2', '2018-07-16 08:44:40', '1', '1');
 
--- ----------------------------
--- Table structure for messagetype
--- ----------------------------
-DROP TABLE IF EXISTS `messagetype`;
-CREATE TABLE `messagetype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `messageTypeName` varchar(20) DEFAULT NULL COMMENT '消息类型名称',
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 
 -- ----------------------------
 -- Records of messagetype
@@ -204,41 +212,10 @@ CREATE TABLE `specificationtopic` (
 -- ----------------------------
 INSERT INTO `specificationtopic` VALUES ('1', '大小');
 
--- ----------------------------
--- Table structure for statistics
--- ----------------------------
-DROP TABLE IF EXISTS `statistics`;
-CREATE TABLE `statistics` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `statisticsCreateTime` datetime DEFAULT NULL COMMENT '记录时间',
-  `statisticsTypeId` int(11) DEFAULT NULL COMMENT '统计类型_外键',
-  `commodityInventoryId` int(11) DEFAULT NULL COMMENT '库存id',
-  `financePrice` decimal(10,2) DEFAULT NULL COMMENT '财务金额',
-  `financeTypeId` int(11) DEFAULT NULL COMMENT '财务类型',
-  `statisticsNumber` int(11) DEFAULT NULL COMMENT '数量',
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of statistics
--- ----------------------------
 
--- ----------------------------
--- Table structure for statisticstype
--- ----------------------------
-DROP TABLE IF EXISTS `statisticstype`;
-CREATE TABLE `statisticstype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `statisticsTypeName` varchar(20) DEFAULT NULL COMMENT '统计类型名称',
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of statisticstype
--- ----------------------------
-INSERT INTO `statisticstype` VALUES ('1', '进货');
-INSERT INTO `statisticstype` VALUES ('2', '退货');
-INSERT INTO `statisticstype` VALUES ('3', '卖出');
+
 
 -- ----------------------------
 -- Table structure for supplier

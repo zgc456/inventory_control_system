@@ -35,6 +35,6 @@
     </select>
 
     <update id="alterMessageAudit">
-        update message set messageStatus=#{messageStatus} =  where id=#{messageId} ;
+        update message set messageStatus=#{messageStatus}  where id=#{messageId} ;
     </update>
 </mapper>

@@ -530,6 +530,7 @@
             }
             function selectMessage($value) {
                 //根据id查询消息
+                messageid=$value
                 layer.open(
                     {
                         type:1,
@@ -562,13 +563,39 @@
                     }
                 )
             }
+            var messageid=0;
             //审核通过
             function approved(messageId) {
+                $.ajax({
+                    type: "get",
+                    url: "<%=request.getContextPath()%>/auditMessage",
+                    async:false,
+                    data:{id:messageid,messageState:1,messageTitle:$("#messageTitles").val()},
+                    success: function(data){
+                        //关闭弹窗
+                        layer.closeAll();
+                        //刷新table
+                        table.fnDraw();
+                        layer.msg(data.auditMessage,{icon:6,time:1500});
 
+                    }
+                });
             }
             //拒绝审核
             function auditFailure(messageId){
-
+                $.ajax({
+                    type: "get",
+                    url: "<%=request.getContextPath()%>/auditMessage",
+                    async:false,
+                    data:{id:messageid,messageState:-1,messageTitle:$("#messageTitles").val()},
+                    success: function(data){
+                        //关闭弹窗
+                        layer.closeAll();
+                        //刷新table
+                        table.fnDraw();
+                        layer.msg(data.auditMessage,{icon:5,time:1500});
+                    }
+                });
             }
             function buttondisable() {
                 $("#approved").attr("disabled","true")
@@ -612,5 +639,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/jquery.dataTables.min.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/jquery.dataTables.bootstrap.js"></script>
         <script src="<%=request.getContextPath()%>/static/assets/js/dataTable/dataTables.select.js"></script>
-    </body>
+        <script src="<%=request.getContextPath()%>/static/assets/layer/layer.js"></script>
+        /body>
 </html>

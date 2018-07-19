@@ -203,7 +203,7 @@
                     <!-- Start .row -->
                     <!-- Start .page-header -->
                     <div class="col-lg-12 heading">
-
+<<<<<<< Updated upstream
                         <h1 class="page-header"><i class="im-table2"></i> Tables</h1>
                         <!-- Start .bredcrumb -->
                         <ul id="crumb" class="breadcrumb">
@@ -312,7 +312,6 @@
                             </div>
                         </div>
                         <!-- End .option-buttons -->
-
                     </div>
                     <!-- End .page-header -->
                 </div>
@@ -327,7 +326,6 @@
                                 <div class="panel-heading white-bg" style="height: 100px;">
                                     <div style="width: 800px;height: 100px;float: left;">
                                         <div style="width: 200px;height: 50px;padding-top: 40px;float: left;">
-
                                             <select class="form-control" id="messageStatus">
                                                 <option value="-1">消息状态</option>
                                                 <option value="1">同意</option>
@@ -341,7 +339,6 @@
                                                 <option value="发货">发货</option>
                                                 <option value="进货">进货</option>
                                                 <option value="货物调度">货物调度</option>
-
                                             </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
@@ -362,12 +359,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="pre10" style="text-align: center;">编号</th>
-
                                                 <th class="per15" style="text-align: center;">消息类型</th>
                                                 <th class="per20" style="text-align: center;">消息时间</th>
                                                 <th class="per10" style="text-align: center;">提交人姓名</th>
                                                 <th class="per10" style="text-align: center;">消息状态</th>
-
                                                 <th class="per10" style="text-align: center;">操作</th>
                                             </tr>
                                         </thead>
@@ -385,37 +380,30 @@
             </div>
             <!-- End .content-wrapper -->
         </div>
-
         <div id="updateMessage" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
             <div style="width: 600px;height: 300px;margin: 0px auto">
                 <div class="form-group">
                     <label class="col-lg-2 control-label">消息标题</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control required" id="messageTitles" disabled>
-
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
-
                     <label class="col-lg-2 control-label">消息状态</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control required" id="messageStutas" disabled>
-
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
-
                     <label class="col-lg-2 control-label">消息发送人</label>
                     <div class="col-lg-10">
                         <input type="number" class="form-control required" id="sendMessageName" disabled>
-
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group" >
-
                     <label class="col-lg-2 control-label">消息内容</label>
                     <div class="col-lg-10">
                         <textarea class="form-control required" id="messageText" disabled></textarea>
@@ -424,7 +412,6 @@
 
             </div>
             <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
-
         </div>
         <script>
             var table;
@@ -449,39 +436,30 @@
                                 "json":returnJson()
                             });
                         },
-
                         url:"<%=request.getContextPath()%>/findMessage"
                     },
                     "aoColumns":[
                         {
                             <!--Dto属性名称 -->
                             "mData": "showMessageId",
-
                             "bSortable": false,
                             "sWidth": "5%",
                             "sClass": "center"
                         },
                         {
-
                             "mData": "messageTitle",
-
                             "bSortable": false,
                             "sWidth": "20%",
                             "sClass": "center"
                         },
                         {
-
                             "mData": "messageCreateTime",
-
                             "bSortable": false,
                             "sWidth": "10%",
                             "sClass": "center"
                         },
                         {
-
-
                             "mData": "sendMessageName",
-
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
@@ -489,33 +467,26 @@
                         {
 
                             "mData": "messageStatus",
-
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
-
-
-
                         {
                             "mData": "id",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center",
                             "mRender":function (data,type,row) {
-
                                 // <!-- 查看详情
                                 // // row 对象 onClick id
                                 // -->
                                 return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="查看详情" onclick="selectMessage('+ row.id +')" /></div></td>'
-
                             }
                         }
                     ]
                 });
             })
             function sumbitSelect() {
-
                     //搜索 刷新table
                 table.fnDraw();
             }
@@ -609,7 +580,6 @@
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>
         <script src="<%=request.getContextPath()%>
          /static/assets/js/jquery-1.8.3.min.js"></script>
-
         <script>
         window.jQuery || document.write('<script src="<%=request.getContextPath()%>/static/assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
         </script>

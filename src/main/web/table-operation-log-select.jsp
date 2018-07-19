@@ -367,7 +367,7 @@
                             "sWidth": "15%",
                             "sClass": "center",
                             "mRender":function (data,type,row) {
-                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" onclick="selectOperationDescribe('+ row.id +')" value="查看详情" /><input class="btn btn-primary btn-alt" type="button" value="删除" /></div></td>'
+                                return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" onclick="selectOperationDescribe('+ row.id +')" value="查看详情" /><input class="btn btn-primary btn-alt" onclick="removeOperationLog('+ row.id +')" type="button" value="删除" /></div></td>'
                             }
                         }
                     ]
@@ -401,6 +401,18 @@
                         }
                     }
                 )
+            }
+            function removeOperationLog($value) {
+                layer.confirm('确定要删除吗',{
+                    btn:['确定','取消']
+                },function () {
+                    $.post("<%=request.getContextPath()%>/deleteOperationLog",{operationId:$value},function ($resultData) {
+                        if($resultData.success){
+                            layer.msg($resultData.message,{icon:6,time:1500});
+                            table.fnDraw();
+                        }
+                    });
+                })
             }
         </script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>

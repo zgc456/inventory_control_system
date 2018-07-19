@@ -379,42 +379,45 @@
         </div>
         <div id="updateCommodity" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
             <div style="width: 600px;height: 300px;margin: 0px auto">
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">商品名称</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="commodityName">
+                <form id="updateCommodityFrom">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">商品名称</label>
+                        <div class="col-lg-10">
+                            <input type="text" style="display:none" id="commodityId">
+                            <input type="text" class="form-control required" id="commodityName" name="commodityName">
+                        </div>
                     </div>
-                </div>
-                <div style="height: 50px;"></div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">商品规格</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="commoditySku" disabled>
-                        <select style="width: 70%;" id="shopDetail" class="form-control" onchange="appendOptionText(this)">
-                        </select>
+                    <div style="height: 50px;"></div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">商品规格</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control required" id="commoditySku" disabled>
+                            <select style="width: 70%;" id="shopDetail" class="form-control" onchange="appendOptionText(this)">
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div style="height: 50px;"></div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">进货数量</label>
-                    <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commodityNumber">
+                    <div style="height: 50px;"></div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">进货数量</label>
+                        <div class="col-lg-10">
+                            <input type="number" class="form-control required" id="commodityNumber" name="commodityNumber">
+                        </div>
                     </div>
-                </div>
-                <div style="height: 50px;"></div>
-                <div class="form-group" >
-                    <label class="col-lg-2 control-label">商品警戒值</label>
-                    <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commoditySecurityLine">
+                    <div style="height: 50px;"></div>
+                    <div class="form-group" >
+                        <label class="col-lg-2 control-label">商品警戒值</label>
+                        <div class="col-lg-10">
+                            <input type="number" class="form-control required" id="commoditySecurityLine" name="commoditySecurityLine">
+                        </div>
                     </div>
-                </div>
-                <div style="height: 50px;"></div>
-                <div class="form-group" >
-                    <label class="col-lg-2 control-label">商品单价</label>
-                    <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="commodityPrice">
+                    <div style="height: 50px;"></div>
+                    <div class="form-group" >
+                        <label class="col-lg-2 control-label">商品单价</label>
+                        <div class="col-lg-10">
+                            <input type="number" class="form-control required" id="commodityPrice" name="commodityPrice">
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <script>
@@ -437,9 +440,7 @@
                         type:"POST",
                         data: function(d) {
                             return $.extend({}, d, {
-                                "commodityName":$("#select_commodityName").val(),
-                                "commoditySku":$("#select_commoditySpecification").val(),
-                                "createTime":$("#select_commodityCreateTime").val()
+                                "json":returnJson()
                             });
                         },
                         url:"<%=request.getContextPath()%>/listCommodityByCondition"
@@ -513,30 +514,28 @@
             function sumbitSelect() {
                 table.fnDraw();
             }
+            function returnJson() {
+                var commodity = {};
+                commodity.commodityName = document.getElementById("select_commodityName").value;
+                commodity.commoditySku = document.getElementById("select_commoditySpecification").value;
+                commodity.createTime = document.getElementById("select_commodityCreateTime").value;
+                var json = JSON.stringify(commodity);
+                return json;
+            }
             <!-- 删除商品 -->
-            function isShop() {
+            function isShop($commodityId) {
                 layer.confirm("是否删除",{
                     btn:['确认','取消']
                 },function () {
-                    $.ajax(
-                        {
-                            url:"<%=request.getContextPath()%>/",
-                            type:"post",
-                            data:{
-
-                            },
-                            success:function ($resultData) {
-                                if($resultData.success){
-
-                                }
-                            }
+                    $.post("<%=request.getContextPath()%>/deleteCommodity",{commodityId:$commodityId},function ($resultData) {
+                        if($resultData.success){
+                            layer.msg($resultData.message,{icon:6,time:1500});
                         }
-                    )
+                    })
                 })
             }
             <!-- 修改商品 -->
             function updateCommodity($input) {
-                var $commodityInventoryId = $input.parentElement.parentElement.parentElement.children[0].innerHTML;
                 layer.open(
                     {
                         type:1,
@@ -551,10 +550,11 @@
                                     url:"<%=request.getContextPath()%>/selectCommodity",
                                     type:"post",
                                     data:{
-                                        commodityId:$commodityInventoryId
+                                        commodityId:$input
                                     },
                                     success:function ($resultData) {
                                         if($resultData.success){
+                                            document.getElementById("commodityId").value = $resultData.data[0].id;
                                             document.getElementById("commodityName").value = $resultData.data[0].commodity.commodityName;
                                             document.getElementById("commoditySku").value = $resultData.data[0].commoditySku;
                                             document.getElementById("commodityNumber").value = $resultData.data[0].commodityNumber;
@@ -567,7 +567,23 @@
                             )
                         },
                         yes:function () {
-
+                            if(examineUpdateFrom()){
+                                var $jsonFromData = {};
+                                var $updateFromData = new FormData(document.getElementById("updateCommodityFrom"));
+                                $updateFromData.append("id",document.getElementById("commodityId").value);
+                                $updateFromData.append("commoditySku",document.getElementById("commoditySku").value);
+                                for(var entity of $updateFromData.entries()){
+                                    $jsonFromData[entity[0]] = entity[1];
+                                }
+                                $.post("<%=request.getContextPath()%>/updateCommodity",{json:JSON.stringify($jsonFromData)},function ($resultData) {
+                                    if($resultData.success){
+                                        layer.msg($resultData.message,{icon:6,time:1500});
+                                        $("#updateCommodity").css({display:"none"});
+                                        layer.closeAll();
+                                        table.fnDraw();
+                                    }
+                                })
+                            }
                         },
                         btn2:function () {
                             $("#updateCommodity").css({display:"none"})
@@ -610,6 +626,38 @@
                         }
                     }
                 )
+            }
+            function examineUpdateFrom() {
+                if(null == $("#commodityName").val() || "" == $("#commodityName").val()){
+                    layer.msg("商品名称不能为空",{icon:6,time:1500});
+                    return false;
+                }
+                if(null == $("#commoditySku").val() || "" == $("#commoditySku").val()){
+                    layer.msg("商品规格不能为空",{icon:6,time:1500});
+                    return false;
+                }
+                if(null == $("#commodityNumber").val || "" == $("#commodityNumber").val()){
+                    layer.msg("进货数量不能为空",{icon:6,time:1500});
+                    return false;
+                }else if(parseInt($("#commodityNumber").val()) <= 0){
+                    layer.msg("商品数量不能小于等于0",{icon:6,time:1500});
+                    return false;
+                }
+                if(null == $("#commoditySecurityLine").val || "" == $("#commoditySecurityLine").val()){
+                    layer.msg("商品警戒数量不能为空",{icon:6,time:1500});
+                    return false;
+                }else if(parseInt($("#commoditySecurityLine").val()) <= 0){
+                    layer.msg("商品警戒数量不能小于等于0",{icon:6,time:1500});
+                    return false;
+                }
+                if(null == $("#commodityPrice").val || "" == $("#commodityPrice").val()){
+                    layer.msg("商品价格不能为空",{icon:6,time:1500});
+                    return false;
+                }else if(parseInt($("#commodityPrice").val()) <= 0){
+                    layer.msg("商品价格不能小于等于0",{icon:6,time:1500});
+                    return false;
+                }
+                return true;
             }
         </script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>

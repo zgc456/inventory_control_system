@@ -50,7 +50,7 @@ public interface CommodityInventoryService {
      * @param commodityId 库存id
      * @return
      */
-    Result deleteCommodityByCommodityInventoryId(Integer commodityId);
+    Result deleteCommodityByCommodityInventoryId(Integer commodityId,HttpServletRequest request);
 
     /**
      * 根据库存 id 修改商品

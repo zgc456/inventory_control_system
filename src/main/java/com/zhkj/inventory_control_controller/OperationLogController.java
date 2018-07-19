@@ -24,4 +24,8 @@ public class OperationLogController {
     public Result selectOperationLogByOperationId(Integer operationId){
         return operationLogService.selectOperationById(operationId);
     }
+    @RequestMapping(value = "/deleteOperationLog",method = RequestMethod.POST)
+    public Result deleteOperationLogByOperationId(Integer operationId){
+        return operationLogService.deleteOperationLog(operationId);
+    }
 }

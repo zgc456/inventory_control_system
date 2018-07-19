@@ -14,6 +14,7 @@ import com.zhkj.inventory_control_dao.entity.StatisticsEntity;
 import com.zhkj.inventory_control_dao.mapper.CommodityInventoryMapper;
 import com.zhkj.inventory_control_dao.mapper.CommodityMapper;
 import com.zhkj.inventory_control_dao.mapper.SpecificationDetailedMapper;
+import com.zhkj.inventory_control_dao.mapper.SupplierMapper;
 import com.zhkj.inventory_control_tools.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,17 +124,27 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
     }
 
     @Override
-    public Result deleteCommodityByCommodityInventoryId(Integer commodityId) {
+    public Result deleteCommodityByCommodityInventoryId(Integer commodityId,HttpServletRequest request) {
         System.out.println(1);
         Result result = new Result();
         if(null != commodityId){
             CommodityinventoryEntity commodityinventoryEntity = commodityInventoryMapper
                     .selectCommodityinventoryToId(commodityId);
+            CommodityEntity commodityEntity = commodityMapper.selectCommodityByCommodityId(commodityinventoryEntity.getCommodityId());
             int isTrue = commodityMapper.delCommodity(commodityinventoryEntity.getCommodityId());
             if(isTrue > 0){
                 if(commodityInventoryMapper.delCommodityInventory(commodityId) > 0){
                     result.setSuccess(true);
                     result.setMessage(MessageConstant.DELETE_COMMODITY_SUCCEED);
+                    CommodityVo commodityVo = new CommodityVo();
+                    CommodityInventoryVo commodityInventoryVo = new CommodityInventoryVo();
+                    commodityVo.setSupplierName(commodityEntity.getCommodityName());
+                    commodityInventoryVo.setCommodityPrice(commodityinventoryEntity.getCommodityPrice());
+                    commodityInventoryVo.setCommoditySku(commodityinventoryEntity.getCommoditySku());
+                    commodityInventoryVo.setCommodityNumber(commodityinventoryEntity.getCommodityNumber());
+                    commodityInventoryVo.setCommoditySecurityLine(commodityinventoryEntity.getCommoditySecurityLine());
+                    operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_SHOP,MessageConstant.OPERATION_MODEL_ACTION_SHOP_DELETE
+                            ,joinMessage(commodityVo,commodityInventoryVo,2),request);
                 }
             }
         }
@@ -146,6 +157,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
         if(null != commodityInventoryVo){
             // 获取要修改的商品库存信息
             CommodityinventoryEntity resultCommodityInventoryEntity = commodityInventoryMapper.selectCommodityinventoryToId(commodityInventoryVo.getId());
+            // 如果商品名称改变,修改商品名称
             if(commodityMapper.selectCommodityToName(commodityInventoryVo.getCommodityName()) < 1){
                 /*
                     修改商品信息
@@ -153,7 +165,6 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
                 CommodityEntity commodityEntity = new CommodityEntity();
                 commodityEntity.setId(resultCommodityInventoryEntity.getCommodityId());
                 commodityEntity.setCommodityName(commodityInventoryVo.getCommodityName());
-                commodityEntity.setSupplierId(commodityInventoryVo.getSupplierId());
                 commodityMapper.updateCommodity(commodityEntity);
             }
             // 获取商品规格信息
@@ -172,7 +183,6 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
                 result.setMessage(MessageConstant.OPERATION_MODEL_ACTION_SHOP_INSERT);
                 CommodityVo commodityVo = new CommodityVo();
                 commodityVo.setCommodityName(commodityInventoryVo.getCommodityName());
-                commodityVo.setSupplierName(commodityInventoryVo.getSupplierName());
                 operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_SHOP,MessageConstant.OPERATION_MODEL_ACTION_SHOP_UPDATE
                 ,joinMessage(commodityVo,commodityInventoryVo,2),request);
             }
@@ -255,8 +265,8 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
     private String joinMessage(CommodityVo commodityVo,CommodityInventoryVo commodityInventoryVo,int index){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("商品名称:" + commodityVo.getCommodityName());
-        stringBuffer.append("\n供应厂商:" + commodityVo.getSupplierName());
         if(index == 1){
+            stringBuffer.append("\n供应厂商:" + commodityVo.getSupplierName());
             for(int i = 0;i < commodityVo.getCommoditySku().length;i++){
                 stringBuffer.append("\n商品规格:" + commodityVo.getCommoditySku()[i] + " 商品数量:" + commodityVo.getCommodityNumber()[i]
                         + " 商品警戒数量:" + commodityVo.getCommoditySecurityLine()[i] + " 商品价格:" + commodityVo.getCommodityPrice()[i]);
@@ -282,7 +292,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
             commInventoryDto.setId(commodityInventoryEntityList.get(i).getId());
             commInventoryDto.setCommodityNumber(commodityInventoryEntityList.get(i).getCommodityNumber());
             commInventoryDto.setCommoditySecurityLine(commodityInventoryEntityList.get(i).getCommoditySecurityLine());
-            commInventoryDto.setCommodityPrice(commodityInventoryEntityList.get(i).getCommodityPrice() + ".00");
+            commInventoryDto.setCommodityPrice(commodityInventoryEntityList.get(i).getCommodityPrice().toString());
             commInventoryDto.setCommoditySku(getCommoditySku(commodityInventoryEntityList.get(i).getCommoditySku(),specificationdetailedEntityList));
             commInventoryDto.setCommodityCreateTime(ConverDateTools.convertDateByCondition(commodityInventoryEntityList.get(i).getCommodityCreateTime()
                     ,ConverDateTools.YEAR_MONTH_DATE_HOUR_MINUTE_SECOND));

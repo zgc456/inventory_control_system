@@ -14,7 +14,9 @@
     </delete>
     <!-- 修改商品 -->
     <update id="updateCommodity">
-    update inventory_control.commodity set commodityName=#{CommodityEntity.commodityName},commodityIntroduce=#{CommodityEntity.commodityIntroduce},commodityBigPictureUrl=#{CommodityEntity.commodityBigPictureUrl} where id=#{CommodityEntity.id}
+    update inventory_control.commodity
+    set commodityName=#{CommodityEntity.commodityName}
+    where id=#{CommodityEntity.id}
     </update>
     <!-- 查询商品 -->
     <select id="getCommodity" resultType="com.zhkj.inventory_control_dao.entity.CommodityEntity">

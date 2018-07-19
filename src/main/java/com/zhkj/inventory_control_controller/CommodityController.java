@@ -73,4 +73,15 @@ public class CommodityController {
         CommodityInventoryVo commodityInventoryVo = JSON.parseObject(json,CommodityInventoryVo.class);
         return commodityInventoryService.updateCommodityByCommodityId(commodityInventoryVo,request);
     }
+
+    /**
+     * 根据商品 id 删除商品
+     * @param commodityId 商品 id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteCommodity",method = RequestMethod.POST)
+    public Result deleteCommodityByCommodityId(Integer commodityId,HttpServletRequest request){
+        return commodityInventoryService.deleteCommodityByCommodityInventoryId(commodityId,request);
+    }
 }

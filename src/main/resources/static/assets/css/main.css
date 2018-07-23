@@ -2842,22 +2842,7 @@ h6 i {
 .profile-widget .profile-info li:hover {
   background-color: #f3f5f6;
 }
-/* ------------------ Notifications --------------------*/
-.notification {
-  background-color: #f68484;
-  border-radius: 4px;
-  font: bold 11px Arial;
-  color: #ffffff;
-  line-height: 20px;
-  min-width: 20px;
-  position: absolute;
-  top: 6px;
-  right: 5px;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  padding-left: 4px;
-  padding-right: 4px;
-}
+
 .notification.green {
   background-color: #71d398;
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class KafkaController {
+
     @Autowired
     InteractionService interactionService;
     @RequestMapping("/sendMapping")

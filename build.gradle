@@ -1,3 +1,5 @@
+import javax.xml.crypto.Data
+
 plugins {
     id 'war'
 }
@@ -21,6 +23,7 @@ dependencies {
     compile "javax.servlet:jstl:1.2"
     //AspectJ（切点表达式）
     compile "org.aspectj:aspectjrt:1.7.4"
+
     compile "org.aspectj:aspectjweaver:1.7.4"
 // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.10'

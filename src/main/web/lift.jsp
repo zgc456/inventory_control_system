@@ -14,7 +14,7 @@
                 <a href="table-operation-log-select.jsp"><i class="im-checkbox-checked"></i>财务报表</a>
             </li>
             <li>
-                <a href="#"> 商品管理 <i class="im-paragraph-justify"></i></a>
+                <a href="#"> 商品管理 <i class="im-paragraph-justify"></i>  </a>
                 <ul class="nav sub">
                     <li><a href="table-shop-select.jsp"><i class="im-checkbox-checked"></i>查看已有商品</a></li>
                     <li><a href="form-shop-add.jsp"><i class="im-checkbox-checked"></i>商品添加</a></li>
@@ -31,12 +31,25 @@
                 <a href="#"> 消息管理 <i class="im-paragraph-justify"></i></a>
                 <ul class="nav sub">
                     <li><a href="table-message-select.jsp"><i class="im-checkbox-checked"></i>查看消息</a></li>
-                    <li><a href=""><i class="im-checkbox-checked"></i>待处理消息</a></li>
+                    <li><a href="Inventory-warning-information.jsp"><i class="im-checkbox-checked"></i>库存预警消息</a></li>
                 </ul>
             </li>
         </ul>
         <!-- End #sideNav -->
     </div>
+
+    <script>
+
+        $(function () {
+            $(".notExpand .notification").hide();
+        })
+        $(function () {
+            $(".notExpand .notification").hide();
+        })
+
+    </script>
+
+
     <!-- End .sidebar-inner -->
 </div>
 

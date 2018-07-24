@@ -328,18 +328,18 @@
                                         <div style="width: 200px;height: 50px;padding-top: 40px;float: left;">
                                             <select class="form-control" id="messageStatus">
                                                 <option value="-1">消息状态</option>
-                                                <option value="1">同意</option>
-                                                <option value="2">拒绝</option>
-                                                <option value="3">未处理</option>
+                                                <option value="1">已提交</option>
+                                                <option value="2">未处理</option>
                                             </select>
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
-                                            <select class="form-control" id="messageTitle">
-                                                <option value="-1">消息类型</option>
-                                                <option value="发货">发货</option>
-                                                <option value="进货">进货</option>
-                                                <option value="货物调度">货物调度</option>
-                                            </select>
+                                            <%--<select class="form-control" id="messageTitle">--%>
+                                                <%--<option value="-1">消息类型</option>--%>
+                                                <%--<option value="发货">发货</option>--%>
+                                                <%--<option value="进货">进货</option>--%>
+                                                <%--<option value="货物调度">货物调度</option>--%>
+                                            <%--</select>--%>
+                                                <span style="float: left;font-size: 16px;">商品名称:</span><input type="text" class="form-control" id="CommodityName">
                                         </div>
                                         <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
                                             <span style="float: left;font-size: 16px;">起始日期:</span><input type="date" class="form-control" id="select_commodityCreateTime">
@@ -359,10 +359,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="pre10" style="text-align: center;">编号</th>
-                                                <th class="per15" style="text-align: center;">消息状态</th>
+                                                <th class="per15" style="text-align: center;">预警时间</th>
                                                 <th class="per20" style="text-align: center;">商品名称</th>
                                                 <th class="per10" style="text-align: center;">商品规格</th>
-                                                <th class="per10" style="text-align: center;">库存剩余数量</th>
+                                                <th class="per10" style="text-align: center;">消息状态</th>
                                                 <th class="per10" style="text-align: center;">操作</th>
                                             </tr>
                                         </thead>
@@ -380,38 +380,38 @@
             </div>
             <!-- End .content-wrapper -->
         </div>
-        <%--<div id="updateMessage" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">--%>
-            <%--<div style="width: 600px;height: 300px;margin: 0px auto">--%>
-                <%--<div class="form-group">--%>
-                    <%--<label class="col-lg-2 control-label">消息状态</label>--%>
-                    <%--<div class="col-lg-10">--%>
-                        <%--<input type="text" class="form-control required" id="messageTitles" disabled>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div style="height: 50px;"></div>--%>
-                <%--<div class="form-group">--%>
-                    <%--<label class="col-lg-2 control-label">商品名称</label>--%>
-                    <%--<div class="col-lg-10">--%>
-                        <%--<input type="text" class="form-control required" id="messageStutas" disabled>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div style="height: 50px;"></div>--%>
-                <%--<div class="form-group">--%>
-                    <%--<label class="col-lg-2 control-label">商品规格</label>--%>
-                    <%--<div class="col-lg-10">--%>
-                        <%--<input type="number" class="form-control required" id="sendMessageName" disabled>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div style="height: 50px;"></div>--%>
-                <%--<div class="form-group" >--%>
-                    <%--<label class="col-lg-2 control-label">库存剩余数量</label>--%>
-                    <%--<div class="col-lg-10">--%>
-                        <%--<textarea class="form-control required" id="messageText" disabled></textarea>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">--%>
-        <%--</div>--%>
+        <div id="updateMessage" style="width: 800px;height: 400px;margin: 0px auto;display: none;padding-top: 40px;">
+            <div style="width: 600px;height: 300px;margin: 0px auto">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">消息状态</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="messageTitles" disabled>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品名称</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="messageStutas" disabled>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品规格</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control required" id="sendMessageName" disabled>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group" >
+                    <label class="col-lg-2 control-label">库存剩余数量</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control required" id="messageText" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+            <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
+        </div>
         <script>
             var table;
             $(document).ready(function () {
@@ -435,37 +435,37 @@
                                 "json":returnJson()
                             });
                         },
-                        url:"<%=request.getContextPath()%>/findMessage"
+                        url:"<%=request.getContextPath()%>/findWarningCommodity"
                     },
                     "aoColumns":[
                         {
                             <!--Dto属性名称 -->
-                            "mData": "showMessageId",
+                            "mData": "id",
                             "bSortable": false,
                             "sWidth": "5%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "messageTitle",
+                            "mData": "createTime",
                             "bSortable": false,
                             "sWidth": "20%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "messageCreateTime",
+                            "mData": "commodityName",
                             "bSortable": false,
                             "sWidth": "10%",
                             "sClass": "center"
                         },
                         {
-                            "mData": "sendMessageName",
+                            "mData": "commoditySpecification",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
                         },
                         {
 
-                            "mData": "messageStatus",
+                            "mData": "commodityState",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
@@ -480,7 +480,7 @@
                                 // // row 对象 onClick id
                                 // -->
                                 return '<td><div class="col-lg-3 col-md-6" style="width: 200px;"><input class="btn btn-primary btn-alt" type="button" value="查看详情" onclick="selectMessage('+ row.id +')" />' +
-                                    '<input class="btn btn-primary btn-alt" type="button" value="暂不处理" onclick="selectMessage(\'+ row.id +\')" /></div></td>' +
+                                    '</div></td>' +
                                     ''
                             }
                         }
@@ -494,8 +494,8 @@
             function returnJson() {
                 //发送参数
                 var messageVo = {};
-                messageVo.messageStatus = document.getElementById("messageStatus").value;
-                messageVo.messageTitle = document.getElementById("messageTitle").value;
+                messageVo.state = document.getElementById("messageStatus").value;
+                messageVo.commodityName = document.getElementById("CommodityName").value;
                 messageVo.messageCreateTime = document.getElementById("select_commodityCreateTime").value;
                 var json = JSON.stringify(messageVo);
                 return json;
@@ -503,6 +503,43 @@
 
             var messageid=0;
             //审核通过
+
+            function selectMessage($value) {
+                //根据id查询消息
+                messageid=$value
+                layer.open(
+                    {
+                        type:1,
+                        title:"消息审核",
+                        closeBtn:1,
+                        area:['800px','650px'],
+                        content:$("#updateMessage"),
+                        success:function () {
+                            $.ajax({
+                                type: "get",
+                                url: "<%=request.getContextPath()%>/selectMessageById",
+                                data:{id:$value},
+                                async:false,
+                                success: function(data){
+                                    $("#messageTitles").val(data[0].messageTitle);
+                                    $("#messageStutas").val(data[0].messageStatus);
+                                    $("#sendMessageName").val(data[0].sendMessageName);
+                                    $("#messageText").val(data[0].messageContent);
+                                    if (data[0].messageStatus=="同意"||data[0].messageStatus=="拒绝"){
+                                        buttondisable();
+                                    }else{
+                                        clearButtonDisable();
+                                    }
+                                }
+                            });
+                        },
+                        cancel:function () {
+                            $("#updateMessage").css({display:"none"});
+                        }
+                    }
+                )
+            }
+
             function approved(messageId) {
                 $.ajax({
                     type: "get",

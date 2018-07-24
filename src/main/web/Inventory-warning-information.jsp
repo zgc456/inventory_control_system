@@ -428,7 +428,7 @@
                 <div style="height: 50px;"></div>
             </div>
 
-            <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
+            <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="取消" style="margin-left: 20%;width: 100px;height: 40px">
         </div>
         <script>
             var table;

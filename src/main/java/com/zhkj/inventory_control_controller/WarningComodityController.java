@@ -28,7 +28,8 @@ public class WarningComodityController {
     //根据id查询信息
     @RequestMapping("/findWarningById")
     public WarningcommodityDTO findWarningById(int id){
-        WarningcommodityDTO warningcommodityDTO=   inventoryWarningService.findWarningCommdityEntityById(id);
+        WarningcommodityDTO warningcommodityDTO=inventoryWarningService.findWarningCommdityEntityById(id);
         return warningcommodityDTO;
     }
+    //提交审核
 }

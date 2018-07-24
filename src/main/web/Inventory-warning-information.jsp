@@ -341,9 +341,9 @@
                                             <%--</select>--%>
                                                 <span style="float: left;font-size: 16px;">商品名称:</span><input type="text" class="form-control" id="CommodityName">
                                         </div>
-                                        <div style="width: 300px;height: 50px;padding-top: 40px;float: left;">
-                                            <span style="float: left;font-size: 16px;">起始日期:</span><input type="date" class="form-control" id="select_commodityCreateTime">
-                                        </div>
+                                        <%--<div style="width: 300px;height: 50px;padding-top: 40px;float: left;">--%>
+                                            <%--<span style="float: left;font-size: 16px;">起始日期:</span><input type="date" class="form-control" id="select_commodityCreateTime">--%>
+                                        <%--</div>--%>
                                     </div>
                                     <div style="width: 200px;height: 100px;float: right;">
                                         <div style="width: 100px;height: 50px;margin: 0px auto;padding-top: 40px">
@@ -465,7 +465,7 @@
                         },
                         {
 
-                            "mData": "commodityState",
+                                "mData": "commodityState",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
@@ -496,7 +496,7 @@
                 var messageVo = {};
                 messageVo.state = document.getElementById("messageStatus").value;
                 messageVo.commodityName = document.getElementById("CommodityName").value;
-                messageVo.messageCreateTime = document.getElementById("select_commodityCreateTime").value;
+                // messageVo.messageCreateTime = document.getElementById("select_commodityCreateTime").value;
                 var json = JSON.stringify(messageVo);
                 return json;
             }

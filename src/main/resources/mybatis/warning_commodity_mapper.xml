@@ -16,4 +16,7 @@
         and createTime > ${createTime}
       </if>
     </select>
+    <select id="findWarningById"  resultType="com.zhkj.inventory_control_dao.entity.WarningcommodityEntity">
+      select * from inventory_control.warningcommodity where id=#{id};
+    </select>
 </mapper>

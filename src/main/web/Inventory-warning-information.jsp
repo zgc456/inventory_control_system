@@ -392,24 +392,42 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">商品名称</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control required" id="messageStutas" disabled>
+                        <input type="text" class="form-control required" id="commodityNames" disabled>
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">商品规格</label>
-                    <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="sendMessageName" disabled>
-                    </div>
+                <label class="col-lg-2 control-label">商品规格</label>
+                <div class="col-lg-10">
+                    <input type="number" class="form-control required" id="commodityType" disabled>
                 </div>
+            </div>
                 <div style="height: 50px;"></div>
+
+
                 <div class="form-group" >
                     <label class="col-lg-2 control-label">库存剩余数量</label>
                     <div class="col-lg-10">
-                        <textarea class="form-control required" id="messageText" disabled></textarea>
+                        <input class="form-control required" id="commodityWaitCount" type="text" disabled>
                     </div>
                 </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">商品进货数量</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="quantity_in">
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">供应商</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control required" id="supplier" disabled>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
             </div>
+
             <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="拒绝审核" style="margin-left: 20%;width: 100px;height: 40px">
         </div>
         <script>
@@ -517,15 +535,17 @@
                         success:function () {
                             $.ajax({
                                 type: "get",
-                                url: "<%=request.getContextPath()%>/selectMessageById",
+                                url: "<%=request.getContextPath()%>/findWarningById",
                                 data:{id:$value},
                                 async:false,
                                 success: function(data){
-                                    $("#messageTitles").val(data[0].messageTitle);
-                                    $("#messageStutas").val(data[0].messageStatus);
-                                    $("#sendMessageName").val(data[0].sendMessageName);
-                                    $("#messageText").val(data[0].messageContent);
-                                    if (data[0].messageStatus=="同意"||data[0].messageStatus=="拒绝"){
+                                    $("#messageTitles").val(data.commodityState);
+                                    $("#commodityNames").val(data.commodityName);
+                                    $("#commodityWaitCount").val(data.commodityWaitCount);
+                                    $("#commodityType").val(data.commoditySpecification);
+                                    $("#quantity_in").val(data.commodityCount);
+                                    $("#supplier").val(data.commoditySupplier);
+                                    if (data.commodityState=="已提交"){
                                         buttondisable();
                                     }else{
                                         clearButtonDisable();

@@ -1,5 +1,4 @@
 package com.zhkj.inventory_control_service.inventory_control_message;
-
 import com.zhkj.inventory_control_api.api.InventoryWarningService;
 import com.zhkj.inventory_control_api.dto.WarningcommodityDTO;
 import com.zhkj.inventory_control_dao.entity.WarningcommodityEntity;
@@ -7,7 +6,6 @@ import com.zhkj.inventory_control_dao.mapper.WarningCommodityMapper;
 import com.zhkj.inventory_control_tools.DataTables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +47,12 @@ public class InventoryWarningImpl implements InventoryWarningService {
         return dataTables;
     }
 
+    @Override
+    public WarningcommodityDTO findWarningCommdityEntityById(int id) {
+       return convertWarningCommodity(warningCommodityMapper.findWarningById(id));
+    }
+
+
     private List<WarningcommodityDTO> convert(List<WarningcommodityEntity> warningcommodityEntities){
         List<WarningcommodityDTO> warningcommodityDTOS=new ArrayList<>();
         for (int i=0;i<warningcommodityEntities.size();i++){
@@ -75,5 +79,18 @@ public class InventoryWarningImpl implements InventoryWarningService {
             return warningcommodityDTOS;
     }
 
+    private WarningcommodityDTO convertWarningCommodity(WarningcommodityEntity warningcommodityEntity){
+        WarningcommodityDTO warningcommodityDTO=new WarningcommodityDTO();
+        warningcommodityDTO.setId(warningcommodityEntity.getId());
+        warningcommodityDTO.setCommodityWaitCount(warningcommodityEntity.getCommodityWaitCount());
+        warningcommodityDTO.setCommoditySupplier(warningcommodityEntity.getCommoditySupplier());
+        warningcommodityDTO.setCommoditySpecification(warningcommodityEntity.getCommoditySpecification());
+        warningcommodityDTO.setCommodityName(warningcommodityEntity.getCommodityName());
+        warningcommodityDTO.setCommodityCount(warningcommodityEntity.getCommodityCount());
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        warningcommodityDTO.setCommodityState(warningcommodityEntity.getCommodityState()==1?"已提交":"未处理");
+        warningcommodityDTO.setCreateTime(sd.format(warningcommodityEntity.getCreateTime()));
+        return warningcommodityDTO;
+    }
 
 }

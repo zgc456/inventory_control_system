@@ -23,4 +23,10 @@ public interface WarningCommodityMapper {
      */
      List<WarningcommodityEntity> findWarningCommodityByCondition(@Param("commodityState") int state,@Param("createTime") Date messageCreateTime,@Param("commodityName") String commodityName);
 
+    /**
+     * 根据id查询消息表
+     * @param id
+     * @return
+     */
+     WarningcommodityEntity findWarningById(@Param("id") int id);
 }

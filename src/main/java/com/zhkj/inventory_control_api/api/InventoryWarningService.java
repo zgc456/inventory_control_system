@@ -12,5 +12,18 @@ import java.util.List;
  * 库存预警类
  */
 public interface InventoryWarningService {
+    /**
+     * 查询库存预警
+     * @param state
+     * @param messageCreateTime
+     * @param commodityName
+     * @param request
+     * @return
+     */
     DataTables warningcommodityEntityList(int state, Date messageCreateTime, String commodityName, HttpServletRequest request);
+
+    /**
+     * 展示库存预警做审核
+     */
+    WarningcommodityDTO findWarningCommdityEntityById(int id);
 }

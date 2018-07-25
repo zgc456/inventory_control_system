@@ -84,4 +84,8 @@ public class CommodityController {
     public Result deleteCommodityByCommodityId(Integer commodityId,HttpServletRequest request){
         return commodityInventoryService.deleteCommodityByCommodityInventoryId(commodityId,request);
     }
+    @RequestMapping(value = "/update",method = RequestMethod.GET)
+    public Result update(String commodityName,String commoditySku,Integer commodityNumber){
+        return commodityInventoryService.updateCommodityNumberByCommodityNameAndCommoditySku(commodityName,commoditySku,commodityNumber);
+    }
 }

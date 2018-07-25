@@ -19,4 +19,16 @@
     <select id="findWarningById"  resultType="com.zhkj.inventory_control_dao.entity.WarningcommodityEntity">
       select * from inventory_control.warningcommodity where id=#{id};
     </select>
+    <select id="countWarningCommodity" resultType="com.zhkj.inventory_control_dao.entity.WarningcommodityEntity">
+        SELECT COUNT(id) FROM inventory_control.warningcommodity
+    </select>
+    <select id="listWarningCommodityByCommodityName" resultType="com.zhkj.inventory_control_dao.entity.WarningcommodityEntity">
+        SELECT * FROM inventory_control.warningcommodity
+        WHERE commodityName = #{commodityName} AND commodityState = #{commodityState}
+    </select>
+    <insert id="insertWarningCommodity">
+        INSERT INTO `warningcommodity`(commodityName, commoditySpecification, commodityCount, commoditySupplier
+          , commodityWaitCount, createTime, commodityState)
+        VALUES (#{we.commodityName},#{we.commoditySpecification},#{we.commodityCount},#{we.commoditySupplier},DEFAULT ,NOW(),2)
+    </insert>
 </mapper>

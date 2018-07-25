@@ -8,6 +8,8 @@ public class MessageConstant {
 
     public static final String PASSWORD_DISCREPANCY = "输入密码与原密码不相符";
     public static final String COMMODITY_NAME_REITERATION = "有重复的商品名称,请重新输入";
+    public static final String COMMODITY_NUMBER_DEFEATED = "商品数量不足";
+    public static final String COMMODITY_NAME_DEFEATED = "商品不存在";
     /**
      * 信息提示
      */
@@ -17,6 +19,7 @@ public class MessageConstant {
          */
         public static final String INSERT_COMMODITY_SUCCEED = "商品添加成功";
         public static final String DELETE_COMMODITY_SUCCEED = "商品删除成功";
+        public static final String UPDATE_COMMODITY_SUCCESS = "商品修改成功";
         /*
             供应商信息
          */

@@ -7,6 +7,9 @@
         SELECT * FROM inventory_control.supplier
         LIMIT #{startNumber},#{lengthNumber}
     </select>
+    <select id="listSupplierAll" resultType="com.zhkj.inventory_control_dao.entity.SupplierEntity">
+        SELECT * FROM inventory_control.supplier
+    </select>
     <select id="countSupplier" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM inventory_control.supplier
     </select>

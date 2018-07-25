@@ -32,6 +32,14 @@ public interface CommodityInventoryMapper {
     int updateCommodityInventory(@Param("CommodityinventoryEntity") CommodityinventoryEntity commodityinventoryEntity);
 
     /**
+     * 根据 Id 修改商品数量
+     * @param commodityNumber 商品数量
+     * @param commodityInventoryId  id
+     * @return 是否成功
+     */
+    int updateCommodityNumberByCommodityInventoryIdAnd(@Param("commodityNumber") Integer commodityNumber,@Param("commodityInventoryId") Integer commodityInventoryId);
+
+    /**
      * 查询商品所有商品库存
      * @return 商品库存集合
      */
@@ -76,4 +84,10 @@ public interface CommodityInventoryMapper {
      * @return 商品信息
      */
     CommodityinventoryEntity selectCommodityById(@Param("commodityInventoryId")Integer commodityInventoryId);
+
+    /**
+     * 查询商品已经预警的商品
+     * @return
+     */
+    List<CommodityinventoryEntity> listCommodityInventorySecurityLine();
 }

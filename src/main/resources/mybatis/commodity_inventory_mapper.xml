@@ -31,9 +31,9 @@
         </where>
     </select>
     <!-- 根据库存 id 查询 -->
-    <select id="" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
+    <select id="listCommodityInventorySecurityLine" resultType="com.zhkj.inventory_control_dao.entity.CommodityinventoryEntity">
         SELECT * FROM inventory_control.commodityinventory
-        WHERE id =
+        WHERE commodityNumber &lt; commoditySecurityLine
     </select>
     <!-- 添加商品库存 -->
     <insert id="insertCommodityInventory">
@@ -44,5 +44,10 @@
         UPDATE commodityinventory
         SET commodityNumber = #{CommodityinventoryEntity.commodityNumber},commoditySecurityLine = #{CommodityinventoryEntity.commoditySecurityLine},commodityPrice = #{CommodityinventoryEntity.commodityPrice},commoditySku = #{CommodityinventoryEntity.commoditySku}
         WHERE id = #{CommodityinventoryEntity.id}
+    </update>
+    <update id="updateCommodityNumberByCommodityInventoryIdAnd">
+        UPDATE inventory_control.commodityinventory
+        SET commodityNumber = #{commodityNumber}
+        WHERE id = #{commodityInventoryId}
     </update>
 </mapper>

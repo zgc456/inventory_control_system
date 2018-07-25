@@ -15,6 +15,7 @@ import com.zhkj.inventory_control_dao.mapper.CommodityInventoryMapper;
 import com.zhkj.inventory_control_dao.mapper.CommodityMapper;
 import com.zhkj.inventory_control_dao.mapper.SpecificationDetailedMapper;
 import com.zhkj.inventory_control_dao.mapper.SupplierMapper;
+import com.zhkj.inventory_control_service.inventory_control_timer.WarningCommodityTimerService;
 import com.zhkj.inventory_control_tools.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,8 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
     private OperationLogService operationLogService;
     @Autowired
     private StatisticsService statisticsService;
+    @Autowired
+    private WarningCommodityTimerService warningCommodityTimerService;
 
     @Override
     public DataTables listCommodityByCondition(CommodityConditionVo commodityVo, HttpServletRequest request) {
@@ -186,6 +189,41 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
                 operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_SHOP,MessageConstant.OPERATION_MODEL_ACTION_SHOP_UPDATE
                 ,joinMessage(commodityVo,commodityInventoryVo,2),request);
             }
+        }
+        return result;
+    }
+
+    @Override
+    public Result updateCommodityNumberByCommodityNameAndCommoditySku(String commodityName, String commoditySku, Integer commodityNumber) {
+        Result result = new Result();
+        try {
+            if(null != commodityName && !"".equals(commodityName)){
+                String commoditySkuString = splitCommoditySku(commoditySku,specificationDetailedMapper.getSpecificationDetailed());
+                Integer commodityId = commodityMapper.selectCommodityToName(commodityName);
+                if(null != commodityId && commodityId > 0){
+                    StringBuffer condition = new StringBuffer();
+                    if(null != commoditySkuString && !"".equals(commoditySkuString)) condition.append(" commoditySku = " + commoditySkuString);
+                    condition.append(" AND commodityId = " + commodityId);
+                    List<CommodityinventoryEntity> commodityinventoryEntityList = commodityInventoryMapper.listCommodityByCondition(condition.toString());
+                    if(null != commodityinventoryEntityList && commodityinventoryEntityList.size() > 0){
+                        CommodityinventoryEntity commodityinventoryEntity = commodityinventoryEntityList.get(0);
+                        if(commodityinventoryEntity.getCommodityNumber() > 0 && commodityinventoryEntity.getCommodityNumber() >= commodityNumber){
+                            commodityinventoryEntity.setCommodityNumber(commodityinventoryEntity.getCommodityNumber() - commodityNumber);
+                            if(commodityInventoryMapper.updateCommodityNumberByCommodityInventoryIdAnd(commodityinventoryEntity.getCommodityNumber(),commodityinventoryEntity.getId()) > 0){
+                                warningCommodityTimerService.execute();
+                                result.setSuccess(Boolean.valueOf(true));
+                                result.setMessage(MessageConstant.UPDATE_COMMODITY_SUCCESS);
+                            }
+                        }else {
+                            result.setMessage(MessageConstant.COMMODITY_NUMBER_DEFEATED);
+                        }
+                    }
+                }else {
+                    result.setMessage(MessageConstant.COMMODITY_NAME_DEFEATED);
+                }
+            }
+        }catch (Exception e){
+            result.setMessage("错误信息 : " + e);
         }
         return result;
     }
@@ -355,7 +393,7 @@ public class CommodityInventoryServiceImpl implements CommodityInventoryService 
      * @param specificationdetailedEntityList 商品规格
      * @return
      */
-    private String splitCommoditySku(String commoditySku,List<SpecificationdetailedEntity> specificationdetailedEntityList){
+    public String splitCommoditySku(String commoditySku,List<SpecificationdetailedEntity> specificationdetailedEntityList){
         int index = 0;
         String[] commoditySkuStringList = commoditySku.split(" ");
         StringBuffer commoditySkuBuffer = new StringBuffer();

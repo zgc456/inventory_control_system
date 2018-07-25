@@ -16,6 +16,12 @@ public interface SupplierMapper {
      * @return 供应商集合
      */
      List<SupplierEntity> listSupplierLimit(@Param("startNumber")Integer startNumber,@Param("lengthNumber")Integer lengthNumber);
+
+    /**
+     * 查询所有供应商
+     * @return 供应商
+     */
+     List<SupplierEntity> listSupplierAll();
      /**
       * 查询供应商数量
       * @return 供应商数量

@@ -59,4 +59,13 @@ public interface CommodityInventoryService {
      * @return
      */
     Result updateCommodityByCommodityId(CommodityInventoryVo commodityInventoryVo,HttpServletRequest request);
+
+    /**
+     * 根据商品名称与商品规格修改商品数量
+     * @param commodityName 商品名称
+     * @param commoditySku 商品规格 如果商品规格只有一个,需要在规格前打空格
+     * @param commodityNumber 商品数量
+     * @return
+     */
+    Result updateCommodityNumberByCommodityNameAndCommoditySku(String commodityName,String commoditySku,Integer commodityNumber);
 }

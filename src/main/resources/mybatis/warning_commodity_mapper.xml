@@ -31,4 +31,7 @@
           , commodityWaitCount, createTime, commodityState)
         VALUES (#{we.commodityName},#{we.commoditySpecification},#{we.commodityCount},#{we.commoditySupplier},DEFAULT ,NOW(),2)
     </insert>
+    <update id="updateWarningCommodityCondition" >
+        update inventory_control.warningcommodity set warningcommodity.commodityState=1 , commodityWaitCount=#{WarningcommodityEntity.commodityWaitCount} where id=#{WarningcommodityEntity.id}
+    </update>
 </mapper>

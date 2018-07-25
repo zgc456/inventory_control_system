@@ -27,4 +27,8 @@ public interface InventoryWarningService {
      */
     WarningcommodityDTO findWarningCommdityEntityById(int id);
 
+    WarningcommodityEntity findWarningCommdityEntityByIds(int id);
+
+    int updateWarning(WarningcommodityEntity warningcommodityEntity);
+
 }

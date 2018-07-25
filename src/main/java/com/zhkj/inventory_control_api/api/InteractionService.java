@@ -1,5 +1,7 @@
 package com.zhkj.inventory_control_api.api;
 
+import com.zhkj.inventory_control_api.dto.WarningcommodityDTO;
+
 /**
  * kafka交互接口
  *
@@ -14,4 +16,6 @@ public interface InteractionService {
      * @param Message 消息
      */
      void sendInteractionService(String Message);
+
+    void orderInteractionService(String Message);
 }

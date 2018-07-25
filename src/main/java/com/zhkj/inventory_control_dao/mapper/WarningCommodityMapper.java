@@ -49,4 +49,6 @@ public interface WarningCommodityMapper {
      * @return
      */
      int insertWarningCommodity(@Param("we") WarningcommodityEntity warningcommodityEntity);
+
+     int updateWarningCommodityCondition(@Param("WarningcommodityEntity") WarningcommodityEntity warningcommodityEntity);
 }

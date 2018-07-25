@@ -52,6 +52,17 @@ public class InventoryWarningImpl implements InventoryWarningService {
        return convertWarningCommodity(warningCommodityMapper.findWarningById(id));
     }
 
+    @Override
+    public WarningcommodityEntity findWarningCommdityEntityByIds(int id) {
+        return warningCommodityMapper.findWarningById(id);
+    }
+
+    @Override
+    public int updateWarning(WarningcommodityEntity warningcommodityEntity) {
+      return   warningCommodityMapper.updateWarningCommodityCondition(warningcommodityEntity);
+
+    }
+
 
     private List<WarningcommodityDTO> convert(List<WarningcommodityEntity> warningcommodityEntities){
         List<WarningcommodityDTO> warningcommodityDTOS=new ArrayList<>();

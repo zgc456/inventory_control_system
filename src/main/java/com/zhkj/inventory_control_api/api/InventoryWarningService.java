@@ -26,4 +26,8 @@ public interface InventoryWarningService {
      * 展示库存预警做审核
      */
     WarningcommodityDTO findWarningCommdityEntityById(int id);
+
+    WarningcommodityEntity findWarningCommdityEntityByIds(int id);
+
+    int updateWarning(WarningcommodityEntity warningcommodityEntity);
 }

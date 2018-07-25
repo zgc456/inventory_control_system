@@ -33,7 +33,8 @@ public class MessageController {
     @RequestMapping("/selectMessageById")
     @ResponseBody
     public List<MessageDTO> selectMessageById(@RequestParam(value = "id", required = false) int id) {
-        return messageService.findMessageById(id);
+        List<MessageDTO> me=  messageService.findMessageById(id);
+        return me;
     }
     @RequestMapping("/auditMessage")
     @ResponseBody

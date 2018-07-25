@@ -1,5 +1,6 @@
 package com.zhkj.inventory_control_service.inventory_control_message;
 
+import com.zhkj.inventory_control_api.api.InteractionService;
 import com.zhkj.inventory_control_api.api.MessageService;
 import com.zhkj.inventory_control_api.api.OperationLogService;
 import com.zhkj.inventory_control_api.dto.MessageAuditDTO;
@@ -26,6 +27,8 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     private MessageMapper messageMapper;
+    @Autowired
+    private InteractionService interactionService;
     @Autowired
     private OperationLogService operationLogService;
 
@@ -83,12 +86,13 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public MessageAuditDTO isApprove(int id, int state, String messageTitle, HttpServletRequest request) {
-
+        List<MessageEntity> messageEntity=messageMapper.findMessageById(id);
         if (state == ServiceConstant.IS_PASS) { //审核同意
             //kafka
             //参数（处理人，处理唯一标识，同意 或者 拒绝）
             //判断是发货还是退货
             if (messageTitle.equals("退货")) {   //如果是退货
+                //查询改id的所有信息
                 //修改message
                 messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_STOCK);
                 //添加日志表
@@ -101,6 +105,8 @@ public class MessageServiceImpl implements MessageService {
                 operationLogService.insertOperationLog(MessageConstant.OPERATION_MODEL_MESSAGE, MessageConstant.OPERATION_MODEL_ACTION_MESSAGE_SHIPMENTS, "审核通过", request);
                 //发货减库存
             }
+            interactionService.sendInteractionService("{\"messageToken\":\""+messageEntity.get(0).getMessageToken()+"\",\"messageState\":\""+ServiceConstant.MESSAGE_AUDIT_ISOK+"\",\"type\":1,disposeName:\""+request.getSession().getAttribute("userName")+"\"}");
+
             return getMessageAuditDTO(ServiceConstant.MESSAGE_AUDIT_ISOK); //同意审核
         } else if (state == ServiceConstant.NOT_PASS) { //审核拒绝
             //修改message
@@ -113,6 +119,7 @@ public class MessageServiceImpl implements MessageService {
             }
             //kafka
             //参数（处理人，处理唯一标识，同意 或者 拒绝）
+            interactionService.sendInteractionService("{\"messageToken\":\""+messageEntity.get(0).getMessageToken()+"\",\"messageState\":\""+ServiceConstant.MESSAGE_AUDIT_NOTOK+"\",\"type\":2,\"disposeName\":\""+request.getSession().getAttribute("userName")+"\"}");
             return getMessageAuditDTO(ServiceConstant.MESSAGE_AUDIT_NOTOK); //拒绝审核
         } else { //非法参数
             messageMapper.alterMessageAudit(id, ServiceConstant.MESSAGE_AUDIT_INTEGER_DISPATCH);
@@ -170,5 +177,4 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageDTOS;
     }
-
 }

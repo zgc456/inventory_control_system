@@ -426,9 +426,13 @@
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
+                <div class="form-group" style="display: none">
+                        <input type="text" class="form-control required" id="id" disabled>
+                </div>
+                </div>
+                <div style="height: 50px;"></div>
+                <input type="button" value="审核通过" id="approved" onclick="approved($('#id').val())" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="取消" style="margin-left: 20%;width: 100px;height: 40px">
             </div>
-
-            <input type="button" value="审核通过" id="approved" onclick="approved()" style="margin-left: 15%;width: 100px;height: 40px">  <input type="button" id="auditFailure" onclick="auditFailure()" value="取消" style="margin-left: 20%;width: 100px;height: 40px">
         </div>
         <script>
             var table;
@@ -483,7 +487,7 @@
                         },
                         {
 
-                                "mData": "commodityState",
+                            "mData": "commodityState",
                             "bSortable": false,
                             "sWidth": "15%",
                             "sClass": "center"
@@ -539,6 +543,7 @@
                                 data:{id:$value},
                                 async:false,
                                 success: function(data){
+                                    $("#id").val($value);
                                     $("#messageTitles").val(data.commodityState);
                                     $("#commodityNames").val(data.commodityName);
                                     $("#commodityWaitCount").val(data.commodityWaitCount);
@@ -563,42 +568,28 @@
             function approved(messageId) {
                 $.ajax({
                     type: "get",
-                    url: "<%=request.getContextPath()%>/auditMessage",
+                    url: "<%=request.getContextPath()%>/auditWarning",
                     async:false,
-                    data:{id:messageid,messageState:1,messageTitle:$("#messageTitles").val()},
+                    data:{id:messageId,count:$("#quantity_in").val()},
                     success: function(data){
                         //关闭弹窗
                         layer.closeAll();
                         //刷新table
                         table.fnDraw();
-                        layer.msg(data.auditMessage,{icon:6,time:1500});
+                        if (data==true){
+                            layer.msg("审核提交",{icon:6,time:1500});
+                        }
 
                     }
                 });
             }
-            //拒绝审核
-            function auditFailure(messageId){
-                $.ajax({
-                    type: "get",
-                    url: "<%=request.getContextPath()%>/auditMessage",
-                    async:false,
-                    data:{id:messageid,messageState:-1,messageTitle:$("#messageTitles").val()},
-                    success: function(data){
-                        //关闭弹窗
-                        layer.closeAll();
-                        //刷新table
-                        table.fnDraw();
-                        layer.msg(data.auditMessage,{icon:5,time:1500});
-                    }
-                });
-            }
+
             function buttondisable() {
                 $("#approved").attr("disabled","true")
-                $("#auditFailure").attr("disabled","true")
+
             }
             function clearButtonDisable() {
                 $("#approved").removeAttr("disabled")
-                $("#auditFailure").removeAttr("disabled")
             }
         </script>
         <script src="<%=request.getContextPath()%>/static/assets/plugins/core/pace/pace.min.js"></script>

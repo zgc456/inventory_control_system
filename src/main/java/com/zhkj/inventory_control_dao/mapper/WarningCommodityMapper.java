@@ -29,4 +29,6 @@ public interface WarningCommodityMapper {
      * @return
      */
      WarningcommodityEntity findWarningById(@Param("id") int id);
+
+     int updateWarningCommodityCondition(@Param("WarningcommodityEntity") WarningcommodityEntity warningcommodityEntity);
 }

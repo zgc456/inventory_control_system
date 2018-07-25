@@ -6,7 +6,7 @@
     <!-- 添加消息 -->
     <insert id="addMessageByMessageEntity" parameterType="com.zhkj.inventory_control_dao.entity.MessageEntity">
         INSERT INTO inventory_control.message(messageTitle, messageContent, messageStatus, messageTypeId, messageCreateTime, sendMessageName, messageToken)
-        VALUES(${messageEntity.messageTitle},${messageEntity.messageContent},${messageEntity.messageStatus},${messageEntity.messageTypeId},now(),${messageEntity.sendMessageName},${messageEntity.messageToken})
+        VALUES(#{messageEntity.messageTitle},#{messageEntity.messageContent},#{messageEntity.messageStatus},#{messageEntity.messageTypeId},now(),#{messageEntity.sendMessageName},#{messageEntity.messageToken})
     </insert>
     <!-- 删除一条消息 -->
     <delete id="delMessageById">
@@ -35,6 +35,6 @@
     </select>
 
     <update id="alterMessageAudit">
-        update message set messageStatus=#{messageStatus}  where id=#{messageId} ;
+        update message set messageStatus=#{messageStatus}  where id=#{messageId};
     </update>
 </mapper>

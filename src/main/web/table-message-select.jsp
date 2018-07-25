@@ -399,7 +399,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">消息发送人</label>
                     <div class="col-lg-10">
-                        <input type="number" class="form-control required" id="sendMessageName" disabled>
+                        <input type="text" class="form-control required" id="sendMessageName" disabled>
                     </div>
                 </div>
                 <div style="height: 50px;"></div>
@@ -554,19 +554,11 @@
             }
             //拒绝审核
             function auditFailure(messageId){
-                $.ajax({
-                    type: "get",
-                    url: "<%=request.getContextPath()%>/auditMessage",
-                    async:false,
-                    data:{id:messageid,messageState:-1,messageTitle:$("#messageTitles").val()},
-                    success: function(data){
                         //关闭弹窗
                         layer.closeAll();
                         //刷新table
                         table.fnDraw();
-                        layer.msg(data.auditMessage,{icon:5,time:1500});
-                    }
-                });
+
             }
             function buttondisable() {
                 $("#approved").attr("disabled","true")
